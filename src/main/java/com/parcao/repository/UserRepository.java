@@ -9,9 +9,9 @@ import com.parcao.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-  Optional<User> findByUsername(String username);
+  Optional<User> findByUserName(String userName);
 
-  Boolean existsByUsername(String username);
+  Boolean existsByUserName(String userName);
 
   Boolean existsByEmail(String email);
 }

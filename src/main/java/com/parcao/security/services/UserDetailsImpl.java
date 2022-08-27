@@ -17,7 +17,7 @@ public class UserDetailsImpl implements UserDetails {
 
   private Long id;
 
-  private String username;
+  private String userName;
 
   private String email;
 
@@ -26,10 +26,10 @@ public class UserDetailsImpl implements UserDetails {
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password,
+  public UserDetailsImpl(Long id, String userName, String email, String password,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
-    this.username = username;
+    this.userName = userName;
     this.email = email;
     this.password = password;
     this.authorities = authorities;
@@ -42,7 +42,7 @@ public class UserDetailsImpl implements UserDetails {
 
     return new UserDetailsImpl(
         user.getId(), 
-        user.getUsername(), 
+        user.getUserName(), 
         user.getEmail(),
         user.getPassword(), 
         authorities);
@@ -66,9 +66,8 @@ public class UserDetailsImpl implements UserDetails {
     return password;
   }
 
-  @Override
-  public String getUsername() {
-    return username;
+  public String getUserName() {
+    return userName;
   }
 
   @Override
@@ -100,4 +99,10 @@ public class UserDetailsImpl implements UserDetails {
     UserDetailsImpl user = (UserDetailsImpl) o;
     return Objects.equals(id, user.id);
   }
+
+@Override
+public String getUsername() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
