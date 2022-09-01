@@ -2,12 +2,14 @@ package com.parcao.controllers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -38,99 +40,130 @@ import com.parcao.security.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-  @Autowired
-  AuthenticationManager authenticationManager;
+		
+	@Value("${parcao.app.cargo.inexistente}")
+	private String CARGO_INEXISTENTE_ERRO;
+	
+	@Value("${parcao.app.usuario.cadastrado}")
+	private String CADASTRO_SUCESSO;
+	
+	@Value("${parcao.app.usuario.desconectado}")
+	private String DESCONECTADO_SUCESSO;
+	
+	@Value("${parcao.app.usuario.atualizado}")
+	private String atualizado;
+	
+	@Value("${parcao.app.usuario.inexistente}")
+	private static String USUARIO_INEXISTENTE;
 
-  @Autowired
-  UserRepository userRepository;
+	@Autowired
+	AuthenticationManager authenticationManager;
 
-  @Autowired
-  RoleRepository roleRepository;
+	@Autowired
+	UserRepository userRepository;
 
-  @Autowired
-  PasswordEncoder encoder;
+	@Autowired
+	RoleRepository roleRepository;
 
-  @Autowired
-  JwtUtils jwtUtils;
+	@Autowired
+	PasswordEncoder encoder;
 
-  @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	@Autowired
+	JwtUtils jwtUtils;
 
-    Authentication authentication = authenticationManager
-        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-    SecurityContextHolder.getContext().setAuthentication(authentication);
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
 
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-    List<String> roles = userDetails.getAuthorities().stream()
-        .map(item -> item.getAuthority())
-        .collect(Collectors.toList());
+		ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
-    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-        .body(new UserInfoResponse(userDetails.getId(),
-                                   userDetails.getUserName(),
-                                   userDetails.getEmail(),
-                                   roles));
-  }
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+				.collect(Collectors.toList());
 
-  @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-    if (userRepository.existsByUserName(signUpRequest.getUserName())) {
-      return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
-    }
+		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(
+				new UserInfoResponse(userDetails.getId(), userDetails.getUserName(), userDetails.getEmail(), roles));
+	}
 
-    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-      return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-    }
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+		if (userRepository.existsByUserName(signUpRequest.getUserName())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Erro: Usuario já existe"));
+		}
 
-    // Create new user's account
-    User user = new User(signUpRequest.getUserName(),
-                         signUpRequest.getEmail(),
-                         encoder.encode(signUpRequest.getPassword()));
+		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Erro: E-mail em uso"));
+		}
 
-    Set<String> strRoles = signUpRequest.getRole();
-    Set<Role> roles = new HashSet<>();
+		// Create new user's account
+		User user = new User(signUpRequest.getUserName(), signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()));
 
-    if (strRoles == null) {
-      Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-      roles.add(userRole);
-    } else {
-      strRoles.forEach(role -> {
-        switch (role) {
-        case "admin":
-          Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(adminRole);
+		Set<String> strRoles = signUpRequest.getRole();
+		Set<Role> roles = new HashSet<>();
 
-          break;
-        case "mod":
-          Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(modRole);
+		if (strRoles == null) {
+			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+					.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+			roles.add(userRole);
+		} else {
+			strRoles.forEach(role -> {
+				switch (role) {
+				case "admin":
+					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+							.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+					roles.add(adminRole);
 
-          break;
-        default:
-          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(userRole);
-        }
-      });
-    }
+					break;
+				case "mod":
+					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+							.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+					roles.add(modRole);
 
-    user.setRoles(roles);
-    userRepository.save(user);
+					break;
+				default:
+					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+							.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+					roles.add(userRole);
+				}
+			});
+		}
 
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-  }
+		user.setRoles(roles);
+		userRepository.save(user);
 
-  @PostMapping("/signout")
-  public ResponseEntity<?> logoutUser() {
-    ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-        .body(new MessageResponse("You've been signed out!"));
-  }
+		return ResponseEntity.ok(new MessageResponse(CADASTRO_SUCESSO));
+	}
+
+	@PostMapping("/signout")
+	public ResponseEntity<?> logoutUser() {
+		ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
+				.body(new MessageResponse(DESCONECTADO_SUCESSO));
+	}
+
+	@PostMapping("/changepassword")
+	public ResponseEntity<?> changePasswordUser(String userName, String newPassword) {
+		if (!userRepository.existsByUserName(userName)) {
+			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_INEXISTENTE));
+		}
+		
+		Optional<User> user = userRepository.findByUserName(userName);
+
+		User userUpdate = new User();
+		userUpdate.setId(user.get().getId());
+		userUpdate.setUserName(user.get().getUserName());
+		userUpdate.setEmail(user.get().getEmail());
+		userUpdate.setPassword(encoder.encode(newPassword));
+		userUpdate.setRoles(user.get().getRoles());		
+
+		userRepository.save(userUpdate);
+
+		return ResponseEntity.ok(new MessageResponse(atualizado));
+	}
 }
