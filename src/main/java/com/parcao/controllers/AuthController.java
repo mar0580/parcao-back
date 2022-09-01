@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.parcao.payload.request.ChangePasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -18,11 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.parcao.models.ERole;
 import com.parcao.models.Role;
@@ -51,10 +48,13 @@ public class AuthController {
 	private String DESCONECTADO_SUCESSO;
 	
 	@Value("${parcao.app.usuario.atualizado}")
-	private String atualizado;
+	private String ATUALIZADO;
 	
 	@Value("${parcao.app.usuario.inexistente}")
-	private static String USUARIO_INEXISTENTE;
+	private String USUARIO_INEXISTENTE;
+
+	@Value("${parcao.app.usuario.senha.incorreta}")
+	private String SENHA_ANTIGA_INCORRETA;
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -148,22 +148,26 @@ public class AuthController {
 	}
 
 	@PostMapping("/changepassword")
-	public ResponseEntity<?> changePasswordUser(String userName, String newPassword) {
-		if (!userRepository.existsByUserName(userName)) {
+	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+		if (!userRepository.existsByUserName(changePasswordRequest.getUserName())) {
 			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_INEXISTENTE));
 		}
-		
-		Optional<User> user = userRepository.findByUserName(userName);
+
+		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
+
+		if(!user.get().getPassword().equals(encoder.encode(changePasswordRequest.getOldPassword()))){
+			return ResponseEntity.badRequest().body(new MessageResponse(SENHA_ANTIGA_INCORRETA));
+		}
 
 		User userUpdate = new User();
 		userUpdate.setId(user.get().getId());
 		userUpdate.setUserName(user.get().getUserName());
 		userUpdate.setEmail(user.get().getEmail());
-		userUpdate.setPassword(encoder.encode(newPassword));
+		userUpdate.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
 		userUpdate.setRoles(user.get().getRoles());		
 
 		userRepository.save(userUpdate);
 
-		return ResponseEntity.ok(new MessageResponse(atualizado));
+		return ResponseEntity.ok(new MessageResponse(ATUALIZADO));
 	}
 }
