@@ -101,7 +101,7 @@ public class AuthController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Erro: E-mail em uso"));
 		}
 
-		// Create new user's account
+		// Cria uma nova conta de usuario
 		User user = new User(signUpRequest.getUserName(), signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
 
