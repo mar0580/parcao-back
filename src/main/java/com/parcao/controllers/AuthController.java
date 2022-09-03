@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -154,8 +155,10 @@ public class AuthController {
 		}
 
 		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
-		if(!user.get().getPassword().equals(encoder.encode(changePasswordRequest.getOldPassword()))){
+		boolean isPasswordMatches = bcrypt.matches(changePasswordRequest.getOldPassword(), user.get().getPassword());
+		if(!isPasswordMatches){
 			return ResponseEntity.badRequest().body(new MessageResponse(SENHA_ANTIGA_INCORRETA));
 		}
 
