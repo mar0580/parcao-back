@@ -11,19 +11,19 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "pessoa", uniqueConstraints = { @UniqueConstraint(columnNames = "telefone")})
+@Table(name = "cliente", uniqueConstraints = { @UniqueConstraint(columnNames = "telefone")})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pessoa {
+public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(min = 10, max = 50, message = "Deve conter 11 digitos")
-    private String nomePessoa;
+    @Size(min = 10, max = 50    )
+    private String nomeCliente;
 
     @NotBlank
     @Size(min = 11, max = 11, message = "Deve conter 11 digitos")
@@ -33,8 +33,4 @@ public class Pessoa {
     @Size(max = 50)
     @Email
     private String email;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private ETipoPessoa tpPessoa;
 }

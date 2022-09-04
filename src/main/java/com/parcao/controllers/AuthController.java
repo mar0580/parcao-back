@@ -39,23 +39,17 @@ import com.parcao.security.services.UserDetailsImpl;
 @RequestMapping("/api/auth")
 public class AuthController {
 		
-	@Value("${parcao.app.cargo.inexistente}")
-	private String CARGO_INEXISTENTE_ERRO;
+	@Value("${parcao.app.retorno.record_not_exists}")
+	private String INEXISTENTE;
 	
-	@Value("${parcao.app.usuario.cadastrado}")
-	private String CADASTRO_SUCESSO;
-	
-	@Value("${parcao.app.usuario.desconectado}")
-	private String DESCONECTADO_SUCESSO;
-	
-	@Value("${parcao.app.usuario.atualizado}")
-	private String ATUALIZADO;
-	
-	@Value("${parcao.app.usuario.inexistente}")
-	private String USUARIO_INEXISTENTE;
+	@Value("${parcao.app.retorno.success}")
+	private String SUCESSO;		
 
-	@Value("${parcao.app.usuario.senha.incorreta}")
-	private String SENHA_ANTIGA_INCORRETA;
+	@Value("${parcao.app.retorno.error}")
+	private String ERRO;
+	
+	@Value("${record_already_exists}")
+	private String JA_EXISTE;
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -94,15 +88,15 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUserName(signUpRequest.getUserName())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Erro: Usuario já existe"));
+			return ResponseEntity.badRequest().body(new MessageResponse(JA_EXISTE));
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Erro: E-mail em uso"));
+			return ResponseEntity.badRequest().body(new MessageResponse(JA_EXISTE));
 		}
 
 		// Cria uma nova conta de usuario
-		User user = new User(signUpRequest.getUserName(), signUpRequest.getEmail(),
+		User user = new User(signUpRequest.getUserName(), signUpRequest.getNomeCompleto() ,signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
@@ -110,26 +104,26 @@ public class AuthController {
 
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+					.orElseThrow(() -> new RuntimeException(INEXISTENTE));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 				case "admin":
 					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+							.orElseThrow(() -> new RuntimeException(INEXISTENTE));
 					roles.add(adminRole);
 
 					break;
 				case "mod":
 					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-							.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+							.orElseThrow(() -> new RuntimeException(INEXISTENTE));
 					roles.add(modRole);
 
 					break;
 				default:
 					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException(CARGO_INEXISTENTE_ERRO));
+							.orElseThrow(() -> new RuntimeException(INEXISTENTE));
 					roles.add(userRole);
 				}
 			});
@@ -138,20 +132,20 @@ public class AuthController {
 		user.setRoles(roles);
 		userRepository.save(user);
 
-		return ResponseEntity.ok(new MessageResponse(CADASTRO_SUCESSO));
+		return ResponseEntity.ok(new MessageResponse(SUCESSO));
 	}
 
 	@PostMapping("/signout")
 	public ResponseEntity<?> logoutUser() {
 		ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-				.body(new MessageResponse(DESCONECTADO_SUCESSO));
+				.body(new MessageResponse(SUCESSO));
 	}
 
 	@PostMapping("/changepassword")
 	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
 		if (!userRepository.existsByUserName(changePasswordRequest.getUserName())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_INEXISTENTE));
+			return ResponseEntity.badRequest().body(new MessageResponse(INEXISTENTE));
 		}
 
 		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
@@ -159,7 +153,7 @@ public class AuthController {
 
 		boolean isPasswordMatches = bcrypt.matches(changePasswordRequest.getOldPassword(), user.get().getPassword());
 		if(!isPasswordMatches){
-			return ResponseEntity.badRequest().body(new MessageResponse(SENHA_ANTIGA_INCORRETA));
+			return ResponseEntity.badRequest().body(new MessageResponse(ERRO));
 		}
 
 		User userUpdate = new User();
@@ -171,6 +165,6 @@ public class AuthController {
 
 		userRepository.save(userUpdate);
 
-		return ResponseEntity.ok(new MessageResponse(ATUALIZADO));
+		return ResponseEntity.ok(new MessageResponse(SUCESSO));
 	}
 }
