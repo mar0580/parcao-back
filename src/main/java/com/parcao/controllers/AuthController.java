@@ -53,8 +53,8 @@ public class AuthController {
 	@Value("${parcao.app.retorno.user_already_exists}")
 	private String USUARIO_JA_EXISTE;
 
-	@Value("${parcao.app.retorno.new_password_incorrect}")
-	private String NEW_PASSWORD_INCORRECT;
+	@Value("${parcao.app.retorno.password_incorrect}")
+	private String PASSWORD_INCORRECT;
 
 	@Value("${parcao.app.retorno.user_not_exists}")
 	private String USUARIO_NAO_EXISTE;
@@ -167,7 +167,7 @@ public class AuthController {
 
 		boolean isPasswordMatches = bcrypt.matches(changePasswordRequest.getOldPassword(), user.get().getPassword());
 		if(!isPasswordMatches){
-			return ResponseEntity.badRequest().body(new MessageResponse(NEW_PASSWORD_INCORRECT));
+			return ResponseEntity.badRequest().body(new MessageResponse(PASSWORD_INCORRECT));
 		}
 
 		User userUpdate = new User();
@@ -176,7 +176,8 @@ public class AuthController {
 		userUpdate.setUserName(user.get().getUserName());
 		userUpdate.setEmail(user.get().getEmail());
 		userUpdate.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
-		userUpdate.setRoles(user.get().getRoles());		
+		userUpdate.setRoles(user.get().getRoles());
+		userUpdate.setDateInsert(LocalDateTime.now());
 
 		userRepository.save(userUpdate);
 
