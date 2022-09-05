@@ -1,11 +1,13 @@
 package com.parcao.models;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -22,11 +24,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class User {
 
-	public User(String userName, String nomeCompleto, String email, String password) {
+	public User(String userName, String nomeCompleto, String email, String password, LocalDateTime dateInsert) {
 		this.userName = userName;
 		this.nomeCompleto = nomeCompleto;
 		this.email = email;
 		this.password = password;
+		this.dateInsert = dateInsert;
 	}
 
 	@Id
@@ -49,6 +52,10 @@ public class User {
 	@NotBlank
 	@Size(max = 120)
 	private String password;
+
+	@NotNull
+	@Column(columnDefinition = "TIMESTAMP")
+	private LocalDateTime dateInsert;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

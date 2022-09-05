@@ -1,5 +1,6 @@
 package com.parcao.controllers;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.parcao.payload.request.ChangePasswordRequest;
+import com.parcao.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -60,6 +62,9 @@ public class AuthController {
 	@Value("${parcao.app.retorno.email_already_exists}")
 	private String EMAIL_JA_EXISTE;
 
+	@Value("parcao.app.retorno.email_invalid")
+	private String EMAIL_INVALID;
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -106,7 +111,7 @@ public class AuthController {
 
 		// Cria uma nova conta de usuario
 		User user = new User(signUpRequest.getUserName(), signUpRequest.getNomeCompleto() ,signUpRequest.getEmail(),
-				encoder.encode(signUpRequest.getPassword()));
+				encoder.encode(signUpRequest.getPassword()), LocalDateTime.now());
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
