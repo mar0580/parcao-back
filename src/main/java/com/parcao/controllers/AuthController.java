@@ -39,7 +39,7 @@ import com.parcao.security.services.UserDetailsImpl;
 @RequestMapping("/api/auth")
 public class AuthController {
 		
-	@Value("${parcao.app.retorno.record_not_exists}")
+	@Value("parcao.app.retorno.role_not_exists")
 	private String INEXISTENTE;
 	
 	@Value("${parcao.app.retorno.success}")
@@ -48,8 +48,17 @@ public class AuthController {
 	@Value("${parcao.app.retorno.error}")
 	private String ERRO;
 	
-	@Value("${record_already_exists}")
-	private String JA_EXISTE;
+	@Value("${parcao.app.retorno.user_already_exists}")
+	private String USUARIO_JA_EXISTE;
+
+	@Value("${parcao.app.retorno.new_password_incorrect}")
+	private String NEW_PASSWORD_INCORRECT;
+
+	@Value("${parcao.app.retorno.user_not_exists}")
+	private String USUARIO_NAO_EXISTE;
+
+	@Value("${parcao.app.retorno.email_already_exists}")
+	private String EMAIL_JA_EXISTE;
 
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -88,11 +97,11 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUserName(signUpRequest.getUserName())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(JA_EXISTE));
+			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_JA_EXISTE));
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(JA_EXISTE));
+			return ResponseEntity.badRequest().body(new MessageResponse(EMAIL_JA_EXISTE));
 		}
 
 		// Cria uma nova conta de usuario
@@ -145,7 +154,7 @@ public class AuthController {
 	@PostMapping("/changepassword")
 	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
 		if (!userRepository.existsByUserName(changePasswordRequest.getUserName())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(INEXISTENTE));
+			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
 		}
 
 		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
@@ -153,11 +162,12 @@ public class AuthController {
 
 		boolean isPasswordMatches = bcrypt.matches(changePasswordRequest.getOldPassword(), user.get().getPassword());
 		if(!isPasswordMatches){
-			return ResponseEntity.badRequest().body(new MessageResponse(ERRO));
+			return ResponseEntity.badRequest().body(new MessageResponse(NEW_PASSWORD_INCORRECT));
 		}
 
 		User userUpdate = new User();
 		userUpdate.setId(user.get().getId());
+		userUpdate.setNomeCompleto(user.get().getNomeCompleto());
 		userUpdate.setUserName(user.get().getUserName());
 		userUpdate.setEmail(user.get().getEmail());
 		userUpdate.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
