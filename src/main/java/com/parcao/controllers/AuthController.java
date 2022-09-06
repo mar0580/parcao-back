@@ -1,10 +1,7 @@
 package com.parcao.controllers;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -182,5 +179,13 @@ public class AuthController {
 		userRepository.save(userUpdate);
 
 		return ResponseEntity.ok(new MessageResponse(SUCESSO));
+	}
+
+	@GetMapping("/user")
+	private List<User> getAllUsers()
+	{
+		List<User> users = new ArrayList<User>();
+		userRepository.findAll().forEach(users1 -> users.add(users1));
+		return users;
 	}
 }
