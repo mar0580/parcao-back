@@ -12,9 +12,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Parcao</name>
 	<description>Projeto Coco do Parcao</description>
-	<properties>
-		<java.version>11</java.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
