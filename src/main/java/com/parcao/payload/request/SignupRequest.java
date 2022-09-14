@@ -16,6 +16,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupRequest {
+
+    private Long id;
+
     @NotBlank
     @Size(min = 3, max = 20)
     private String userName;

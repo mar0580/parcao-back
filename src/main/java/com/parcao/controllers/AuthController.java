@@ -159,6 +159,10 @@ public class AuthController {
 			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
 		}
 
+		if (changePasswordRequest.getNewPassword().isEmpty() || changePasswordRequest.getOldPassword().isEmpty()) {
+			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
+		}
+
 		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
@@ -187,5 +191,57 @@ public class AuthController {
 		List<User> users = new ArrayList<User>();
 		userRepository.findAll().forEach(users1 -> users.add(users1));
 		return users;
+	}
+
+	@PostMapping("/changedatauser")
+	public ResponseEntity<?> changeDataUser(@Valid @RequestBody SignupRequest signupRequest) {
+		if (!userRepository.existsById(signupRequest.getId())) {
+			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
+		} else {
+			Optional<User> user = userRepository.findById(signupRequest.getId());
+			User userUpdate = new User();
+			userUpdate.setId(signupRequest.getId());
+			userUpdate.setNomeCompleto(signupRequest.getNomeCompleto());
+			userUpdate.setUserName(user.get().getUserName());
+			userUpdate.setEmail(signupRequest.getEmail());
+			userUpdate.setPassword(user.get().getPassword());
+			userUpdate.setDateInsert(LocalDateTime.now());
+			Set<String> strRoles = signupRequest.getRole();
+			Set<Role> roles = new HashSet<>();
+
+			if (strRoles == null) {
+				Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+						.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+				roles.add(userRole);
+			} else {
+				strRoles.forEach(role -> {
+					switch (role) {
+						case "admin":
+							Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+									.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+							roles.add(adminRole);
+
+							break;
+						case "mod":
+							Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+									.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+							roles.add(modRole);
+
+							break;
+						default:
+							Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+									.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+							roles.add(userRole);
+					}
+				});
+			}
+
+			userUpdate.setRoles(roles);
+
+			userUpdate.setDateInsert(LocalDateTime.now());
+			userRepository.save(userUpdate);
+		}
+
+		return ResponseEntity.ok(new MessageResponse(SUCESSO));
 	}
 }
