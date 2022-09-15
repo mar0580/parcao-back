@@ -37,16 +37,16 @@ import com.parcao.security.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-		
+
 	@Value("parcao.app.retorno.role_not_exists")
 	private String INEXISTENTE;
-	
+
 	@Value("${parcao.app.retorno.success}")
-	private String SUCESSO;		
+	private String SUCESSO;
 
 	@Value("${parcao.app.retorno.error}")
 	private String ERRO;
-	
+
 	@Value("${parcao.app.retorno.user_already_exists}")
 	private String USUARIO_JA_EXISTE;
 
@@ -120,22 +120,22 @@ public class AuthController {
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException(INEXISTENTE));
-					roles.add(adminRole);
+					case "admin":
+						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+								.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+						roles.add(adminRole);
 
-					break;
-				case "mod":
-					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-							.orElseThrow(() -> new RuntimeException(INEXISTENTE));
-					roles.add(modRole);
+						break;
+					case "mod":
+						Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+								.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+						roles.add(modRole);
 
-					break;
-				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException(INEXISTENTE));
-					roles.add(userRole);
+						break;
+					default:
+						Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+								.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+						roles.add(userRole);
 				}
 			});
 		}
@@ -242,6 +242,15 @@ public class AuthController {
 			userRepository.save(userUpdate);
 		}
 
+		return ResponseEntity.ok(new MessageResponse(SUCESSO));
+	}
+
+	@DeleteMapping("/deleteuser/{idUsuario}")
+	public ResponseEntity<?> deleteUser(@PathVariable (value = "idUsuario") Long idUsuario) {
+		if (!userRepository.existsById(idUsuario)) {
+			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
+		}
+		userRepository.deleteById(idUsuario);
 		return ResponseEntity.ok(new MessageResponse(SUCESSO));
 	}
 }
