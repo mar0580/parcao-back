@@ -47,6 +47,7 @@ public class User {
 	@NotBlank
 	@Size(max = 50)
 	@Email
+	@Column(insertable=true, updatable=true)
 	private String email;
 
 	@NotBlank

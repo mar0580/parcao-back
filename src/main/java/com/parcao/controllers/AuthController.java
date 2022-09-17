@@ -11,6 +11,7 @@ import com.parcao.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -98,12 +99,9 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUserName(signUpRequest.getUserName())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_JA_EXISTE));
-		}
-
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(EMAIL_JA_EXISTE));
+		if ( (userRepository.existsByUserName(signUpRequest.getUserName())) ||
+				(userRepository.existsByEmail(signUpRequest.getEmail()))) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(USUARIO_JA_EXISTE);
 		}
 
 		// Cria uma nova conta de usuario
@@ -155,12 +153,9 @@ public class AuthController {
 
 	@PostMapping("/changepassword")
 	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
-		if (!userRepository.existsByUserName(changePasswordRequest.getUserName())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
-		}
-
-		if (changePasswordRequest.getNewPassword().isEmpty() || changePasswordRequest.getOldPassword().isEmpty()) {
-			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
+		if (!userRepository.existsByUserName(changePasswordRequest.getUserName()) ||
+				((changePasswordRequest.getNewPassword().isEmpty() || changePasswordRequest.getOldPassword().isEmpty())) ) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USUARIO_NAO_EXISTE);
 		}
 
 		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
@@ -168,7 +163,7 @@ public class AuthController {
 
 		boolean isPasswordMatches = bcrypt.matches(changePasswordRequest.getOldPassword(), user.get().getPassword());
 		if(!isPasswordMatches){
-			return ResponseEntity.badRequest().body(new MessageResponse(PASSWORD_INCORRECT));
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(PASSWORD_INCORRECT);
 		}
 
 		User userUpdate = new User();
@@ -193,10 +188,10 @@ public class AuthController {
 		return users;
 	}
 
-	@PostMapping("/changedatauser")
+	@PutMapping("/changedatauser")
 	public ResponseEntity<?> changeDataUser(@Valid @RequestBody SignupRequest signupRequest) {
 		if (!userRepository.existsById(signupRequest.getId())) {
-			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USUARIO_NAO_EXISTE);
 		} else {
 			Optional<User> user = userRepository.findById(signupRequest.getId());
 			User userUpdate = new User();
@@ -248,7 +243,7 @@ public class AuthController {
 	@DeleteMapping("/deleteuser/{idUsuario}")
 	public ResponseEntity<?> deleteUser(@PathVariable (value = "idUsuario") Long idUsuario) {
 		if (!userRepository.existsById(idUsuario)) {
-			return ResponseEntity.badRequest().body(new MessageResponse(USUARIO_NAO_EXISTE));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(USUARIO_NAO_EXISTE));
 		}
 		userRepository.deleteById(idUsuario);
 		return ResponseEntity.ok(new MessageResponse(SUCESSO));
