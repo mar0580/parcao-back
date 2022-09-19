@@ -1,9 +1,11 @@
 package com.parcao.controllers;
 
 import com.parcao.dto.ClienteDto;
-import com.parcao.payload.response.UserInfoResponse;
+import com.parcao.payload.response.MessageResponse;
 import com.parcao.security.services.ClienteService;
-import org.springframework.http.HttpHeaders;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +25,22 @@ public class ClienteController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteDto clienteDto) {
-
-       if(clienteService.existsByNomeCliente(clienteDto.getNomeCliente())){
-           return ResponseEntity.status(HttpStatus.CONFLICT).body("CLIENTE_JA_EXISTE");
+       if(clienteService.existsByTelefone(clienteDto.getTelefone())){
+           return ResponseEntity.status(HttpStatus.CONFLICT).body("TELEFONE_JA_CADASTRADO");
        }
-
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(clienteDto));
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<Object> getAllClientes(@PageableDefault(sort = "nomeCliente", direction = Sort.Direction.ASC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.findAll(pageable));
+    }
+/*
+    @DeleteMapping("/cliente/{id}")
+    public ResponseEntity<?> deleteCliente(@PathVariable (value = "id") Long id) {
+        if (!clienteService.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("USUARIO_NAO_EXISTE"));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.delele(id));
+    }*/
 }

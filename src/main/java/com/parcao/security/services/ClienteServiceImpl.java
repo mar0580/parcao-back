@@ -4,7 +4,11 @@ import com.parcao.dto.ClienteDto;
 import com.parcao.models.Cliente;
 import com.parcao.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
@@ -16,8 +20,8 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public boolean existsByNomeCliente(String nomeCliente) {
-        return false;
+    public boolean existsByTelefone(String telefone) {
+        return clienteRepository.existsByTelefone(telefone);
     }
 
     @Override
@@ -26,4 +30,15 @@ public class ClienteServiceImpl implements ClienteService{
         BeanUtils.copyProperties(clienteDto, cliente);
         return clienteRepository.save(cliente);
     }
+
+    @Override
+    public Object findAll(Pageable pageable) {
+        return clienteRepository.findAll(pageable);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return clienteRepository.existsById(id);
+    }
+
 }

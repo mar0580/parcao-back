@@ -174,7 +174,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/user")
-	private List<User> getAllUsers()
+	public List<User> getAllUsers()
 	{
 		List<User> users = new ArrayList<User>();
 		userRepository.findAll().forEach(users1 -> users.add(users1));
