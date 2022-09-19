@@ -1,4 +1,4 @@
-package com.parcao.payload.request;
+package com.parcao.dto;
 
 import java.util.Set;
 

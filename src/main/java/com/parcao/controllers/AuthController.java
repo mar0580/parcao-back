@@ -6,8 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.parcao.payload.request.ChangePasswordRequest;
-import com.parcao.utils.Util;
+import com.parcao.dto.ChangePasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -25,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import com.parcao.models.ERole;
 import com.parcao.models.Role;
 import com.parcao.models.User;
-import com.parcao.payload.request.LoginRequest;
-import com.parcao.payload.request.SignupRequest;
+import com.parcao.dto.LoginRequest;
+import com.parcao.dto.SignupRequest;
 import com.parcao.payload.response.MessageResponse;
 import com.parcao.payload.response.UserInfoResponse;
 import com.parcao.repository.RoleRepository;
@@ -45,9 +44,6 @@ public class AuthController {
 	@Value("${parcao.app.retorno.success}")
 	private String SUCESSO;
 
-	@Value("${parcao.app.retorno.error}")
-	private String ERRO;
-
 	@Value("${parcao.app.retorno.user_already_exists}")
 	private String USUARIO_JA_EXISTE;
 
@@ -56,9 +52,6 @@ public class AuthController {
 
 	@Value("${parcao.app.retorno.user_not_exists}")
 	private String USUARIO_NAO_EXISTE;
-
-	@Value("${parcao.app.retorno.email_already_exists}")
-	private String EMAIL_JA_EXISTE;
 
 	@Value("parcao.app.retorno.email_invalid")
 	private String EMAIL_INVALID;

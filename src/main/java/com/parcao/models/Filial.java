@@ -8,24 +8,32 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "cliente", uniqueConstraints = { @UniqueConstraint(columnNames = "telefone")})
+@Table(name = "filial", uniqueConstraints = { @UniqueConstraint(columnNames = "nomeLocal")})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cliente {
+public class Filial {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
     @Size(min = 10, max = 50    )
-    private String nomeCliente;
+    private String nomeLocal;
 
     @NotBlank
-    @Size(min = 11, max = 11, message = "Deve conter 11 digitos")
-    private String telefone;
+    @Size(min = 10, max = 50, message = "Deve conter entre 10-50 digitos")
+    private String descricaoLocal;
+
+    @NotNull
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime dateAtualizacao;
+
 }
