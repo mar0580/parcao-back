@@ -35,12 +35,13 @@ public class ClienteController {
     public ResponseEntity<Object> getAllClientes(@PageableDefault(sort = "nomeCliente", direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findAll(pageable));
     }
-/*
-    @DeleteMapping("/cliente/{id}")
+
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCliente(@PathVariable (value = "id") Long id) {
         if (!clienteService.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("USUARIO_NAO_EXISTE"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("USUARIO_NAO_EXISTE");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.delele(id));
-    }*/
+        clienteService.deleleById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("SUCESSO");
+    }
 }

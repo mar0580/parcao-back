@@ -15,4 +15,6 @@ public interface ClienteService {
     public Object findAll(Pageable pageable);
 
     public boolean existsById(Long id);
+
+    public void deleleById(Long id);
 }
