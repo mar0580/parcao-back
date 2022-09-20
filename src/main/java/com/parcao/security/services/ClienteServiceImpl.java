@@ -7,6 +7,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClienteServiceImpl implements ClienteService{
 
@@ -41,6 +43,11 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public void deleleById(Long id) {
         clienteRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Cliente> findById(Long id) {
+        return Optional.empty();
     }
 
 }
