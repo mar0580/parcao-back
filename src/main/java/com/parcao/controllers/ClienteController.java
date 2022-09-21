@@ -59,6 +59,7 @@ public class ClienteController {
         BeanUtils.copyProperties(clienteDto, cliente);
         cliente.setId(clienteOptional.get().getId());
        // parkingSpotModel.setRegistrationDate(clienteOptional.get().getRegistrationDate());
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(cliente));
+        //return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(cliente));
+        return null;
     }
 }
