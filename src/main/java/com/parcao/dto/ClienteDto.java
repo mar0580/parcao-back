@@ -11,6 +11,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClienteDto {
+
+    private Long id;
+
     @NotBlank
     private String nomeCliente;
 

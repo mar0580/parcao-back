@@ -1,18 +1,23 @@
 package com.parcao.security.services;
 
-import com.parcao.dto.ClienteDto;
-import com.parcao.dto.FilialDto;
+import com.parcao.models.Filial;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 public interface FilialService {
 
     public boolean existsByNomeLocal(String nomeLocal);
 
-    public Object save(FilialDto filialDto);
+    @Transactional
+    public Object save(Filial filial);
 
     public Object findAll(Pageable pageable);
 
     public boolean existsById(Long id);
 
     public void deleleById(Long id);
+
+    public Optional<Filial> findById(Long id);
 }

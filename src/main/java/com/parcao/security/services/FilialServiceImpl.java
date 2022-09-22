@@ -1,14 +1,13 @@
 package com.parcao.security.services;
 
-import com.parcao.dto.ClienteDto;
-import com.parcao.dto.FilialDto;
-import com.parcao.models.Cliente;
 import com.parcao.models.Filial;
-import com.parcao.repository.ClienteRepository;
 import com.parcao.repository.FilialRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class FilialServiceImpl implements FilialService{
@@ -25,11 +24,7 @@ public class FilialServiceImpl implements FilialService{
     }
 
     @Override
-    public Object save(FilialDto filialDto) {
-        Filial filial = new Filial();
-        BeanUtils.copyProperties(filialDto, filial);
-        return filialRepository.save(filial);
-    }
+    public Object save(Filial filial) { return filialRepository.save(filial); }
 
     @Override
     public Object findAll(Pageable pageable) {
@@ -46,4 +41,8 @@ public class FilialServiceImpl implements FilialService{
         filialRepository.deleteById(id);
     }
 
+    @Override
+    public Optional<Filial> findById(Long id) {
+        return filialRepository.findById(id);
+    }
 }

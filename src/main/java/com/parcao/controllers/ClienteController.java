@@ -1,9 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.dto.ClienteDto;
-import com.parcao.dto.SignupRequest;
 import com.parcao.models.Cliente;
-import com.parcao.payload.response.MessageResponse;
 import com.parcao.security.services.ClienteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
@@ -29,10 +27,12 @@ public class ClienteController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteDto clienteDto) {
-       if(clienteService.existsByTelefone(clienteDto.getTelefone())){
-           return ResponseEntity.status(HttpStatus.CONFLICT).body("TELEFONE_JA_CADASTRADO");
-       }
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(clienteDto));
+        if(clienteService.existsByTelefone(clienteDto.getTelefone())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("TELEFONE_JA_CADASTRADO");
+        }
+        Cliente cliente = new Cliente();
+        BeanUtils.copyProperties(clienteDto, cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(cliente));
     }
 
     @GetMapping("/list")
@@ -40,8 +40,17 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findAll(pageable));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCliente(@PathVariable (value = "id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getCliente(@PathVariable(value = "id") Long id){
+        Optional<Cliente> clienteOptional = clienteService.findById(id);
+        if (!clienteOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("CLIENTE_NAO_ENCONTRADO");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(clienteOptional.get());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteCliente(@PathVariable (value = "id") Long id) {
         if (!clienteService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("CLIENTE_NAO_EXISTE");
         }
@@ -49,17 +58,17 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body("SUCESSO");
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @Valid @RequestBody ClienteDto clienteDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateCliente(@PathVariable(value = "id") Long id, @Valid @RequestBody ClienteDto clienteDto) {
         Optional<Cliente> clienteOptional = clienteService.findById(id);
         if (!clienteOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("CLIENTE_NAO_EXISTE");
         }
         Cliente cliente = new Cliente();
         BeanUtils.copyProperties(clienteDto, cliente);
-        cliente.setId(clienteOptional.get().getId());
-       // parkingSpotModel.setRegistrationDate(clienteOptional.get().getRegistrationDate());
-        //return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(cliente));
-        return null;
+        cliente.setId(clienteDto.getId());
+        cliente.setNomeCliente(clienteDto.getNomeCliente());
+        cliente.setTelefone(clienteDto.getTelefone());
+        return  ResponseEntity.status(HttpStatus.OK).body(clienteService.save(cliente));
     }
 }

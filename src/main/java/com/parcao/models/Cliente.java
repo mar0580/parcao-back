@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "cliente", uniqueConstraints = { @UniqueConstraint(columnNames = "telefone")})
+@Table(name = "cliente")
 @Getter
 @Setter
 @NoArgsConstructor

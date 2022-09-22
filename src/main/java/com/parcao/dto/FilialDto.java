@@ -12,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class FilialDto {
 
+    private Long id;
+
     @NotBlank
     private String nomeLocal;
 

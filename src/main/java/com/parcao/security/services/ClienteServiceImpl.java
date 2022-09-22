@@ -24,21 +24,12 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Object save(ClienteDto clienteDto) {
-        Cliente cliente = new Cliente();
-        BeanUtils.copyProperties(clienteDto, cliente);
-        return clienteRepository.save(cliente);
-    }
-
-    @Override
     public Object findAll(Pageable pageable) {
         return clienteRepository.findAll(pageable);
     }
 
     @Override
-    public boolean existsById(Long id) {
-        return clienteRepository.existsById(id);
-    }
+    public boolean existsById(Long id) { return clienteRepository.existsById(id); }
 
     @Override
     public void deleleById(Long id) {
@@ -46,8 +37,8 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Optional<Cliente> findById(Long id) {
-        return Optional.empty();
-    }
+    public Optional<Cliente> findById(Long id) { return clienteRepository.findById(id); }
 
+    @Override
+    public Cliente save(Cliente cliente) { return clienteRepository.save(cliente); }
 }
