@@ -18,6 +18,6 @@ public interface ClienteService {
     public void deleleById(Long id);
 
     public Optional<Cliente> findById(Long id);
-    @Transactional
+
     public Cliente save(Cliente cliente);
 }

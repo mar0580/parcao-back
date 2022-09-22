@@ -24,7 +24,7 @@ public class FilialServiceImpl implements FilialService{
     }
 
     @Override
-    public Object save(Filial filial) { return filialRepository.save(filial); }
+    public Filial save(Filial filial) { return filialRepository.save(filial); }
 
     @Override
     public Object findAll(Pageable pageable) {

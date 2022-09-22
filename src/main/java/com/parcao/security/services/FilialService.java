@@ -10,8 +10,7 @@ public interface FilialService {
 
     public boolean existsByNomeLocal(String nomeLocal);
 
-    @Transactional
-    public Object save(Filial filial);
+    public Filial save(Filial filial);
 
     public Object findAll(Pageable pageable);
 

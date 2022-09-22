@@ -66,9 +66,7 @@ public class ClienteController {
         }
         Cliente cliente = new Cliente();
         BeanUtils.copyProperties(clienteDto, cliente);
-        cliente.setId(clienteDto.getId());
-        cliente.setNomeCliente(clienteDto.getNomeCliente());
-        cliente.setTelefone(clienteDto.getTelefone());
+        cliente.setId(clienteOptional.get().getId());
         return  ResponseEntity.status(HttpStatus.OK).body(clienteService.save(cliente));
     }
 }

@@ -2,7 +2,6 @@ package com.parcao.controllers;
 
 import com.parcao.dto.FilialDto;
 import com.parcao.models.Filial;
-import com.parcao.payload.response.MessageResponse;
 import com.parcao.security.services.FilialService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -56,15 +56,16 @@ public class FilialController {
         return ResponseEntity.status(HttpStatus.OK).body("SUCESSO");
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateFilial(@PathVariable(value = "id") Long id,@Valid @RequestBody FilialDto filialDto) {
-        if (!filialService.existsById(id)) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateFilial(@PathVariable(value = "id") Long id,@Valid @RequestBody FilialDto filialDto) {
+        Optional<Filial> filialOptional = filialService.findById(id);
+        if (!filialOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_EXISTE");
-        } else {
-            Filial filialUpdate = new Filial();
-            BeanUtils.copyProperties(filialDto, filialUpdate);
-           //filialService.save(filialDto);
         }
-        return ResponseEntity.ok(new MessageResponse("SUCESSO"));
+        Filial filial = new Filial();
+        BeanUtils.copyProperties(filialDto, filial);
+        filial.setId(filialOptional.get().getId());
+        filial.setDateAtualizacao(LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.OK).body(filialService.save(filial));
     }
 }
