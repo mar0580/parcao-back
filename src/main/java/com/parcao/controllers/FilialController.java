@@ -44,6 +44,9 @@ public class FilialController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getFilial(@PathVariable (value = "id") Long id){
+        if (!filialService.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_EXISTE");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(filialService.findById(id));
     }
 

@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -36,8 +38,10 @@ public class ClienteController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Object> getAllClientes(@PageableDefault(sort = "nomeCliente", direction = Sort.Direction.ASC) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.findAll(pageable));
+    public List<Cliente> getAllClientes(){
+        List<Cliente> cliente = new ArrayList<Cliente>();
+        clienteService.findAll().forEach(cliente1 -> cliente.add(cliente1));
+        return cliente;
     }
 
     @GetMapping("/{id}")

@@ -5,6 +5,7 @@ import com.parcao.repository.ClienteRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,8 +23,8 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Object findAll(Pageable pageable) {
-        return clienteRepository.findAll(pageable);
+    public List<Cliente> findAll() {
+        return clienteRepository.findAll();
     }
 
     @Override
