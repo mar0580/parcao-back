@@ -1,6 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.dto.FilialDto;
+import com.parcao.models.Cliente;
 import com.parcao.models.Filial;
 import com.parcao.security.services.FilialService;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -38,8 +41,10 @@ public class FilialController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Object> getAllFiliais(@PageableDefault(sort = "nomeLocal", direction = Sort.Direction.ASC) Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(filialService.findAll(pageable));
+    public List<Filial> getAllFiliais(){
+        List<Filial> filial = new ArrayList<Filial>();
+        filialService.findAll().forEach(filial1 -> filial.add(filial1));
+        return filial;
     }
 
     @GetMapping("/{id}")

@@ -1,9 +1,11 @@
 package com.parcao.security.services;
 
+import com.parcao.models.Cliente;
 import com.parcao.models.Filial;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface FilialService {
@@ -12,7 +14,7 @@ public interface FilialService {
 
     public Filial save(Filial filial);
 
-    public Object findAll(Pageable pageable);
+    List<Filial> findAll();
 
     public boolean existsById(Long id);
 
