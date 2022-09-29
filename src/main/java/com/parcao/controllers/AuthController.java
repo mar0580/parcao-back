@@ -53,9 +53,6 @@ public class AuthController {
 	@Value("${parcao.app.retorno.user_not_exists}")
 	private String USUARIO_NAO_EXISTE;
 
-	@Value("parcao.app.retorno.email_invalid")
-	private String EMAIL_INVALID;
-
 	@Autowired
 	AuthenticationManager authenticationManager;
 

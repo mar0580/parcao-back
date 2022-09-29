@@ -30,10 +30,10 @@ public class Produto implements Serializable {
     private String descricaoProduto;
 
     @NotNull
-    private int qtdEstoque;
+    private int quantidade;
 
     @NotNull
-    private BigDecimal vlrUnitario;
+    private BigDecimal valorUnitario;
 
     @NotNull
     @Column(columnDefinition = "TIMESTAMP")
