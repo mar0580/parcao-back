@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProdutoServiceImpl implements ProdutoService{
+public class ProdutoServiceImpl implements ProdutoService {
 
     final ProdutoRepository produtoRepository;
 
@@ -18,31 +18,31 @@ public class ProdutoServiceImpl implements ProdutoService{
 
     @Override
     public boolean existsByDescricaoProduto(String descricaoProduto) {
-        return false;
+        return produtoRepository.existsByDescricaoProduto(descricaoProduto);
     }
 
     @Override
     public List<Produto> findAll() {
-        return null;
+        return produtoRepository.findAll();
     }
 
     @Override
     public boolean existsById(Long id) {
-        return false;
+        return produtoRepository.existsById(id);
     }
 
     @Override
     public void deleleById(Long id) {
-
+        produtoRepository.deleteById(id);
     }
 
     @Override
     public Optional<Produto> findById(Long id) {
-        return Optional.empty();
+        return produtoRepository.findById(id);
     }
 
     @Override
     public Produto save(Produto produto) {
-        return null;
+        return produtoRepository.save(produto);
     }
 }
