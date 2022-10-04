@@ -21,4 +21,6 @@ public class ProdutoDto {
     private int quantidade;
 
     private BigDecimal valorUnitario;
+
+    private BigDecimal valorCustoUnitario;
 }

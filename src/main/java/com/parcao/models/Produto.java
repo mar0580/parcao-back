@@ -36,6 +36,9 @@ public class Produto implements Serializable {
     private BigDecimal valorUnitario;
 
     @NotNull
+    private BigDecimal valorCustoUnitario;
+
+    @NotNull
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime dateAtualizacao;
 }
