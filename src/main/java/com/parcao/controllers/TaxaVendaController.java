@@ -32,7 +32,6 @@ public class TaxaVendaController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("TAXA_JA_CADASTRADA");
         }
         TaxaVenda taxaVenda = new TaxaVenda();
-        taxaVenda.setDateAtualizacao(LocalDateTime.now());
         BeanUtils.copyProperties(taxaVendaDto, taxaVenda);
         return ResponseEntity.status(HttpStatus.CREATED).body(taxaVendaService.save(taxaVenda));
     }
@@ -71,7 +70,6 @@ public class TaxaVendaController {
         TaxaVenda taxaVenda = new TaxaVenda();
         BeanUtils.copyProperties(taxaVendaDto, taxaVenda);
         taxaVenda.setId(taxaVendaOptional.get().getId());
-        taxaVenda.setDateAtualizacao(LocalDateTime.now());
         return  ResponseEntity.status(HttpStatus.OK).body(taxaVendaService.save(taxaVenda));
     }
 }

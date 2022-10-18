@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -14,7 +16,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "filial", uniqueConstraints = { @UniqueConstraint(columnNames = "nomeLocal")})
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "nomeLocal")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,8 +36,10 @@ public class Filial implements Serializable {
     @Size(min = 10, max = 50, message = "Deve conter entre 10-50 digitos")
     private String descricaoLocal;
 
-    @NotNull
-    @Column(columnDefinition = "TIMESTAMP")
+    @CreationTimestamp
+    private LocalDateTime dateCriacao;
+
+    @UpdateTimestamp
     private LocalDateTime dateAtualizacao;
 
 }

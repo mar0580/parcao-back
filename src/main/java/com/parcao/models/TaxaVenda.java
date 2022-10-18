@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -35,7 +37,9 @@ public class TaxaVenda implements Serializable {
     @NotNull
     private BigDecimal percentualTaxa;
 
-    @NotNull
-    @Column(columnDefinition = "TIMESTAMP")
+    @CreationTimestamp
+    private LocalDateTime dateCriacao;
+
+    @UpdateTimestamp
     private LocalDateTime dateAtualizacao;
 }

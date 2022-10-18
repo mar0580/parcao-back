@@ -35,7 +35,6 @@ public class FilialController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("FILIAL_JA_CADASTRADA");
         }
         Filial filial = new Filial();
-        filial.setDateAtualizacao(LocalDateTime.now());
         BeanUtils.copyProperties(filialDto, filial);
         return ResponseEntity.status(HttpStatus.CREATED).body(filialService.save(filial));
     }
@@ -73,7 +72,6 @@ public class FilialController {
         Filial filial = new Filial();
         BeanUtils.copyProperties(filialDto, filial);
         filial.setId(filialOptional.get().getId());
-        filial.setDateAtualizacao(LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.OK).body(filialService.save(filial));
     }
 }

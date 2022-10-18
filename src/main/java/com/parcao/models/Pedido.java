@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "pedido")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,34 +29,43 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(columnDefinition = "TIMESTAMP")
+    @CreationTimestamp
     private LocalDateTime datePedido;
 
-    @NotNull
-    private BigDecimal valorTotal;
+    @UpdateTimestamp
+    private LocalDateTime dateAtualizacao;
 
     @NotBlank
     @Size(min = 5, max = 15, message = "Deve conter entre 5-15 digitos")
     private String tpPagamento;
 
-    @NotNull
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime dateAtualizacao;
+    @Column(name = "filial_id")
+    private Long idFilial;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "filial_id")
-    private Filial idFilial;
+    @Column(name = "cliente_id")
+    private Long idCliente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
-    private Cliente idCliente;
+    private BigDecimal valorTotal;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "taxa_venda_id")
-    private TaxaVenda idTaxaVenda;
+    @Column(name = "taxaVenda_id")
+    private Long idTaxaVenda;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private User idUser;
+    @Column(name = "user_id")
+    private Long idUser;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "pedidoItens", joinColumns = @JoinColumn(name = "pedido_id"))
+    @AttributeOverrides({ @AttributeOverride(name = "descricaoProduto", column = @Column(name = "nome_produto"))
+    })
+    private Set<PedidoItem> produtos = new HashSet<>();
+
+    public Pedido(String tpPagamento, long idFilial, long idCliente, BigDecimal valorTotal, long idTaxaVenda, long idUser, Set<PedidoItem> produtos) {
+        this.tpPagamento = tpPagamento;
+        this.idFilial = idFilial;
+        this.idCliente = idCliente;
+        this.valorTotal = valorTotal;
+        this.idTaxaVenda = idTaxaVenda;
+        this.idUser = idUser;
+        this.produtos = produtos;
+    }
 }

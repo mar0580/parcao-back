@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "userName"),
@@ -24,12 +26,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class User {
 
-	public User(String userName, String nomeCompleto, String email, String password, LocalDateTime dateInsert) {
+	public User(String userName, String nomeCompleto, String email, String password) {
 		this.userName = userName;
 		this.nomeCompleto = nomeCompleto;
 		this.email = email;
 		this.password = password;
-		this.dateInsert = dateInsert;
 	}
 
 	@Id
@@ -54,9 +55,11 @@ public class User {
 	@Size(max = 120)
 	private String password;
 
-	@NotNull
-	@Column(columnDefinition = "TIMESTAMP")
+	@CreationTimestamp
 	private LocalDateTime dateInsert;
+
+	@UpdateTimestamp
+	private LocalDateTime dateAtualizacao;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

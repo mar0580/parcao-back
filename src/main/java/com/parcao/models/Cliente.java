@@ -4,15 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "cliente")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,4 +33,10 @@ public class Cliente implements Serializable {
     @NotBlank
     @Size(min = 11, max = 11, message = "Deve conter 11 digitos")
     private String telefone;
+
+    @CreationTimestamp
+    private LocalDateTime dateCriacao;
+
+    @UpdateTimestamp
+    private LocalDateTime dateAtualizacao;
 }

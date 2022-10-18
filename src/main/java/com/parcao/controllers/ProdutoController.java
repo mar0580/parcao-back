@@ -31,7 +31,6 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("PRODUTO_JA_CADASTRADO");
         }
         Produto produto = new Produto();
-        produto.setDateAtualizacao(LocalDateTime.now());
         BeanUtils.copyProperties(produtoDto, produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.save(produto));
     }
@@ -70,7 +69,6 @@ public class ProdutoController {
         Produto produto = new Produto();
         BeanUtils.copyProperties(produtoDto, produto);
         produto.setId(produtoOptional.get().getId());
-        produto.setDateAtualizacao(LocalDateTime.now());
         return  ResponseEntity.status(HttpStatus.OK).body(produtoService.save(produto));
     }
 }
