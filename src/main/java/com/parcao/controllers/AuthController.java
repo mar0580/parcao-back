@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.parcao.dto.ChangePasswordRequest;
+import com.parcao.models.Filial;
+import com.parcao.repository.FilialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -60,6 +62,9 @@ public class AuthController {
 	UserRepository userRepository;
 
 	@Autowired
+	FilialRepository filialRepository;
+
+	@Autowired
 	RoleRepository roleRepository;
 
 	@Autowired
@@ -92,6 +97,11 @@ public class AuthController {
 		if ( (userRepository.existsByUserName(signUpRequest.getUserName())) ||
 				(userRepository.existsByEmail(signUpRequest.getEmail()))) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(USUARIO_JA_EXISTE);
+		}
+
+		Optional<Filial> filialOptional = filialRepository.findById(signUpRequest.getIdFilial());
+		if (!filialOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_EXISTE");
 		}
 
 		// Cria uma nova conta de usuario
@@ -129,6 +139,7 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+		user.setFiliais(new Filial(signUpRequest.getIdFilial()));
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse(SUCESSO));
@@ -190,6 +201,12 @@ public class AuthController {
 			userUpdate.setEmail(signupRequest.getEmail());
 			userUpdate.setPassword(user.get().getPassword());
 			userUpdate.setDateInsert(LocalDateTime.now());
+
+			Optional<Filial> filialOptional = filialRepository.findById(signupRequest.getIdFilial());
+			if (!filialOptional.isPresent()) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_EXISTE");
+			}
+
 			Set<String> strRoles = signupRequest.getRole();
 			Set<Role> roles = new HashSet<>();
 
@@ -221,6 +238,7 @@ public class AuthController {
 			}
 
 			userUpdate.setRoles(roles);
+			userUpdate.setFiliais(new Filial(signupRequest.getIdFilial()));
 
 			userUpdate.setDateInsert(LocalDateTime.now());
 			userRepository.save(userUpdate);

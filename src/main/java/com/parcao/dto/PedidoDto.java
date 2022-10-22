@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Getter
@@ -20,5 +21,6 @@ public class PedidoDto {
     private Long idCliente;
     private Long idTaxaVenda;
     private Long idUser;
-    private Set<ProdutoDto> produtos;
+    private Set<PedidoItemDto> produtos;
+    //private ArrayList<PedidoItemDto> produtos;
 }

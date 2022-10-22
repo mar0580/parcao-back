@@ -1,10 +1,11 @@
 package com.parcao.models;
 
+import com.parcao.dto.PedidoItemDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Embeddable
 @Getter
@@ -12,19 +13,17 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PedidoItem {
-
-    private static final long serialVersionUID = 1L;
-
     private Long idProduto;
-
     private String descricaoProduto;
-
     private int quantidade;
-
     private BigDecimal valorUnitario;
-
     private BigDecimal valorTotal;
 
-
-
+    public PedidoItem(PedidoItemDto produto) {
+        this.idProduto = produto.getIdProduto();
+        this.descricaoProduto = produto.getDescricaoProduto();
+        this.quantidade = produto.getQuantidade();
+        this.valorTotal = produto.getValorTotal();
+        this.valorUnitario = produto.getValorUnitario();
+    }
 }

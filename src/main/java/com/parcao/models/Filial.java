@@ -42,4 +42,7 @@ public class Filial implements Serializable {
     @UpdateTimestamp
     private LocalDateTime dateAtualizacao;
 
+    public Filial(Long idFilial) {
+        this.id = idFilial;
+    }
 }

@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ public class Pedido implements Serializable {
     @AttributeOverrides({ @AttributeOverride(name = "descricaoProduto", column = @Column(name = "nome_produto"))
     })
     private Set<PedidoItem> produtos = new HashSet<>();
-
+    //private ArrayList<PedidoItem> produtos = new ArrayList<>();
     public Pedido(String tpPagamento, long idFilial, long idCliente, BigDecimal valorTotal, long idTaxaVenda, long idUser, Set<PedidoItem> produtos) {
         this.tpPagamento = tpPagamento;
         this.idFilial = idFilial;
