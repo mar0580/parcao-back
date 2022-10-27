@@ -15,12 +15,11 @@ import java.util.Set;
 @AllArgsConstructor
 public class PedidoDto {
     private Long id;
-    private BigDecimal valorTotal;
-    private String tpPagamento;
     private Long idFilial;
     private Long idCliente;
-    private Long idTaxaVenda;
     private Long idUser;
+    private Long idTaxaVenda;
+    private BigDecimal valorTotal;
+    private String tpPagamento;
     private Set<PedidoItemDto> produtos;
-    //private ArrayList<PedidoItemDto> produtos;
 }

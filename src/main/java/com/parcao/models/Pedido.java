@@ -60,13 +60,13 @@ public class Pedido implements Serializable {
     })
     private Set<PedidoItem> produtos = new HashSet<>();
     //private ArrayList<PedidoItem> produtos = new ArrayList<>();
-    public Pedido(String tpPagamento, long idFilial, long idCliente, BigDecimal valorTotal, long idTaxaVenda, long idUser, Set<PedidoItem> produtos) {
-        this.tpPagamento = tpPagamento;
+    public Pedido(long idFilial, long idCliente, long idUser, long idTaxaVenda, BigDecimal valorTotal, String tpPagamento, Set<PedidoItem> produtos) {
         this.idFilial = idFilial;
         this.idCliente = idCliente;
-        this.valorTotal = valorTotal;
-        this.idTaxaVenda = idTaxaVenda;
         this.idUser = idUser;
+        this.idTaxaVenda = idTaxaVenda;
+        this.valorTotal = valorTotal;
+        this.tpPagamento = tpPagamento;
         this.produtos = produtos;
     }
 }
