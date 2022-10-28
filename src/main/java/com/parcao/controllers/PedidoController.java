@@ -32,11 +32,9 @@ public class PedidoController {
     public ResponseEntity<?> createPedido(@Valid @RequestBody PedidoDto pedidoDto) {
         Set<PedidoItemDto> produtoItemDto = pedidoDto.getProdutos();
         Set<PedidoItem> produtos = new HashSet<>();
-        //produtoItemDto.forEach(produto -> produtos.add(new PedidoItem(produto))); ModelMapper
 
         produtoItemDto.forEach(produto -> produtos.add(
-                produtoService.existsById(produto.getIdProduto()) ?
-                        new PedidoItem(produto) : null));
+                produtoService.existsById(produto.getId()) ? new PedidoItem(produto) : null));
 
         Pedido pedido = new Pedido();
         BeanUtils.copyProperties(pedidoDto, pedido);
