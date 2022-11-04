@@ -30,6 +30,7 @@ public class PedidoItem {
 
     private BigDecimal valorTotalItem(int quantidade, BigDecimal valorUnitario){
         BigDecimal itemCost  = new BigDecimal(BigInteger.ZERO,  2);
+
         BigDecimal totalCost = new BigDecimal(BigInteger.ZERO,  2);
 
         itemCost = valorUnitario.multiply(new BigDecimal(quantidade));
