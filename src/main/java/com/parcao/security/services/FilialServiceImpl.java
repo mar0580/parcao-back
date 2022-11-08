@@ -43,4 +43,9 @@ public class FilialServiceImpl implements FilialService{
     public Optional<Filial> findById(Long id) {
         return filialRepository.findById(id);
     }
+
+    @Override
+    public Optional<Filial> findByNomeLocal(String nomeLocal) {
+        return filialRepository.findByNomeLocal(nomeLocal);
+    }
 }

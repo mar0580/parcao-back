@@ -28,7 +28,6 @@ public class TaxaVenda implements Serializable {
     private Long id;
 
     @NotEmpty
-    @Size(min = 1, message = "Nome da taxa nao pode estar nula")
     private String nomeTaxa;
 
     @NotNull

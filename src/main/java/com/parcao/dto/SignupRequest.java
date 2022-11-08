@@ -33,5 +33,5 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
-    private Long idFilial;
+    private Set<String> filial;
 }

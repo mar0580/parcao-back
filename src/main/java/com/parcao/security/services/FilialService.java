@@ -7,15 +7,17 @@ import java.util.Optional;
 
 public interface FilialService {
 
-    public boolean existsByNomeLocal(String nomeLocal);
+    boolean existsByNomeLocal(String nomeLocal);
 
-    public Filial save(Filial filial);
+    Filial save(Filial filial);
 
     List<Filial> findAll();
 
-    public boolean existsById(Long id);
+    boolean existsById(Long id);
 
-    public void deleleById(Long id);
+    void deleleById(Long id);
 
-    public Optional<Filial> findById(Long id);
+    Optional<Filial> findById(Long id);
+
+    Optional<Filial> findByNomeLocal(String nomeLocal);
 }

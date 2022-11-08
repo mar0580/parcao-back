@@ -8,10 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -29,11 +26,9 @@ public class Filial implements Serializable {
     private Long id;
 
     @NotBlank
-    @Size(min = 10, max = 50    )
     private String nomeLocal;
 
     @NotBlank
-    @Size(min = 10, max = 50, message = "Deve conter entre 10-50 digitos")
     private String descricaoLocal;
 
     @CreationTimestamp

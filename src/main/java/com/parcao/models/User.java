@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.persistence.JoinColumn;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -64,7 +64,8 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "filial_id", referencedColumnName = "id")
-	private Filial filiais;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_filiais", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "filial_id"))
+	private Set<Filial> filiais = new HashSet<>();
 }

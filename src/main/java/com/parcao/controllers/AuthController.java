@@ -8,7 +8,7 @@ import javax.validation.Valid;
 
 import com.parcao.dto.ChangePasswordRequest;
 import com.parcao.models.Filial;
-import com.parcao.repository.FilialRepository;
+import com.parcao.security.services.FilialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -61,8 +61,11 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 
-	@Autowired
-	FilialRepository filialRepository;
+	final FilialService filialService;
+
+	public AuthController(FilialService filialService) {
+		this.filialService = filialService;
+	}
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -90,10 +93,11 @@ public class AuthController {
 
 		Optional<User> user = userRepository.findById(userDetails.getId());
 		User userUpdate = new User();
-		Long idFilial = user.get().getFiliais().getId();
+
+		//Long idFilial = user.get().getFiliais().getId();
 
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(
-				new UserInfoResponse(userDetails.getId(), userDetails.getUserName(), userDetails.getEmail(), roles, idFilial));
+				new UserInfoResponse(userDetails.getId(), userDetails.getUserName(), userDetails.getEmail(), roles));
 	}
 
 	@PostMapping("/signup")
@@ -103,10 +107,12 @@ public class AuthController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(USUARIO_JA_EXISTE);
 		}
 
-		Optional<Filial> filialOptional = filialRepository.findById(signUpRequest.getIdFilial());
-		if (!filialOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_EXISTE");
-		}
+		Set<String> strFiliais = signUpRequest.getFilial();
+		Set<Filial> filiais = new HashSet<>();
+		strFiliais.forEach(nomeLocal -> {
+			Filial filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException(INEXISTENTE));
+			filiais.add(filial);
+		});
 
 		// Cria uma nova conta de usuario
 		User user = new User(signUpRequest.getUserName(), signUpRequest.getNomeCompleto() ,signUpRequest.getEmail(),
@@ -114,7 +120,6 @@ public class AuthController {
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
-
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException(INEXISTENTE));
@@ -143,7 +148,7 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
-		user.setFiliais(new Filial(signUpRequest.getIdFilial()));
+		user.setFiliais(filiais);
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse(SUCESSO));
@@ -206,10 +211,12 @@ public class AuthController {
 			userUpdate.setPassword(user.get().getPassword());
 			userUpdate.setDateInsert(LocalDateTime.now());
 
-			Optional<Filial> filialOptional = filialRepository.findById(signupRequest.getIdFilial());
-			if (!filialOptional.isPresent()) {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_EXISTE");
-			}
+			Set<String> strFiliais = signupRequest.getFilial();
+			Set<Filial> filiais = new HashSet<>();
+			strFiliais.forEach(nomeLocal -> {
+				Filial filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException(INEXISTENTE));
+				filiais.add(filial);
+			});
 
 			Set<String> strRoles = signupRequest.getRole();
 			Set<Role> roles = new HashSet<>();
@@ -242,7 +249,7 @@ public class AuthController {
 			}
 
 			userUpdate.setRoles(roles);
-			userUpdate.setFiliais(new Filial(signupRequest.getIdFilial()));
+			userUpdate.setFiliais(filiais);
 
 			userUpdate.setDateInsert(LocalDateTime.now());
 			userRepository.save(userUpdate);

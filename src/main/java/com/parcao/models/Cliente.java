@@ -28,11 +28,9 @@ public class Cliente implements Serializable {
     private Long id;
 
     @NotBlank
-    @Size(min = 10, max = 50)
     private String nomeCliente;
 
     @NotBlank
-    @Size(min = 11, max = 11, message = "Deve conter 11 digitos")
     private String telefone;
 
     private BigDecimal saldoCredito;

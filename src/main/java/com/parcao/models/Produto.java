@@ -30,7 +30,6 @@ public class Produto implements Serializable {
     private Long id;
 
     @NotBlank
-    @Size(min = 5, max = 15, message = "Deve conter entre 5-15 digitos")
     private String descricaoProduto;
 
     @NotNull
