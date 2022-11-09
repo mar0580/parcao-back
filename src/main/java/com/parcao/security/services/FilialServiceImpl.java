@@ -2,6 +2,7 @@ package com.parcao.security.services;
 
 import com.parcao.models.Filial;
 import com.parcao.repository.FilialRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class FilialServiceImpl implements FilialService{
 
     @Override
     public List<Filial> findAll() {
-        return filialRepository.findAll();
+        return filialRepository.findAll(Sort.by(Sort.Direction.ASC, "nomeLocal"));
     }
 
     @Override

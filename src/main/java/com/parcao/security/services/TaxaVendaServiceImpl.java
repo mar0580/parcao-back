@@ -4,6 +4,7 @@ import com.parcao.models.Produto;
 import com.parcao.models.TaxaVenda;
 import com.parcao.repository.ProdutoRepository;
 import com.parcao.repository.TaxaVendaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class TaxaVendaServiceImpl implements TaxaVendaService {
 
     @Override
     public List<TaxaVenda> findAll() {
-        return taxaVendaRepository.findAll();
+        return taxaVendaRepository.findAll(Sort.by(Sort.Direction.ASC, "nomeTaxa"));
     }
 
     @Override

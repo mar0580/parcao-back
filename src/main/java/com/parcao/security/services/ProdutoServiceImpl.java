@@ -2,6 +2,7 @@ package com.parcao.security.services;
 
 import com.parcao.models.Produto;
 import com.parcao.repository.ProdutoRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public List<Produto> findAll() {
-        return produtoRepository.findAll();
+        return produtoRepository.findAll(Sort.by(Sort.Direction.ASC, "descricaoProduto"));
     }
 
     @Override

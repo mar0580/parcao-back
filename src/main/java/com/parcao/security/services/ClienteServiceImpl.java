@@ -3,6 +3,7 @@ package com.parcao.security.services;
 import com.parcao.models.Cliente;
 import com.parcao.repository.ClienteRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public List<Cliente> findAll() {
-        return clienteRepository.findAll();
+        return clienteRepository.findAll(Sort.by(Sort.Direction.ASC, "nomeCliente"));
     }
 
     @Override

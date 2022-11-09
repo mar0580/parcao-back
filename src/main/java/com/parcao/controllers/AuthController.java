@@ -11,6 +11,7 @@ import com.parcao.models.Filial;
 import com.parcao.security.services.FilialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -193,7 +194,7 @@ public class AuthController {
 	public List<User> getAllUsers()
 	{
 		List<User> users = new ArrayList<User>();
-		userRepository.findAll().forEach(users1 -> users.add(users1));
+		userRepository.findAll(Sort.by(Sort.Direction.ASC, "nomeCompleto")).forEach(users1 -> users.add(users1));
 		return users;
 	}
 
