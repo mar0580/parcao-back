@@ -45,4 +45,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     public Produto save(Produto produto) {
         return produtoRepository.save(produto);
     }
+    @Override
+    public int updateProdutoEstoque(Long id, int quantidade) {
+       return produtoRepository.updateProdutoEstoque(id, quantidade);
+    }
 }

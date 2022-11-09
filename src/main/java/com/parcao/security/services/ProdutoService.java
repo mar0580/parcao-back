@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProdutoService {
-    public boolean existsByDescricaoProduto(String descricaoProduto);
+    boolean existsByDescricaoProduto(String descricaoProduto);
 
     List<Produto> findAll();
 
-    public boolean existsById(Long id);
+    boolean existsById(Long id);
 
-    public void deleleById(Long id);
+    void deleleById(Long id);
 
-    public Optional<Produto> findById(Long id);
+    Optional<Produto> findById(Long id);
 
-    public Produto save(Produto produto);
+    Produto save(Produto produto);
+
+    int updateProdutoEstoque(Long id, int quantidade);
 }

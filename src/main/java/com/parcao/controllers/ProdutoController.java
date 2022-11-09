@@ -71,4 +71,12 @@ public class ProdutoController {
         produto.setId(produtoOptional.get().getId());
         return  ResponseEntity.status(HttpStatus.OK).body(produtoService.save(produto));
     }
+
+    @PutMapping("/{id}/{quantidade}")
+    public ResponseEntity<Object> updateProdutoEstoque(@PathVariable(value = "id") Long id, @PathVariable(value = "quantidade") int quantidade) {
+        if (produtoService.updateProdutoEstoque(id,quantidade) == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("PRODUTO_NAO_EXISTE");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("PRODUTO_ATUALIZADO");
+    }
 }
