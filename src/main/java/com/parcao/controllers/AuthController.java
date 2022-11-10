@@ -95,10 +95,11 @@ public class AuthController {
 		Optional<User> user = userRepository.findById(userDetails.getId());
 		User userUpdate = new User();
 
+		List<Long> idFiliais = user.get().getFiliais().stream().map(filial -> filial.getId()).collect(Collectors.toList());
 		//Long idFilial = user.get().getFiliais().getId();
 
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(
-				new UserInfoResponse(userDetails.getId(), userDetails.getUserName(), userDetails.getEmail(), roles));
+				new UserInfoResponse(userDetails.getId(), userDetails.getUserName(), userDetails.getEmail(), roles, idFiliais));
 	}
 
 	@PostMapping("/signup")

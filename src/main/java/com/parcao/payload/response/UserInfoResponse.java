@@ -16,4 +16,5 @@ public class UserInfoResponse {
 	private String userName;
 	private String email;
 	private List<String> roles;
+	private List<Long> idFilial;
 }
