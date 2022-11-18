@@ -1,10 +1,10 @@
 package com.parcao.repository;
 
-import com.parcao.models.Pedido;
+import com.parcao.models.Abastecimento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 @Repository
-public interface PedidoRepository extends JpaRepository<Pedido, Long> {
-
+public interface AbastecimentoRepository extends JpaRepository<Abastecimento, Long>{
 }
+
+

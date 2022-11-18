@@ -1,12 +1,14 @@
 package com.parcao.models;
 
 import com.parcao.dto.PedidoItemDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Set;
 
 @Embeddable
 @Getter

@@ -8,8 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pedido implements Serializable {
+public class Abastecimento implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,41 +28,26 @@ public class Pedido implements Serializable {
     private Long id;
 
     @CreationTimestamp
-    private LocalDateTime datePedido;
+    private LocalDateTime dateAbastecimento;
 
     @UpdateTimestamp
     private LocalDateTime dateAtualizacao;
 
-    @NotBlank
-    @Size(min = 5, max = 15, message = "Deve conter entre 5-15 digitos")
-    private String tpPagamento;
-
     @Column(name = "filial_id")
     private Long idFilial;
-
-    @Column(name = "cliente_id")
-    private Long idCliente;
-
-    private BigDecimal valorTotal;
-
-    @Column(name = "taxaVenda_id")
-    private Long idTaxaVenda;
 
     @Column(name = "user_id")
     private Long idUser;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "pedidoItens", joinColumns = @JoinColumn(name = "pedido_id"))
+    @CollectionTable(name = "abastecimentoItens", joinColumns = @JoinColumn(name = "abastecimento_id"))
     @AttributeOverrides({ @AttributeOverride(name = "descricaoProduto", column = @Column(name = "nome_produto"))
     })
-    private Set<PedidoItem> produtos = new HashSet<>();
-    public Pedido(long idFilial, long idCliente, long idUser, long idTaxaVenda, BigDecimal valorTotal, String tpPagamento, Set<PedidoItem> produtos) {
+    private Set<AbastecimentoItem> produtos = new HashSet<>();
+
+    public Abastecimento(long idFilial, long idUser, Set<AbastecimentoItem> produtos){
         this.idFilial = idFilial;
-        this.idCliente = idCliente;
         this.idUser = idUser;
-        this.idTaxaVenda = idTaxaVenda;
-        this.valorTotal = valorTotal;
-        this.tpPagamento = tpPagamento;
         this.produtos = produtos;
     }
 }

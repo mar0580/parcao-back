@@ -41,4 +41,6 @@ public class PedidoController {
         pedido.setProdutos(produtos);
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.save(pedido));
     }
+
+    //Criar método de cancelar pedido
 }
