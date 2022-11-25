@@ -6,20 +6,23 @@ import com.parcao.models.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 public interface ClienteService {
 
-    public boolean existsByTelefone(String telefone);
+    boolean existsByTelefone(String telefone);
 
     List<Cliente> findAll();
 
-    public boolean existsById(Long id);
+    List<Cliente> findClienteBySaldoCredito(BigDecimal saldoCredito);
 
-    public void deleleById(Long id);
+    boolean existsById(Long id);
 
-    public Optional<Cliente> findById(Long id);
+    void deleleById(Long id);
 
-    public Cliente save(Cliente cliente);
+    Optional<Cliente> findById(Long id);
+
+    Cliente save(Cliente cliente);
 }

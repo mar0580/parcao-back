@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,13 @@ public class ClienteController {
     public List<Cliente> getAllClientes(){
         List<Cliente> cliente = new ArrayList<Cliente>();
         clienteService.findAll().forEach(cliente1 -> cliente.add(cliente1));
+        return cliente;
+    }
+
+    @GetMapping("/listPositiveBalance")
+    public List<Cliente> getAllClientesPositiveBalance(){
+        List<Cliente> cliente = new ArrayList<Cliente>();
+        clienteService.findClienteBySaldoCredito(new BigDecimal(0)).forEach(cliente1 -> cliente.add(cliente1));
         return cliente;
     }
 

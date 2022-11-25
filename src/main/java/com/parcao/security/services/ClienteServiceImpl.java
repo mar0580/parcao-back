@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,11 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public List<Cliente> findAll() {
         return clienteRepository.findAll(Sort.by(Sort.Direction.ASC, "nomeCliente"));
+    }
+
+    @Override
+    public List<Cliente> findClienteBySaldoCredito(BigDecimal saldoCredito) {
+        return clienteRepository.findBySaldoCreditoGreaterThan(saldoCredito);
     }
 
     @Override
