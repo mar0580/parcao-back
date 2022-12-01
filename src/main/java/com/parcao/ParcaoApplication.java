@@ -22,5 +22,6 @@ public class ParcaoApplication {
 
 		SpringApplication.run(ParcaoApplication.class, args);
 	}
+	//https://bushansirgur.in/spring-boot-100-tutorials/
 // https://www.bezkoder.com/spring-boot-login-example-mysql/
 }
