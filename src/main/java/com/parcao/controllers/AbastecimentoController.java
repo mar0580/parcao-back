@@ -5,6 +5,7 @@ import com.parcao.dto.AbastecimentoItemDto;
 import com.parcao.dto.PedidoItemDto;
 import com.parcao.models.Abastecimento;
 import com.parcao.models.AbastecimentoItem;
+import com.parcao.models.Filial;
 import com.parcao.security.services.AbastecimentoService;
 import com.parcao.security.services.PedidoService;
 import com.parcao.security.services.ProdutoService;
@@ -44,6 +45,14 @@ public class AbastecimentoController {
         Abastecimento abastecimento = new Abastecimento();
         BeanUtils.copyProperties(abastecimentoDto, abastecimento);
         abastecimento.setProdutos(produtos);
+
+        for (AbastecimentoItem productsExists : abastecimento.getProdutos()){
+
+            if (abastecimentoService.getRowCountAbastecimento(abastecimento.getIdFilial(), productsExists.getId()).size() >  0){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("PRODUTO_JA_EXISTE_EM_ESTOQUE " + productsExists.getDescricaoProduto());
+            }
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(abastecimentoService.save(abastecimento));
     }
 

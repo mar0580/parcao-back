@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,5 +19,10 @@ public interface AbastecimentoRepository extends JpaRepository<Abastecimento, Lo
     Integer updateAbastecimento(int qtd, Long filialId, Long produtoId);
 
     Optional<Abastecimento> findAbastecimentoByIdFilial(Long id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "select abastecimento.* from  abastecimento, abastecimento_itens where abastecimento.id = abastecimento_itens.abastecimento_id and abastecimento.filial_id = :filialId and abastecimento_itens.id = :produtoId", nativeQuery = true)
+    List<Abastecimento> getRowCountAbastecimento(Long filialId, Long produtoId);
 }
 
