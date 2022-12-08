@@ -15,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -58,14 +55,17 @@ public class AbastecimentoController {
 
     @PutMapping()
     public ResponseEntity<Object> updateEstoqueFilial(@Valid @RequestBody AbastecimentoDto abastecimentoDto){
-        Set<AbastecimentoItemDto> abastecimentoItemDto = abastecimentoDto.getProdutos();
+        Set<AbastecimentoItemDto> abastecimentoItemDto = abastecimentoDto.getProducts();
         Integer result = null;
         Optional<Abastecimento> produtosParaAtualizarEstoqueOptional = abastecimentoService.findAbastecimentoByIdFilial(abastecimentoDto.getIdFilial());
         if (!produtosParaAtualizarEstoqueOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_POSSUI_PRODUTOS");
         }
+
         for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){
-            result = abastecimentoService.updateAbastecimento(produtosParaAtualizarEstoque.getQuantidade(), abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId());
+            if (abastecimentoService.updateAbastecimento(produtosParaAtualizarEstoque.getQuantidade(), abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId()) != 0){
+                ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERRO_ATUALIZAR_ESTOQUE_FILIAL");
+            }
         }
         return  ResponseEntity.status(HttpStatus.OK).body("ESTOQUE_FILIAL_ATUALIZADO");
     }

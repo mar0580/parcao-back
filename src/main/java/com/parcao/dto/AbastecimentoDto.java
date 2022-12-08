@@ -16,4 +16,5 @@ public class AbastecimentoDto {
     private Long idFilial;
     private Long idUser;
     private Set<AbastecimentoItemDto> produtos;
+    private Set<AbastecimentoItemDto> products;
 }
