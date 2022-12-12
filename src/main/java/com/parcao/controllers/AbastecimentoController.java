@@ -54,6 +54,11 @@ public class AbastecimentoController {
             //verifica se o produto a ser inserido em estoque na filial já existe.
             if (abastecimentoService.getRowCountAbastecimento(abastecimento.getIdFilial(), produtosParaEstoque.getId()).size() > 0){
                 abastecimentoService.adicionaQuantidadeProdutoAbastecimento(produtosParaEstoque.getQuantidade(), abastecimento.getIdFilial(), produtosParaEstoque.getId());
+
+                if (produtoService.updateProdutoEstoque(produtosParaEstoque.getId(), produtosParaEstoque.getQuantidade()) == 0) {
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERRO_AO_ATUALIZAR_ESTOQUE_GERAL");
+                }
+
                 return ResponseEntity.status(HttpStatus.CREATED).body("ESTOQUE_PRODUTO_FILIAL_ATUALIZADO");
             }
         }
@@ -70,7 +75,6 @@ public class AbastecimentoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_POSSUI_PRODUTOS");
         }
 
-        //
         for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){
             abastecimentoService.updateAbastecimento(produtosParaAtualizarEstoque.getQuantidade(), abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId());
         }
