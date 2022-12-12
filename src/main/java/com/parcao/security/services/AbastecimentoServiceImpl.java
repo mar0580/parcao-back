@@ -23,14 +23,23 @@ public class AbastecimentoServiceImpl implements AbastecimentoService{
         return abastecimentoRepository.findAbastecimentoByIdFilial(id);
     }
 
+    /**
+     * Subtrai a quantidade vendida do produto no pedido ao estoque da filial
+     * @param qtd
+     * @param idFilial
+     * @param idProduto
+     * @return
+     */
     @Override
-    public Integer updateAbastecimento(int qtd, Long idFilial, Long idProduto) {
-    if(abastecimentoRepository.updateAbastecimento(qtd, idFilial, idProduto) != 0) {
-        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-    }
-        return abastecimentoRepository.updateAbastecimento(qtd, idFilial, idProduto);
+    public void updateAbastecimento(int qtd, Long idFilial, Long idProduto) {
+        abastecimentoRepository.updateAbastecimento(qtd, idFilial, idProduto);
     }
 
     @Override
     public List<Abastecimento> getRowCountAbastecimento(Long idFilial, Long idProduto) { return abastecimentoRepository.getRowCountAbastecimento(idFilial, idProduto); }
+
+    @Override
+    public void adicionaQuantidadeProdutoAbastecimento(int qtd, Long idFilial, Long idProduto){
+        abastecimentoRepository.adicionaQuantidadeProdutoAbastecimento(qtd, idFilial, idProduto);
+    }
 }

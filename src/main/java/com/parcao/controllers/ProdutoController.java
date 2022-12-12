@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +74,7 @@ public class ProdutoController {
     @PutMapping("/{id}/{quantidade}")
     public ResponseEntity<Object> updateProdutoEstoque(@PathVariable(value = "id") Long id, @PathVariable(value = "quantidade") int quantidade) {
         if (produtoService.updateProdutoEstoque(id,quantidade) == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("PRODUTO_NAO_EXISTE");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERRO_AO_ATUALIZAR_ESTOQUE");
         }
         return ResponseEntity.status(HttpStatus.OK).body("PRODUTO_ATUALIZADO");
     }

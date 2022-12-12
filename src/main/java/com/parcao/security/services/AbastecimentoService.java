@@ -11,7 +11,9 @@ public interface AbastecimentoService {
 
     Optional<Abastecimento> findAbastecimentoByIdFilial(Long id);
 
-    Integer updateAbastecimento(int qtd, Long idFilial, Long idProduto);
+    void updateAbastecimento(int qtd, Long idFilial, Long idProduto);
 
     List<Abastecimento> getRowCountAbastecimento(Long filialId, Long produtoId);
+
+    void adicionaQuantidadeProdutoAbastecimento(int qtd, Long idFilial, Long idProduto);
 }
