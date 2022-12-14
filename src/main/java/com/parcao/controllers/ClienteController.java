@@ -49,6 +49,16 @@ public class ClienteController {
         return cliente;
     }
 
+    @GetMapping("/getClientPositiveBalance/{id}/{valorCompra}")
+    public ResponseEntity<Object> getClientPositiveBalance(@PathVariable(value = "id") Long id,
+                                                           @PathVariable(value = "valorCompra")BigDecimal valorCompra){
+        Optional<Cliente> clienteOptional = clienteService.getClientPositiveBalance(id, valorCompra);
+        if (!clienteOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SALDO_INSUFICIENTE");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(clienteOptional.get());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCliente(@PathVariable(value = "id") Long id){
         Optional<Cliente> clienteOptional = clienteService.findById(id);

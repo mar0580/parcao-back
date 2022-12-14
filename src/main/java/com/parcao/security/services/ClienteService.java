@@ -25,4 +25,6 @@ public interface ClienteService {
     Optional<Cliente> findById(Long id);
 
     Cliente save(Cliente cliente);
+
+    Optional<Cliente> getClientPositiveBalance(Long id, BigDecimal valorCompra);
 }
