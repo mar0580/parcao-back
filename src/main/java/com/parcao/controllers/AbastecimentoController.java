@@ -55,7 +55,7 @@ public class AbastecimentoController {
             if (abastecimentoService.getRowCountAbastecimento(abastecimento.getIdFilial(), produtosParaEstoque.getId()).size() > 0){
                 abastecimentoService.adicionaQuantidadeProdutoAbastecimento(produtosParaEstoque.getQuantidade(), abastecimento.getIdFilial(), produtosParaEstoque.getId());
 
-                if (produtoService.updateProdutoEstoque(produtosParaEstoque.getId(), produtosParaEstoque.getQuantidade()) == 0) {
+                if (produtoService.updateProdutoEstoqueGeralSaidaFilial(produtosParaEstoque.getId(), produtosParaEstoque.getQuantidade()) == 0) {
                     return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERRO_AO_ATUALIZAR_ESTOQUE_GERAL");
                 }
 

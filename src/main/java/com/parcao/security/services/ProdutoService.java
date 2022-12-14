@@ -19,4 +19,6 @@ public interface ProdutoService {
     Produto save(Produto produto);
 
     int updateProdutoEstoque(Long id, int quantidade);
+
+    int updateProdutoEstoqueGeralSaidaFilial(Long id, int quantidade);
 }

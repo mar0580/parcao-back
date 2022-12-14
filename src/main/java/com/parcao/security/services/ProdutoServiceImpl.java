@@ -50,4 +50,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     public int updateProdutoEstoque(Long id, int quantidade) {
        return produtoRepository.updateProdutoEstoque(id, quantidade);
     }
+
+    @Override
+    public int updateProdutoEstoqueGeralSaidaFilial(Long id, int quantidade) {
+        return produtoRepository.updateProdutoEstoqueGeralSaidaFilial(id, quantidade);
+    }
 }
