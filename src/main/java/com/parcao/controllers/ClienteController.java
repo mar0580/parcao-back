@@ -87,4 +87,11 @@ public class ClienteController {
         cliente.setId(clienteOptional.get().getId());
         return  ResponseEntity.status(HttpStatus.OK).body(clienteService.save(cliente));
     }
+
+    @PutMapping("/{id}/{valorCompra}")
+    public ResponseEntity<Object> updateSaldoCliente(@PathVariable(value = "id") Long id,
+                                                     @PathVariable(value = "valorCompra")BigDecimal saldoCredito) {
+        clienteService.updateSaldoCliente(id, saldoCredito);
+        return  ResponseEntity.status(HttpStatus.OK).body("SALDO_CLIENTE_ATUALIZADO");
+    }
 }

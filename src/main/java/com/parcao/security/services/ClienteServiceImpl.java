@@ -52,4 +52,9 @@ public class ClienteServiceImpl implements ClienteService{
     public boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito) {
         return clienteRepository.existsByIdAndSaldoCreditoGreaterThanEqual(id, saldoCredito);
     }
+
+    @Override
+    public void updateSaldoCliente(Long id, BigDecimal saldoCredito) {
+        clienteRepository.updateSaldoCliente(id, saldoCredito);
+    }
 }

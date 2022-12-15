@@ -27,4 +27,6 @@ public interface ClienteService {
     Cliente save(Cliente cliente);
 
     boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito);
+
+    void updateSaldoCliente(Long id, BigDecimal saldoCredito);
 }

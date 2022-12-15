@@ -21,4 +21,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     List<Cliente> findBySaldoCreditoGreaterThan(BigDecimal saldoCredito);
 
     boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update cliente set saldo_credito = saldo_credito - :saldoCredito where id = :id", nativeQuery = true)
+    void updateSaldoCliente(Long id, BigDecimal saldoCredito);
 }
