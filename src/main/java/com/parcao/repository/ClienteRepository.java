@@ -20,8 +20,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     List<Cliente> findBySaldoCreditoGreaterThan(BigDecimal saldoCredito);
 
-    @Transactional
-    @Modifying
-    @Query(value = "select c.id from cliente c where c.id = :id and c.saldo_credito >= :valorCompra", nativeQuery = true)
-    Optional<Cliente> getClientPositiveBalance(Long id, BigDecimal valorCompra);
+    boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito);
 }

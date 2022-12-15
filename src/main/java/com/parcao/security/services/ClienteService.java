@@ -26,5 +26,5 @@ public interface ClienteService {
 
     Cliente save(Cliente cliente);
 
-    Optional<Cliente> getClientPositiveBalance(Long id, BigDecimal valorCompra);
+    boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito);
 }

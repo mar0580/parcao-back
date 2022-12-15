@@ -49,7 +49,7 @@ public class ClienteServiceImpl implements ClienteService{
     public Cliente save(Cliente cliente) { return clienteRepository.save(cliente); }
 
     @Override
-    public Optional<Cliente> getClientPositiveBalance(Long id, BigDecimal valorCompra) {
-        return clienteRepository.getClientPositiveBalance(id, valorCompra);
+    public boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito) {
+        return clienteRepository.existsByIdAndSaldoCreditoGreaterThanEqual(id, saldoCredito);
     }
 }
