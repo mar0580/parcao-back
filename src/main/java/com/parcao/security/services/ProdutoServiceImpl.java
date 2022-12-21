@@ -52,7 +52,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public int updateProdutoEstoqueGeralSaidaFilial(Long id, int quantidade) {
-        return produtoRepository.updateProdutoEstoqueGeralSaidaFilial(id, quantidade);
+    public void updateProdutoEstoqueGeralSaidaFilial(Long id, int quantidade) {
+        produtoRepository.updateProdutoEstoqueGeralSaidaFilial(id, quantidade);
     }
 }

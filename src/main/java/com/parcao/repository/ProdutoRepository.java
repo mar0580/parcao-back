@@ -15,11 +15,11 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findAll();
     @Transactional
     @Modifying
-    @Query("update Produto p set p.quantidade = :quantidade where p.id = :id")
-    int updateProdutoEstoque(@Param(value = "id") Long id, @Param(value = "quantidade") int quantidade);
+    @Query("update Produto p set p.quantidade = :qtd where p.id = :id")
+    int updateProdutoEstoque(@Param(value = "id") Long id, @Param(value = "qtd") int qtd);
 
     @Transactional
     @Modifying
-    @Query("update Produto p set p.quantidade = (p.quantidade - :quantidade) where p.id = :id")
-    int updateProdutoEstoqueGeralSaidaFilial(@Param(value = "id") Long id, @Param(value = "quantidade") int quantidade);
+    @Query("update Produto set quantidade = :quantidade where id = :id")
+    void updateProdutoEstoqueGeralSaidaFilial(@Param(value = "id") Long id, @Param(value = "quantidade") int quantidade);
 }

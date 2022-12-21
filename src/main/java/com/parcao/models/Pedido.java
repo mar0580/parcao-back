@@ -35,10 +35,6 @@ public class Pedido implements Serializable {
     @UpdateTimestamp
     private LocalDateTime dateAtualizacao;
 
-    @NotBlank
-    @Size(min = 5, max = 15, message = "Deve conter entre 5-15 digitos")
-    private String tpPagamento;
-
     @Column(name = "filial_id")
     private Long idFilial;
 
@@ -58,13 +54,12 @@ public class Pedido implements Serializable {
     @AttributeOverrides({ @AttributeOverride(name = "descricaoProduto", column = @Column(name = "nome_produto"))
     })
     private Set<PedidoItem> produtos = new HashSet<>();
-    public Pedido(long idFilial, long idCliente, long idUser, long idTaxaVenda, BigDecimal valorTotal, String tpPagamento, Set<PedidoItem> produtos) {
+    public Pedido(long idFilial, long idCliente, long idUser, long idTaxaVenda, BigDecimal valorTotal, Set<PedidoItem> produtos) {
         this.idFilial = idFilial;
         this.idCliente = idCliente;
         this.idUser = idUser;
         this.idTaxaVenda = idTaxaVenda;
         this.valorTotal = valorTotal;
-        this.tpPagamento = tpPagamento;
         this.produtos = produtos;
     }
 }

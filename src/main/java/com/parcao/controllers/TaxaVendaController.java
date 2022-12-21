@@ -21,7 +21,6 @@ public class TaxaVendaController {
 
     final TaxaVendaService taxaVendaService;
 
-
     public TaxaVendaController(TaxaVendaService taxaVendaService) {
         this.taxaVendaService = taxaVendaService;
     }
