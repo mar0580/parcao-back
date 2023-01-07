@@ -20,6 +20,6 @@ public interface FechamentoCaixaRepository extends JpaRepository<FechamentoCaixa
                 "where fc.id = fci.fechamento_caixa_id " +
                 "and fc.filial_id = :filialId " +
                 "and fci.id = :produtoId " +
-                "and fc.date_fechamento_caixa between :dataInicial and dataFinal", nativeQuery = true)
+                "and fc.date_fechamento_caixa between :dataInicial and :dataFinal", nativeQuery = true)
         List<FechamantoCaixaItemTela> selectFechamentoCaixaProduto(Long filialId, Long produtoId, String dataInicial, String dataFinal);
 }
