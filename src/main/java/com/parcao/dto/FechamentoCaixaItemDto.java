@@ -2,12 +2,10 @@ package com.parcao.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class FechamentoCaixaItemDto {
     private Long id; //id = idProduto
@@ -15,4 +13,12 @@ public class FechamentoCaixaItemDto {
     private int entrada;
     private int perda;
     private int quantidadeFinal;
+
+    public FechamentoCaixaItemDto(FechamentoCaixaItemDto fechamentoCaixa) {
+        this.id = fechamentoCaixa.getId();
+        this.inicio = fechamentoCaixa.getInicio();
+        this.entrada = fechamentoCaixa.getEntrada();
+        this.perda = fechamentoCaixa.getPerda();
+        this.quantidadeFinal = fechamentoCaixa.getQuantidadeFinal();
+    }
 }

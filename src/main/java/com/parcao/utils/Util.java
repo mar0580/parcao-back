@@ -1,5 +1,9 @@
 package com.parcao.utils;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,5 +17,12 @@ public class Util {
             return true;
         }
         return false;
+    }
+
+    public static Timestamp dateToTimestamp(String data) throws ParseException {
+        System.out.println("dataInicial: " + data);
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(data);
+        System.out.println("Timestamp: " + new Timestamp(date1.getTime()));
+        return new Timestamp(date1.getTime());
     }
 }

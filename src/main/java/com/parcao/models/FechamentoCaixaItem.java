@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 
 @Embeddable
 @Getter
@@ -14,6 +17,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FechamentoCaixaItem {
+
     private Long id;
     private int inicio;
     private int entrada;
@@ -27,6 +31,4 @@ public class FechamentoCaixaItem {
         this.perda = fechamentoCaixa.getPerda();
         this.quantidadeFinal = fechamentoCaixa.getQuantidadeFinal();
     }
-
-
 }
