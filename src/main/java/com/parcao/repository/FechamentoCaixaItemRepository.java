@@ -41,7 +41,8 @@ public class FechamentoCaixaItemRepository implements FechamentoCaixaItemService
             "fechamento_caixa_itens.inicio as inicio, " +
             "fechamento_caixa_itens.entrada as entrada, " +
             "fechamento_caixa_itens.perda as perda, " +
-            "fechamento_caixa_itens.quantidade_final as quantidadeFinal " +
+            "fechamento_caixa_itens.quantidade_final as quantidadeFinal, " +
+            "fechamento_caixa.observacao as observacao " +
             "from fechamento_caixa , fechamento_caixa_itens " +
             "where fechamento_caixa.id = fechamento_caixa_itens.fechamento_caixa_id " +
             "and fechamento_caixa.filial_id = :idFilial " +
