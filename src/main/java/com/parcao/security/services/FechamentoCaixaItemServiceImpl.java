@@ -14,7 +14,7 @@ public class FechamentoCaixaItemServiceImpl implements FechamentoCaixaItemServic
     }
 
     @Override
-    public List<Object> selectFechamentoCaixaProduto_(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
-        return null;
+    public List<Object[]> selectFechamentoCaixaProduto_(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
+        return fechamentoCaixaItemRepository.selectFechamentoCaixaProduto_(idFilial, idProduto, dataInicial, dataFinal);
     }
 }

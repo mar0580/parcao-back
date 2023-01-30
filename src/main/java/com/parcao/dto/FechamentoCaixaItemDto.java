@@ -21,4 +21,8 @@ public class FechamentoCaixaItemDto {
         this.perda = fechamentoCaixa.getPerda();
         this.quantidadeFinal = fechamentoCaixa.getQuantidadeFinal();
     }
+
+    public FechamentoCaixaItemDto() {
+
+    }
 }

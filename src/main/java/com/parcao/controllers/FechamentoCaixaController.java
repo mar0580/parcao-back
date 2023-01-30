@@ -1,5 +1,6 @@
 package com.parcao.controllers;
 
+import com.parcao.dto.ControleDiarioDto;
 import com.parcao.dto.FechamentoCaixaDto;
 import com.parcao.dto.FechamentoCaixaItemDto;
 import com.parcao.models.FechamentoCaixa;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.*;
 
@@ -55,13 +57,27 @@ public class FechamentoCaixaController {
                                                               @PathVariable(value = "idProduto") Long idProduto,
                                                               @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd")  String dataInicial,
                                                               @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
-        //List<String> optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProduto_(idFilial, idProduto, Util.dateToTimestamp(dataInicial), Util.dateToTimestamp(dataFinal));
-        List<Object> optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProduto_(idFilial, idProduto, Util.dateToTimestamp(dataInicial), Util.dateToTimestamp(dataFinal));
+        List<Object[]> optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProduto_(idFilial, idProduto, Util.dateToTimestamp(dataInicial), Util.dateToTimestamp(dataFinal));
+
         if (optionalFechamentoCaixaItem != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(optionalFechamentoCaixaItem);
+
+            List<ControleDiarioDto> customResponseList = new ArrayList();
+            for (Object[] item: optionalFechamentoCaixaItem) {
+                ControleDiarioDto c = new ControleDiarioDto();
+                BigInteger b = new BigInteger(item[0].toString());
+                c.setId(b.longValue());
+                c.setInicio((int) item[1]);
+                c.setEntrada((int) item[2]);
+                c.setPerda((int) item[3]);
+                c.setQuantidadeFinal((int) item[4]);
+                c.setObservacao(((String) item[5]));
+                customResponseList.add(c);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(customResponseList.get(0));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FECHAMENTO_CAIXA_NAO_ENCONTRADO");
     }
 
     //Criar método de cancelar fechamento de caixa
+
 }
