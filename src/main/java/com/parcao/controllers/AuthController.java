@@ -8,7 +8,7 @@ import javax.validation.Valid;
 
 import com.parcao.dto.ChangePasswordRequest;
 import com.parcao.models.Filial;
-import com.parcao.security.services.FilialService;
+import com.parcao.services.FilialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
@@ -34,7 +34,7 @@ import com.parcao.payload.response.UserInfoResponse;
 import com.parcao.repository.RoleRepository;
 import com.parcao.repository.UserRepository;
 import com.parcao.security.jwt.JwtUtils;
-import com.parcao.security.services.UserDetailsImpl;
+import com.parcao.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

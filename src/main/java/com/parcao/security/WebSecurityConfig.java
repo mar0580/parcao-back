@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.parcao.security.jwt.AuthEntryPointJwt;
 import com.parcao.security.jwt.AuthTokenFilter;
-import com.parcao.security.services.UserDetailsServiceImpl;
+import com.parcao.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

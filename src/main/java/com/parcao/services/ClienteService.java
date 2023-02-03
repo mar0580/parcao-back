@@ -1,4 +1,4 @@
-package com.parcao.security.services;
+package com.parcao.services;
 
 import com.parcao.dto.ClienteDto;
 import com.parcao.models.Cliente;

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,10 +20,17 @@ public class Util {
         return false;
     }
 
-    public static Timestamp dateToTimestamp(String data) throws ParseException {
+    public static Timestamp dateToInicialTimestamp(String data) throws ParseException {
         System.out.println("dataInicial: " + data);
         Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(data);
         System.out.println("Timestamp: " + new Timestamp(date1.getTime()));
         return new Timestamp(date1.getTime());
+    }
+
+    public static Timestamp dateToFinalTimestamp(String data) throws ParseException {
+        System.out.println("dataInicial: " + data);
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(data);
+        System.out.println("Timestamp: " + new Timestamp(date1.getTime() + + TimeUnit.HOURS.toMillis(23) + + TimeUnit.MINUTES.toMillis(59) + + TimeUnit.SECONDS.toMillis(59)));
+        return new Timestamp(date1.getTime() + TimeUnit.HOURS.toMillis(23) + + TimeUnit.MINUTES.toMillis(59) + + TimeUnit.SECONDS.toMillis(59));
     }
 }

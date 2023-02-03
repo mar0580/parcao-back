@@ -1,8 +1,6 @@
-package com.parcao.security.services;
+package com.parcao.services;
 
-import com.parcao.models.Produto;
 import com.parcao.models.TaxaVenda;
-import com.parcao.repository.ProdutoRepository;
 import com.parcao.repository.TaxaVendaRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

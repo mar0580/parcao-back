@@ -6,9 +6,9 @@ import com.parcao.dto.FechamentoCaixaItemDto;
 import com.parcao.models.FechamentoCaixa;
 import com.parcao.models.FechamentoCaixaItem;
 import com.parcao.repository.FechamentoCaixaItemRepository;
-import com.parcao.security.services.FechamentoCaixaItemService;
-import com.parcao.security.services.FechamentoCaixaService;
-import com.parcao.security.services.ProdutoService;
+import com.parcao.services.FechamentoCaixaItemService;
+import com.parcao.services.FechamentoCaixaService;
+import com.parcao.services.ProdutoService;
 import com.parcao.utils.Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +57,13 @@ public class FechamentoCaixaController {
                                                               @PathVariable(value = "idProduto") Long idProduto,
                                                               @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd")  String dataInicial,
                                                               @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
-        List<Object[]> optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProduto_(idFilial, idProduto, Util.dateToTimestamp(dataInicial), Util.dateToTimestamp(dataFinal));
-
-        if (optionalFechamentoCaixaItem != null) {
+        List<Object[]> optionalFechamentoCaixaItem = null;
+        if(dataInicial.compareTo(dataFinal) == 0) {
+            optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProdutoDiario(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        } else {
+            optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProdutoPeriodo(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        }
+        if (optionalFechamentoCaixaItem.size() > 0) {
 
             List<ControleDiarioDto> customResponseList = new ArrayList();
             for (Object[] item: optionalFechamentoCaixaItem) {
@@ -70,7 +74,11 @@ public class FechamentoCaixaController {
                 c.setEntrada((int) item[2]);
                 c.setPerda((int) item[3]);
                 c.setQuantidadeFinal((int) item[4]);
-                c.setObservacao(((String) item[5]));
+                if(dataInicial.compareTo(dataFinal) == 0) {
+                    c.setObservacao(((String) item[5]));
+                } else {
+                    c.setObservacao(" ");
+                }
                 customResponseList.add(c);
             }
             return ResponseEntity.status(HttpStatus.OK).body(customResponseList.get(0));

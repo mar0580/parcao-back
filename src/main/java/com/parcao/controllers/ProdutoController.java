@@ -2,7 +2,7 @@ package com.parcao.controllers;
 
 import com.parcao.dto.ProdutoDto;
 import com.parcao.models.Produto;
-import com.parcao.security.services.ProdutoService;
+import com.parcao.services.ProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

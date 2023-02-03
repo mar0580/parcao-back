@@ -1,8 +1,7 @@
-package com.parcao.security.services;
+package com.parcao.services;
 
 import com.parcao.models.Cliente;
 import com.parcao.repository.ClienteRepository;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
