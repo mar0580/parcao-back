@@ -18,10 +18,6 @@ public class AbastecimentoServiceImpl implements AbastecimentoService{
         return abastecimentoRepository.save(abastecimento);
     }
 
-    public Optional<Abastecimento> findAbastecimentoByIdFilial(Long id) {
-        return abastecimentoRepository.findAbastecimentoByIdFilial(id);
-    }
-
     /**
      * Subtrai a quantidade vendida do produto no pedido ao estoque da filial
      * @param qtd
@@ -38,7 +34,8 @@ public class AbastecimentoServiceImpl implements AbastecimentoService{
     public List<Abastecimento> getRowCountAbastecimento(Long idFilial, Long idProduto) { return abastecimentoRepository.getRowCountAbastecimento(idFilial, idProduto); }
 
     @Override
-    public void adicionaQuantidadeProdutoAbastecimento(int qtd, Long idFilial, Long idProduto){
-        abastecimentoRepository.adicionaQuantidadeProdutoAbastecimento(qtd, idFilial, idProduto);
-    }
+    public void adicionaQuantidadeProdutoAbastecimento(int qtd, Long idFilial, Long idProduto){ abastecimentoRepository.adicionaQuantidadeProdutoAbastecimento(qtd, idFilial, idProduto); }
+
+    @Override
+    public List<Abastecimento> getRowCountQuantidadeAbastecimento(Long idFilial, Long idProduto, int qtd) { return abastecimentoRepository.getRowCountQuantidadeAbastecimento(idFilial, idProduto, qtd); }
 }

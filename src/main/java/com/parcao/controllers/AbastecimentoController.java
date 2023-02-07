@@ -69,9 +69,10 @@ public class AbastecimentoController {
     public ResponseEntity<Object> updateEstoqueFilial(@Valid @RequestBody AbastecimentoDto abastecimentoDto){
         Set<AbastecimentoItemDto> abastecimentoItemDto = abastecimentoDto.getProducts();
         //verifica se possui produtos em estoque, antes de atualizar
-        Optional<Abastecimento> produtosParaAtualizarEstoqueOptional = abastecimentoService.findAbastecimentoByIdFilial(abastecimentoDto.getIdFilial());
-        if (!produtosParaAtualizarEstoqueOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_POSSUI_PRODUTOS");
+        for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){
+            if (abastecimentoService.getRowCountQuantidadeAbastecimento(abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId(), produtosParaAtualizarEstoque.getQuantidade()).size() < 1){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_EM_FALTA: " + produtosParaAtualizarEstoque.getDescricaoProduto());
+            }
         }
 
         for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){

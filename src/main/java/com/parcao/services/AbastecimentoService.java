@@ -9,11 +9,11 @@ public interface AbastecimentoService {
 
     Abastecimento save(Abastecimento abastecimento);
 
-    Optional<Abastecimento> findAbastecimentoByIdFilial(Long id);
-
     void updateAbastecimento(int qtd, Long idFilial, Long idProduto);
 
     List<Abastecimento> getRowCountAbastecimento(Long filialId, Long produtoId);
 
     void adicionaQuantidadeProdutoAbastecimento(int qtd, Long idFilial, Long idProduto);
+
+    List<Abastecimento> getRowCountQuantidadeAbastecimento(Long filialId, Long produtoId, int qtd);
 }

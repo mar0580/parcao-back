@@ -22,8 +22,6 @@ public interface AbastecimentoRepository extends JpaRepository<Abastecimento, Lo
             "and abastecimento_itens.id = :produtoId", nativeQuery = true)
     void updateAbastecimento(int qtd, Long filialId, Long produtoId);
 
-    Optional<Abastecimento> findAbastecimentoByIdFilial(Long id);
-
     @Transactional
     @Modifying
     @Query(value = "select abastecimento.* " +
@@ -42,5 +40,15 @@ public interface AbastecimentoRepository extends JpaRepository<Abastecimento, Lo
             "and abastecimento.filial_id = :filialId " +
             "and abastecimento_itens.id = :produtoId", nativeQuery = true)
     void adicionaQuantidadeProdutoAbastecimento(int qtd, Long filialId, Long produtoId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "select abastecimento.* " +
+            "from  abastecimento, abastecimento_itens " +
+            "where abastecimento.id = abastecimento_itens.abastecimento_id " +
+            "and abastecimento.filial_id = :filialId " +
+            "and abastecimento_itens.id = :produtoId " +
+            "and abastecimento_itens.quantidade < :qtd ", nativeQuery = true)
+    List<Abastecimento> getRowCountQuantidadeAbastecimento(Long filialId, Long produtoId, int qtd);
 }
 
