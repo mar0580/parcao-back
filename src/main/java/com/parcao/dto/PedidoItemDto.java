@@ -17,4 +17,5 @@ public class PedidoItemDto {
     private int quantidade;
     private BigDecimal valorUnitario;
     private BigDecimal valorTotal;
+    private BigDecimal custoTotal;
 }

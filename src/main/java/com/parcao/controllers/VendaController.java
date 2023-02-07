@@ -1,6 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.dto.ControleDiarioDto;
+import com.parcao.dto.PedidoDto;
 import com.parcao.services.VendaService;
 import com.parcao.utils.Util;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -28,10 +30,9 @@ public class VendaController {
                                                               @PathVariable(value = "idProduto") Long idProduto,
                                                               @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd")  String dataInicial,
                                                               @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
-        List<Object[]> optionalSomatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(optionalSomatorioVendaProduto.get(0));
-
+        PedidoDto pedidoDto = new PedidoDto();
+        pedidoDto.setValorTotal((BigDecimal) vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal)));
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoDto);
     }
 }

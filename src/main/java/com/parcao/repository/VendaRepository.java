@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class VendaRepository implements VendaService {
   @PersistenceContext
   private EntityManager entityManager;
 
-  public List<Object[]> selectSomatorioVendaProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
+  public Object selectSomatorioVendaProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
     Query query = (Query) entityManager.createNativeQuery("select SUM(p.valor_total) as total " +
             "from pedido p, pedido_itens pi " +
             "where p.id = pi.pedido_id " +
@@ -25,8 +26,7 @@ public class VendaRepository implements VendaService {
     query.setParameter("idProduto", idProduto);
     query.setParameter("dataInicial", dataInicial);
     query.setParameter("dataFinal", dataFinal);
-    List<Object[]> response = query.getResultList();
-    return response;
+    return query.getSingleResult();
   }
 
 }

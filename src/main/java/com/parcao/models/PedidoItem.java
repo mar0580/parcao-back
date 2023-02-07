@@ -1,10 +1,12 @@
 package com.parcao.models;
 
 import com.parcao.dto.PedidoItemDto;
+import com.parcao.services.ProdutoService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
@@ -21,13 +23,16 @@ public class PedidoItem {
     private int quantidade;
     private BigDecimal valorUnitario;
     private BigDecimal valorTotal;
+    private BigDecimal custoTotal;
 
-    public PedidoItem(PedidoItemDto produto) {
+    @Autowired
+    public PedidoItem(PedidoItemDto produto, ProdutoService produtoService) {
         this.id = produto.getId();
         this.descricaoProduto = produto.getDescricaoProduto();
         this.quantidade = produto.getQuantidade();
         this.valorTotal = this.valorTotalItem(produto.getQuantidade(),produto.getValorUnitario());
         this.valorUnitario = produto.getValorUnitario();
+        this.custoTotal = this.valorTotalItem(produto.getQuantidade(),produtoService.findCustoProdutoById(produto.getId()));
     }
 
     private BigDecimal valorTotalItem(int quantidade, BigDecimal valorUnitario){

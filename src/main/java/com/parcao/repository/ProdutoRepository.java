@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
@@ -23,4 +24,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Modifying
     @Query("update Produto set quantidade = :quantidade where id = :id")
     void updateProdutoEstoqueGeralSaidaFilial(@Param(value = "id") Long id, @Param(value = "quantidade") int quantidade);
+
+    @Query(value = "select valor_custo_unitario from  produto where produto.id = :id", nativeQuery = true)
+    BigDecimal findCustoProdutoById(@Param(value = "id") Long id);
+
 }

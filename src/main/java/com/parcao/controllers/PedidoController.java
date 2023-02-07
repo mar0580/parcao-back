@@ -33,8 +33,7 @@ public class PedidoController {
         Set<PedidoItemDto> produtoItemDto = pedidoDto.getProdutos();
         Set<PedidoItem> produtos = new HashSet<>();
 
-        produtoItemDto.forEach(produto -> produtos.add(
-                produtoService.existsById(produto.getId()) ? new PedidoItem(produto) : null));
+        produtoItemDto.forEach(produto -> produtos.add(produtoService.existsById(produto.getId()) ? new PedidoItem(produto, produtoService) : null));
 
         Pedido pedido = new Pedido();
         BeanUtils.copyProperties(pedidoDto, pedido);

@@ -5,6 +5,7 @@ import com.parcao.repository.ProdutoRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +55,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void updateProdutoEstoqueGeralSaidaFilial(Long id, int quantidade) {
         produtoRepository.updateProdutoEstoqueGeralSaidaFilial(id, quantidade);
+    }
+    @Override
+    public BigDecimal findCustoProdutoById(Long id){
+        return produtoRepository.findCustoProdutoById(id);
     }
 }
