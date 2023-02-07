@@ -19,6 +19,7 @@ public class PedidoDto {
     private Long idUser;
     private Long idTaxaVenda;
     private BigDecimal valorTotal;
+    private BigDecimal custoTotal;
     private String tpPagamento;
     private Set<PedidoItemDto> produtos;
 }

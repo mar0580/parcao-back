@@ -33,6 +33,7 @@ public class VendaController {
 
         PedidoDto pedidoDto = new PedidoDto();
         pedidoDto.setValorTotal((BigDecimal) vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal)));
+        pedidoDto.setCustoTotal((BigDecimal) vendaService.selectSomatorioCustoProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal)));
         return ResponseEntity.status(HttpStatus.OK).body(pedidoDto);
     }
 }

@@ -2,9 +2,7 @@ package com.parcao.services;
 
 import com.parcao.repository.VendaRepository;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.List;
 
 //@Service
 public class VendaServiceImpl implements VendaService{
@@ -19,4 +17,8 @@ public class VendaServiceImpl implements VendaService{
         return vendaRepository.selectSomatorioVendaProduto(idFilial, idProduto, dataInicial, dataFinal);
     }
 
+    @Override
+    public Object selectSomatorioCustoProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
+        return vendaRepository.selectSomatorioCustoProduto(idFilial, idProduto, dataInicial, dataFinal);
+    }
 }

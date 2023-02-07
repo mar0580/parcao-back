@@ -43,6 +43,8 @@ public class Pedido implements Serializable {
 
     private BigDecimal valorTotal;
 
+    private BigDecimal custoTotal;
+
     @Column(name = "taxaVenda_id")
     private Long idTaxaVenda;
 
