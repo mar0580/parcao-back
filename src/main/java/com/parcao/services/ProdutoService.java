@@ -21,7 +21,5 @@ public interface ProdutoService {
 
     int updateProdutoEstoque(Long id, int quantidade);
 
-    void updateProdutoEstoqueGeralSaidaFilial(Long id, int quantidade);
-
     BigDecimal findCustoProdutoById(Long id);
 }

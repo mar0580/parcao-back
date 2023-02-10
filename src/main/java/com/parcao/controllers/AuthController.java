@@ -41,21 +41,6 @@ import com.parcao.services.UserDetailsImpl;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-	@Value("parcao.app.retorno.role_not_exists")
-	private String INEXISTENTE;
-
-	@Value("${parcao.app.retorno.success}")
-	private String SUCESSO;
-
-	@Value("${parcao.app.retorno.user_already_exists}")
-	private String USUARIO_JA_EXISTE;
-
-	@Value("${parcao.app.retorno.password_incorrect}")
-	private String PASSWORD_INCORRECT;
-
-	@Value("${parcao.app.retorno.user_not_exists}")
-	private String USUARIO_NAO_EXISTE;
-
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -106,13 +91,13 @@ public class AuthController {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if ( (userRepository.existsByUserName(signUpRequest.getUserName())) ||
 				(userRepository.existsByEmail(signUpRequest.getEmail()))) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(USUARIO_JA_EXISTE);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("USUARIO_JA_EXISTE");
 		}
 
 		Set<String> strFiliais = signUpRequest.getFilial();
 		Set<Filial> filiais = new HashSet<>();
 		strFiliais.forEach(nomeLocal -> {
-			Filial filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException(INEXISTENTE));
+			Filial filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 			filiais.add(filial);
 		});
 
@@ -124,26 +109,26 @@ public class AuthController {
 		Set<Role> roles = new HashSet<>();
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+					.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 					case "admin":
 						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-								.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+								.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 						roles.add(adminRole);
 
 						break;
 					case "mod":
 						Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-								.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+								.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 						roles.add(modRole);
 
 						break;
 					default:
 						Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-								.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+								.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 						roles.add(userRole);
 				}
 			});
@@ -153,21 +138,21 @@ public class AuthController {
 		user.setFiliais(filiais);
 		userRepository.save(user);
 
-		return ResponseEntity.ok(new MessageResponse(SUCESSO));
+		return ResponseEntity.ok(new MessageResponse("SUCESSO"));
 	}
 
 	@PostMapping("/signout")
 	public ResponseEntity<?> logoutUser() {
 		ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-				.body(new MessageResponse(SUCESSO));
+				.body(new MessageResponse("SUCESSO"));
 	}
 
 	@PostMapping("/changepassword")
 	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
 		if (!userRepository.existsByUserName(changePasswordRequest.getUserName()) ||
 				((changePasswordRequest.getNewPassword().isEmpty() || changePasswordRequest.getOldPassword().isEmpty())) ) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USUARIO_NAO_EXISTE);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("USUARIO_NAO_EXISTE");
 		}
 
 		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
@@ -175,7 +160,7 @@ public class AuthController {
 
 		boolean isPasswordMatches = bcrypt.matches(changePasswordRequest.getOldPassword(), user.get().getPassword());
 		if(!isPasswordMatches){
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(PASSWORD_INCORRECT);
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("PASSWORD_INCORRETO");
 		}
 
 		User userUpdate = new User();
@@ -188,7 +173,7 @@ public class AuthController {
 
 		userRepository.save(userUpdate);
 
-		return ResponseEntity.ok(new MessageResponse(SUCESSO));
+		return ResponseEntity.ok(new MessageResponse("SUCESSO"));
 	}
 
 	@GetMapping("/user")
@@ -202,7 +187,7 @@ public class AuthController {
 	@PutMapping("/changedatauser")
 	public ResponseEntity<?> changeDataUser(@Valid @RequestBody SignupRequest signupRequest) {
 		if (!userRepository.existsById(signupRequest.getId())) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USUARIO_NAO_EXISTE);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("USUARIO_NAO_EXISTE");
 		} else {
 			Optional<User> user = userRepository.findById(signupRequest.getId());
 			User userUpdate = new User();
@@ -216,7 +201,7 @@ public class AuthController {
 			Set<String> strFiliais = signupRequest.getFilial();
 			Set<Filial> filiais = new HashSet<>();
 			strFiliais.forEach(nomeLocal -> {
-				Filial filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException(INEXISTENTE));
+				Filial filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 				filiais.add(filial);
 			});
 
@@ -225,26 +210,26 @@ public class AuthController {
 
 			if (strRoles == null) {
 				Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-						.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+						.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 				roles.add(userRole);
 			} else {
 				strRoles.forEach(role -> {
 					switch (role) {
 						case "admin":
 							Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-									.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+									.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 							roles.add(adminRole);
 
 							break;
 						case "mod":
 							Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-									.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+									.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 							roles.add(modRole);
 
 							break;
 						default:
 							Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-									.orElseThrow(() -> new RuntimeException(INEXISTENTE));
+									.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 							roles.add(userRole);
 					}
 				});
@@ -257,15 +242,15 @@ public class AuthController {
 			userRepository.save(userUpdate);
 		}
 
-		return ResponseEntity.ok(new MessageResponse(SUCESSO));
+		return ResponseEntity.ok(new MessageResponse("SUCESSO"));
 	}
 
 	@DeleteMapping("/deleteuser/{idUsuario}")
 	public ResponseEntity<?> deleteUser(@PathVariable (value = "idUsuario") Long idUsuario) {
 		if (!userRepository.existsById(idUsuario)) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(USUARIO_NAO_EXISTE));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("USUARIO_NAO_EXISTE"));
 		}
 		userRepository.deleteById(idUsuario);
-		return ResponseEntity.ok(new MessageResponse(SUCESSO));
+		return ResponseEntity.ok(new MessageResponse("SUCESSO"));
 	}
 }

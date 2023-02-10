@@ -9,7 +9,7 @@ public interface AbastecimentoService {
 
     Abastecimento save(Abastecimento abastecimento);
 
-    void updateAbastecimento(int qtd, Long idFilial, Long idProduto);
+    int updateAbastecimento(int qtd, Long idFilial, Long idProduto);
 
     List<Abastecimento> getRowCountAbastecimento(Long filialId, Long produtoId);
 

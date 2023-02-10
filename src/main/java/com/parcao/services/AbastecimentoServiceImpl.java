@@ -26,8 +26,8 @@ public class AbastecimentoServiceImpl implements AbastecimentoService{
      * @return
      */
     @Override
-    public void updateAbastecimento(int qtd, Long idFilial, Long idProduto) {
-        abastecimentoRepository.updateAbastecimento(qtd, idFilial, idProduto);
+    public int updateAbastecimento(int qtd, Long idFilial, Long idProduto) {
+        return abastecimentoRepository.updateAbastecimento(qtd, idFilial, idProduto);
     }
 
     @Override

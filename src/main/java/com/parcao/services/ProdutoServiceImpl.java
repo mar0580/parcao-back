@@ -51,11 +51,6 @@ public class ProdutoServiceImpl implements ProdutoService {
     public int updateProdutoEstoque(Long id, int quantidade) {
        return produtoRepository.updateProdutoEstoque(id, quantidade);
     }
-
-    @Override
-    public void updateProdutoEstoqueGeralSaidaFilial(Long id, int quantidade) {
-        produtoRepository.updateProdutoEstoqueGeralSaidaFilial(id, quantidade);
-    }
     @Override
     public BigDecimal findCustoProdutoById(Long id){
         return produtoRepository.findCustoProdutoById(id);

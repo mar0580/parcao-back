@@ -6,14 +6,17 @@ import com.parcao.models.Abastecimento;
 import com.parcao.models.AbastecimentoItem;
 import com.parcao.models.Produto;
 import com.parcao.services.AbastecimentoService;
+import com.parcao.services.EmailService;
 import com.parcao.services.PedidoService;
 import com.parcao.services.ProdutoService;
+import com.parcao.utils.Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -26,10 +29,13 @@ public class AbastecimentoController {
     final ProdutoService produtoService;
     final PedidoService pedidoService;
 
-    public AbastecimentoController(AbastecimentoService abastecimentoService, ProdutoService produtoService, PedidoService pedidoService) {
+    final EmailService emailService;
+
+    public AbastecimentoController(AbastecimentoService abastecimentoService, ProdutoService produtoService, PedidoService pedidoService, EmailService emailService) {
         this.pedidoService = pedidoService;
         this.abastecimentoService = abastecimentoService;
         this.produtoService = produtoService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/create")
@@ -69,14 +75,17 @@ public class AbastecimentoController {
     public ResponseEntity<Object> updateEstoqueFilial(@Valid @RequestBody AbastecimentoDto abastecimentoDto){
         Set<AbastecimentoItemDto> abastecimentoItemDto = abastecimentoDto.getProducts();
         //verifica se possui produtos em estoque, antes de atualizar
+        String produtosEstoqueBaixo = "";
         for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){
             if (abastecimentoService.getRowCountQuantidadeAbastecimento(abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId(), produtosParaAtualizarEstoque.getQuantidade()).size() < 1){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_EM_FALTA: " + produtosParaAtualizarEstoque.getDescricaoProduto());
+                produtosEstoqueBaixo += System.lineSeparator() + produtosParaAtualizarEstoque.getDescricaoProduto() + "\n";
             }
-        }
-
-        for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){
-            abastecimentoService.updateAbastecimento(produtosParaAtualizarEstoque.getQuantidade(), abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId());
+            if(!produtosEstoqueBaixo.isEmpty()){
+                emailService.sendEmail("userWarn", produtosEstoqueBaixo);
+            }
+            if (abastecimentoService.updateAbastecimento(produtosParaAtualizarEstoque.getQuantidade(), abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId()) == 0) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERRO_AO_ATUALIZAR_ESTOQUE");
+            }
         }
         return  ResponseEntity.status(HttpStatus.OK).body("ESTOQUE_FILIAL_ATUALIZADO");
     }

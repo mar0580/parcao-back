@@ -20,11 +20,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("update Produto p set p.quantidade = :qtd where p.id = :id")
     int updateProdutoEstoque(@Param(value = "id") Long id, @Param(value = "qtd") int qtd);
 
-    @Transactional
-    @Modifying
-    @Query("update Produto set quantidade = :quantidade where id = :id")
-    void updateProdutoEstoqueGeralSaidaFilial(@Param(value = "id") Long id, @Param(value = "quantidade") int quantidade);
-
     @Query(value = "select valor_custo_unitario from  produto where produto.id = :id", nativeQuery = true)
     BigDecimal findCustoProdutoById(@Param(value = "id") Long id);
 

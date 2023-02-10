@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface AbastecimentoRepository extends JpaRepository<Abastecimento, Long>{
@@ -20,7 +19,7 @@ public interface AbastecimentoRepository extends JpaRepository<Abastecimento, Lo
             "where abastecimento.id = abastecimento_itens.abastecimento_id " +
             "and abastecimento.filial_id = :filialId " +
             "and abastecimento_itens.id = :produtoId", nativeQuery = true)
-    void updateAbastecimento(int qtd, Long filialId, Long produtoId);
+    int updateAbastecimento(int qtd, Long filialId, Long produtoId);
 
     @Transactional
     @Modifying

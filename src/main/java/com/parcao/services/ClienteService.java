@@ -1,10 +1,6 @@
 package com.parcao.services;
 
-import com.parcao.dto.ClienteDto;
 import com.parcao.models.Cliente;
-import com.parcao.models.User;
-import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,8 +1,13 @@
 package com.parcao.utils;
 
+import com.parcao.models.EmailDetails;
+import com.parcao.services.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -23,14 +28,12 @@ public class Util {
     public static Timestamp dateToInicialTimestamp(String data) throws ParseException {
         System.out.println("dataInicial: " + data);
         Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(data);
-        System.out.println("Timestamp: " + new Timestamp(date1.getTime()));
         return new Timestamp(date1.getTime());
     }
 
     public static Timestamp dateToFinalTimestamp(String data) throws ParseException {
         System.out.println("dataInicial: " + data);
         Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(data);
-        System.out.println("Timestamp: " + new Timestamp(date1.getTime() + + TimeUnit.HOURS.toMillis(23) + + TimeUnit.MINUTES.toMillis(59) + + TimeUnit.SECONDS.toMillis(59)));
         return new Timestamp(date1.getTime() + TimeUnit.HOURS.toMillis(23) + + TimeUnit.MINUTES.toMillis(59) + + TimeUnit.SECONDS.toMillis(59));
     }
 }
