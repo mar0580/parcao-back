@@ -8,5 +8,5 @@ public interface EmailService {
 
     String sendMailWithAttachment(EmailDetails details);
 
-    void sendEmail(String recipient, String msgBody);
+    void sendEmail(String recipient, String msgBody, String levelCode);
 }

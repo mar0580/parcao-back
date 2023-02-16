@@ -85,10 +85,12 @@ public class EmailServiceImpl implements EmailService {
             return "Error while sending mail!!!";
         }
     }
-    public void sendEmail(String recipient, String msgBody){
+    public void sendEmail(String recipient, String msgBody, String levelCode){
         EmailDetails emailDetails = new EmailDetails();
         emailDetails.setTypeRecipient(recipient);
         emailDetails.setMsgBody(msgBody);
-        this.sendSimpleMail(emailDetails);
+        emailDetails.setSubject(levelCode);
+        Thread tSendEmail= new Thread(this.sendSimpleMail(emailDetails));
+        tSendEmail.start();
     }
 }

@@ -4,6 +4,7 @@ import com.parcao.dto.AbastecimentoDto;
 import com.parcao.dto.AbastecimentoItemDto;
 import com.parcao.models.Abastecimento;
 import com.parcao.models.AbastecimentoItem;
+import com.parcao.models.EEmailDetails;
 import com.parcao.models.Produto;
 import com.parcao.services.AbastecimentoService;
 import com.parcao.services.EmailService;
@@ -81,7 +82,7 @@ public class AbastecimentoController {
                 produtosEstoqueBaixo += System.lineSeparator() + produtosParaAtualizarEstoque.getDescricaoProduto() + "\n";
             }
             if(!produtosEstoqueBaixo.isEmpty()){
-                emailService.sendEmail("userWarn", produtosEstoqueBaixo);
+                emailService.sendEmail("userWarn", produtosEstoqueBaixo, EEmailDetails.ESTOQUE_BAIXO.getEEmailDetails());
             }
             if (abastecimentoService.updateAbastecimento(produtosParaAtualizarEstoque.getQuantidade(), abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId()) == 0) {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("ERRO_AO_ATUALIZAR_ESTOQUE");
