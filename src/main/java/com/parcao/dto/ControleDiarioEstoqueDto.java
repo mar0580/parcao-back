@@ -12,25 +12,26 @@ import java.io.Serializable;
 @Getter
 @Setter
 @SqlResultSetMapping(name = "AggregateStatsResult", classes = {
-        @ConstructorResult(targetClass = ControleDiarioDto.class,
+        @ConstructorResult(targetClass = ControleDiarioEstoqueDto.class,
                 columns = {
                         @ColumnResult(name = "id"),
                         @ColumnResult(name = "inicio"),
                         @ColumnResult(name = "entrada"),
                         @ColumnResult(name = "perda"),
                         @ColumnResult(name = "quantidadeFinal"),
+                        @ColumnResult(name = "saida"),
                         @ColumnResult(name = "observacao")
                 })
 })
-public class ControleDiarioDto extends FechamentoCaixaItemDto implements Serializable {
+public class ControleDiarioEstoqueDto extends FechamentoCaixaItemDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private String observacao;
-    public ControleDiarioDto(Long id, int inicio, int entrada, int perda, int quantidadeFinal) {
-        super(id, inicio, entrada, perda, quantidadeFinal);
+    public ControleDiarioEstoqueDto(Long id, int inicio, int entrada, int perda, int quantidadeFinal, int saida) {
+        super(id, inicio, entrada, perda, quantidadeFinal, saida);
         this.observacao = observacao;
     }
 
-    public ControleDiarioDto() {
+    public ControleDiarioEstoqueDto() {
         super();
     }
 }

@@ -1,6 +1,6 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.ControleDiarioDto;
+import com.parcao.dto.ControleDiarioEstoqueDto;
 import com.parcao.dto.FechamentoCaixaDto;
 import com.parcao.dto.FechamentoCaixaItemDto;
 import com.parcao.models.FechamentoCaixa;
@@ -65,17 +65,18 @@ public class FechamentoCaixaController {
         }
         if (optionalFechamentoCaixaItem.size() > 0) {
 
-            List<ControleDiarioDto> customResponseList = new ArrayList();
+            List<ControleDiarioEstoqueDto> customResponseList = new ArrayList();
             for (Object[] item: optionalFechamentoCaixaItem) {
-                ControleDiarioDto c = new ControleDiarioDto();
+                ControleDiarioEstoqueDto c = new ControleDiarioEstoqueDto();
                 BigInteger b = new BigInteger(item[0].toString());
                 c.setId(b.longValue());
                 c.setInicio((int) item[1]);
                 c.setEntrada((int) item[2]);
                 c.setPerda((int) item[3]);
                 c.setQuantidadeFinal((int) item[4]);
+                c.setSaida((int) item[5]);
                 if(dataInicial.compareTo(dataFinal) == 0) {
-                    c.setObservacao(((String) item[5]));
+                    c.setObservacao(((String) item[6]));
                 } else {
                     c.setObservacao(" ");
                 }

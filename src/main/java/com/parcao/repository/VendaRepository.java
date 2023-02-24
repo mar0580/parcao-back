@@ -7,28 +7,51 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Repository
 public class VendaRepository implements VendaService {
   @PersistenceContext
   private EntityManager entityManager;
 
-  public Object selectSomatorioVendaProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
-    Query query = (Query) entityManager.createNativeQuery("select SUM(p.valor_total) as total " +
-            "from pedido p, pedido_itens pi " +
-            "where p.id = pi.pedido_id " +
-            "and p.filial_id = :idFilial " +
-            "and pi.id = :idProduto " +
-            "and p.date_pedido between :dataInicial and :dataFinal");
+  public List<Object[]> selectSomatorioVendaProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
+    Query query = (Query) entityManager.createNativeQuery(
+            "select " +
+                    "pi.id, " +
+                    "pi.valor_unitario as VALOR_UNITARIO, " +
+                    "SUM(pi.custo_total) as CUSTO_TOTAL_UNITARIO, " +
+                    "SUM(p.valor_total) as TOTAL_BRUTO_DIA " +
+                    "from pedido p, pedido_itens pi " +
+                    "where p.id = pi.pedido_id " +
+                    "and p.filial_id = :idFilial " +
+                    "and pi.id = :idProduto " +
+                    "and p.date_pedido between :dataInicial and :dataFinal group by 1,2");
     query.setParameter("idFilial", idFilial);
     query.setParameter("idProduto", idProduto);
     query.setParameter("dataInicial", dataInicial);
     query.setParameter("dataFinal", dataFinal);
-    return query.getSingleResult();
+    List<Object[]> response = query.getResultList();
+    return response;
   }
 
-  public Object selectSomatorioCustoProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
-    Query query = (Query) entityManager.createNativeQuery("select SUM(p.custo_total) as custo_total " +
+  public List<Object[]> selectSomatorioCustoProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
+    Query query = (Query) entityManager.createNativeQuery(
+            "select SUM(p.custo_total) as custo_total " +
+                    "from pedido p, pedido_itens pi " +
+                    "where p.id = pi.pedido_id " +
+                    "and p.filial_id = :idFilial " +
+                    "and pi.id = :idProduto " +
+                    "and p.date_pedido between :dataInicial and :dataFinal");
+    query.setParameter("idFilial", idFilial);
+    query.setParameter("idProduto", idProduto);
+    query.setParameter("dataInicial", dataInicial);
+    query.setParameter("dataFinal", dataFinal);
+    List<Object[]> response = query.getResultList();
+    return response;
+  }
+
+  public Object selectValorUnitario(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
+    Query query = (Query) entityManager.createNativeQuery("select pi.valor_unitario as valor_unitario " +
             "from pedido p, pedido_itens pi " +
             "where p.id = pi.pedido_id " +
             "and p.filial_id = :idFilial " +

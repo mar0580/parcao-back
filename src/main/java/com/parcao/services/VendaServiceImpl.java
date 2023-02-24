@@ -3,6 +3,7 @@ package com.parcao.services;
 import com.parcao.repository.VendaRepository;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 //@Service
 public class VendaServiceImpl implements VendaService{
@@ -13,12 +14,12 @@ public class VendaServiceImpl implements VendaService{
     }
 
     @Override
-    public Object selectSomatorioVendaProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
+    public List<Object[]> selectSomatorioVendaProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
         return vendaRepository.selectSomatorioVendaProduto(idFilial, idProduto, dataInicial, dataFinal);
     }
 
     @Override
-    public Object selectSomatorioCustoProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
+    public List<Object[]> selectSomatorioCustoProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
         return vendaRepository.selectSomatorioCustoProduto(idFilial, idProduto, dataInicial, dataFinal);
     }
 }

@@ -1,7 +1,8 @@
 package com.parcao.models;
 
 public enum EEmailDetails {
-    ESTOQUE_BAIXO("Estoque baixo");
+    ESTOQUE_BAIXO("Estoque baixo"),
+    RELATORIO_POR_TIPO_PAGAMENTO("Relatório por tipo de pagamento");
 
     private final String levelCode;
 

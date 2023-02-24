@@ -1,6 +1,7 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.ControleDiarioDto;
+import com.parcao.dto.ControleDiarioEstoqueDto;
+import com.parcao.dto.ControleDiarioValoresDto;
 import com.parcao.dto.PedidoDto;
 import com.parcao.services.VendaService;
 import com.parcao.utils.Util;
@@ -31,9 +32,27 @@ public class VendaController {
                                                               @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd")  String dataInicial,
                                                               @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
-        PedidoDto pedidoDto = new PedidoDto();
-        pedidoDto.setValorTotal((BigDecimal) vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal)));
-        pedidoDto.setCustoTotal((BigDecimal) vendaService.selectSomatorioCustoProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal)));
-        return ResponseEntity.status(HttpStatus.OK).body(pedidoDto);
+        List<Object[]> optionalSomatorioVendaProduto = null;
+        if(dataInicial.compareTo(dataFinal) == 0) {
+            optionalSomatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        } else {
+            //optionalSomatorioVendaProduto = fechamentoCaixaItemService.selectFechamentoCaixaProdutoPeriodo(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        }
+        if (optionalSomatorioVendaProduto.size() > 0) {
+
+            List<ControleDiarioValoresDto> customResponseList = new ArrayList();
+            for (Object[] item: optionalSomatorioVendaProduto) {
+                ControleDiarioValoresDto c = new ControleDiarioValoresDto();
+                c.setValorUnitario(new BigDecimal(item[1].toString()));
+                c.setValorTotalCustoUnitario(new BigDecimal(item[2].toString()));
+                c.setValorTotalBruto(new BigDecimal(item[3].toString()));
+//                c.setQuantidadeFinal((int) item[4]);
+//                c.setSaida((int) item[5]);
+
+                customResponseList.add(c);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(customResponseList.get(0));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("VALORES_VENDA_NAO_ENCONTRADO");
     }
 }
