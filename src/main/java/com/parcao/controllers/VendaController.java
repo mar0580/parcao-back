@@ -33,10 +33,10 @@ public class VendaController {
                                                               @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
         List<Object[]> optionalSomatorioVendaProduto = null;
+        Object optionalValorBrutoPeriodo = null;
         if(dataInicial.compareTo(dataFinal) == 0) {
             optionalSomatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-        } else {
-            //optionalSomatorioVendaProduto = fechamentoCaixaItemService.selectFechamentoCaixaProdutoPeriodo(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            optionalValorBrutoPeriodo= vendaService.selectValorBrutoPeriodo(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
         }
         if (optionalSomatorioVendaProduto.size() > 0) {
 
@@ -46,7 +46,7 @@ public class VendaController {
                 c.setValorUnitario(new BigDecimal(item[1].toString()));
                 c.setValorTotalCustoUnitario(new BigDecimal(item[2].toString()));
                 c.setValorTotalBruto(new BigDecimal(item[3].toString()));
-//                c.setQuantidadeFinal((int) item[4]);
+                c.setValorTotalBrutoPeriodo(new BigDecimal(item[4].toString()));
 //                c.setSaida((int) item[5]);
 
                 customResponseList.add(c);

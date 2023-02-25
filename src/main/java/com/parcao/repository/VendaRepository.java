@@ -50,15 +50,13 @@ public class VendaRepository implements VendaService {
     return response;
   }
 
-  public Object selectValorUnitario(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
-    Query query = (Query) entityManager.createNativeQuery("select pi.valor_unitario as valor_unitario " +
+  public Object selectValorBrutoPeriodo(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
+    Query query = (Query) entityManager.createNativeQuery("select sum(pi.valor_total) as VALOR_TOTAL " +
             "from pedido p, pedido_itens pi " +
             "where p.id = pi.pedido_id " +
             "and p.filial_id = :idFilial " +
-            "and pi.id = :idProduto " +
             "and p.date_pedido between :dataInicial and :dataFinal");
     query.setParameter("idFilial", idFilial);
-    query.setParameter("idProduto", idProduto);
     query.setParameter("dataInicial", dataInicial);
     query.setParameter("dataFinal", dataFinal);
     return query.getSingleResult();
