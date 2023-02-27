@@ -32,12 +32,9 @@ public class VendaController {
                                                               @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd")  String dataInicial,
                                                               @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
-        List<Object[]> optionalSomatorioVendaProduto = null;
-        Object optionalValorBrutoPeriodo = null;
-        if(dataInicial.compareTo(dataFinal) == 0) {
-            optionalSomatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-            optionalValorBrutoPeriodo= vendaService.selectValorBrutoPeriodo(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-        }
+        List<Object[]> optionalSomatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        Object optionalValorBrutoPeriodo = vendaService.selectValorBrutoPeriodo(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+
         if (optionalSomatorioVendaProduto.size() > 0) {
 
             List<ControleDiarioValoresDto> customResponseList = new ArrayList();
@@ -46,8 +43,8 @@ public class VendaController {
                 c.setValorUnitario(new BigDecimal(item[1].toString()));
                 c.setValorTotalCustoUnitario(new BigDecimal(item[2].toString()));
                 c.setValorTotalBruto(new BigDecimal(item[3].toString()));
-                c.setValorTotalBrutoPeriodo(new BigDecimal(item[4].toString()));
-//                c.setSaida((int) item[5]);
+                c.setValorTotalBrutoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));
+                c.setValorTotaLiquidoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));//corrigir
 
                 customResponseList.add(c);
             }

@@ -34,7 +34,6 @@ public class Scheduler {
         StringBuilder msgEmailBody = new StringBuilder();
         msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n");
         if (objects.size() > 0) {
-            System.out.println("Elementos na lista");
             for (Object[] o : objects) {
                 for (int i = 0; i < o.length; i++) {
                     if (i == 1) {

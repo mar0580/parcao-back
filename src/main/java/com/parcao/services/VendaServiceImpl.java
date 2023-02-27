@@ -19,11 +19,6 @@ public class VendaServiceImpl implements VendaService{
     }
 
     @Override
-    public List<Object[]> selectSomatorioCustoProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
-        return vendaRepository.selectSomatorioCustoProduto(idFilial, idProduto, dataInicial, dataFinal);
-    }
-
-    @Override
     public Object selectValorBrutoPeriodo(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
         return vendaRepository.selectValorBrutoPeriodo(idFilial, dataInicial, dataFinal);
     }
