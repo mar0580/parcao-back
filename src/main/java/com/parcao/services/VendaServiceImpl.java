@@ -1,16 +1,26 @@
 package com.parcao.services;
 
+import com.parcao.dto.ControleDiarioEstoqueDto;
+import com.parcao.repository.FechamentoCaixaItemRepository;
 import com.parcao.repository.VendaRepository;
+import com.parcao.utils.Util;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 //@Service
 public class VendaServiceImpl implements VendaService{
     final VendaRepository vendaRepository;
+    final FechamentoCaixaItemRepository fechamentoCaixaItemRepository;
 
-    public VendaServiceImpl(VendaRepository vendaRepository) {
+    public VendaServiceImpl(VendaRepository vendaRepository, FechamentoCaixaItemRepository fechamentoCaixaItemRepository) {
         this.vendaRepository = vendaRepository;
+        this.fechamentoCaixaItemRepository = fechamentoCaixaItemRepository;
     }
 
     @Override

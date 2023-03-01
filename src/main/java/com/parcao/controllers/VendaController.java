@@ -40,11 +40,13 @@ public class VendaController {
             List<ControleDiarioValoresDto> customResponseList = new ArrayList();
             for (Object[] item: optionalSomatorioVendaProduto) {
                 ControleDiarioValoresDto c = new ControleDiarioValoresDto();
-                c.setValorUnitario(new BigDecimal(item[1].toString()));
-                c.setValorTotalCustoUnitario(new BigDecimal(item[2].toString()));
-                c.setValorTotalBruto(new BigDecimal(item[3].toString()));
+                c.setValorUnitario(new BigDecimal(item[1].toString()));// valor de venda
+                c.setValorTotalCustoUnitario(new BigDecimal(item[2].toString()));//somatorio de custo unitario do produto
+                c.setValorTotalBruto(new BigDecimal(item[3].toString())); // (valorUnitario * quantidade vendida) - (perda + saida) * (custo unitario do produto)
+                // metodo(c.setValorTotalBruto(new BigDecimal(item[3].toString())),  new BigDecimal(item[4].toString()))
+                // metodo(valorUnitario * quantidade vendida, custo unitario do produto)
                 c.setValorTotalBrutoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));
-                c.setValorTotaLiquidoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));//corrigir
+                //c.setValorTotaLiquidoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));//corrigir
 
                 customResponseList.add(c);
             }

@@ -2,6 +2,7 @@ package com.parcao.services;
 
 import com.parcao.models.Abastecimento;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;

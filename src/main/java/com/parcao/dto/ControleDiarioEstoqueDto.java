@@ -26,10 +26,6 @@ import java.io.Serializable;
 public class ControleDiarioEstoqueDto extends FechamentoCaixaItemDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private String observacao;
-    public ControleDiarioEstoqueDto(Long id, int inicio, int entrada, int perda, int quantidadeFinal, int saida) {
-        super(id, inicio, entrada, perda, quantidadeFinal, saida);
-        this.observacao = observacao;
-    }
 
     public ControleDiarioEstoqueDto() {
         super();
