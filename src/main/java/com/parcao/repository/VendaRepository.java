@@ -21,13 +21,14 @@ public class VendaRepository implements VendaService {
                     "pi.id, " +
                     "pi.valor_unitario as VALOR_UNITARIO, " +
                     "SUM(pi.custo_total) as CUSTO_TOTAL_UNITARIO, " +
-                    "SUM(p.valor_total) as TOTAL_BRUTO_DIA, " +
+                    "SUM(p.valor_total) as TOTAL_BRUTO_DIA_TODOS_PRODUTOS, " +
+                    "SUM(pi.valor_total) as TOTAL_BRUTO_DIA_ITEM, " +
                     "(pi.custo_total/quantidade) as CUSTO_UNITARIO " +
                     "from pedido p, pedido_itens pi " +
                     "where p.id = pi.pedido_id " +
                     "and p.filial_id = :idFilial " +
                     "and pi.id = :idProduto " +
-                    "and p.date_pedido between :dataInicial and :dataFinal group by 1,2");
+                    "and p.date_pedido between :dataInicial and :dataFinal group by 1,2,6");
     query.setParameter("idFilial", idFilial);
     query.setParameter("idProduto", idProduto);
     query.setParameter("dataInicial", dataInicial);

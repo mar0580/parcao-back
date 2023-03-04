@@ -12,6 +12,14 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ControleDiarioValoresDto {
+    private Long id; //id = idProduto
+    private int inicio;
+    private int entrada;
+    private int perda;
+    private int quantidadeFinal;
+    private String observacao;
+
+    private int saida;
     private BigDecimal valorUnitario;
     private BigDecimal valorTotalCustoUnitario;
     private BigDecimal valorTotalBruto;

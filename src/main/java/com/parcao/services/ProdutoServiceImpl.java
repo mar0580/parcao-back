@@ -25,7 +25,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public List<Produto> findAll() {
-        return produtoRepository.findAll(Sort.by(Sort.Direction.ASC, "descricaoProduto"));
+        return produtoRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override

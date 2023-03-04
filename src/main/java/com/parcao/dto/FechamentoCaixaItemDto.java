@@ -16,15 +16,6 @@ public class FechamentoCaixaItemDto {
 
     private int saida;
 
-    public FechamentoCaixaItemDto(FechamentoCaixaItemDto fechamentoCaixa) {
-        this.id = fechamentoCaixa.getId();
-        this.inicio = fechamentoCaixa.getInicio();
-        this.entrada = fechamentoCaixa.getEntrada();
-        this.perda = fechamentoCaixa.getPerda();
-        this.quantidadeFinal = fechamentoCaixa.getQuantidadeFinal();
-        this.saida = fechamentoCaixa.getSaida();
-    }
-
     public FechamentoCaixaItemDto() {
 
     }
