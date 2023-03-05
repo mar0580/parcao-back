@@ -20,10 +20,10 @@ public class ControleDiarioValoresDto {
     private String observacao;
 
     private int saida;
-    private BigDecimal valorUnitario;
-    private BigDecimal valorTotalCustoUnitario;
-    private BigDecimal valorTotalBruto;
-    private BigDecimal valorTotalLiquido;
+    private BigDecimal preco;
+    private BigDecimal custo;
+    private BigDecimal TotalCusto;
+    private BigDecimal totalCoco;
     private BigDecimal valorTotalBrutoPeriodo;
     private BigDecimal valorTotaLiquidoPeriodo;
 }

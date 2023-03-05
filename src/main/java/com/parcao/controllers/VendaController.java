@@ -29,12 +29,12 @@ public class VendaController {
 
     @GetMapping("/buscaSomatorioVendaProduto/{idFilial}/{idProduto}/{dataInicial}/{dataFinal}")
     public ResponseEntity<Object> buscaSomatorioVendaProduto(@PathVariable(value = "idFilial") Long idFilial,
-                                                              @PathVariable(value = "idProduto") Long idProduto,
-                                                              @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd")  String dataInicial,
-                                                              @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
+                                                             @PathVariable(value = "idProduto") Long idProduto,
+                                                             @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,
+                                                             @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
         List<Object[]> optionalFechamentoCaixaItem = null;
-        if(dataInicial.compareTo(dataFinal) == 0) {
+        if (dataInicial.compareTo(dataFinal) == 0) {
             optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProdutoDiario(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
         } else {
             optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProdutoPeriodo(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
@@ -53,7 +53,7 @@ public class VendaController {
                 c.setPerda((int) item[3]);
                 c.setQuantidadeFinal((int) item[4]);
                 c.setSaida((int) item[5]);
-                if(dataInicial.compareTo(dataFinal) == 0) {
+                if (dataInicial.compareTo(dataFinal) == 0) {
                     c.setObservacao(((String) item[6]));
                 } else {
                     c.setObservacao(" ");
@@ -64,18 +64,18 @@ public class VendaController {
 
             List<Object[]> optionalSomatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
             Object optionalValorBrutoPeriodo = vendaService.selectValorBrutoPeriodo(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-
+            Object optionalValorTotalCocoCopo = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, "copo", Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            Object optionalValorTotalCocoGarrafa = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, "garrafa", Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
             if (optionalSomatorioVendaProduto.size() > 0) {
                 for (Object[] item : optionalSomatorioVendaProduto) {
 
-                    c.setValorUnitario(new BigDecimal(item[1].toString()));// precos-ok
-                    c.setValorTotalCustoUnitario(new BigDecimal(item[2].toString()));//somatorio dos   custos-ok
-                    c.setValorTotalBruto( (new BigDecimal(item[4].toString()).subtract((new BigDecimal(item[5].toString()).multiply(BigDecimal.valueOf(c.getPerda() + c.getSaida()))))));//total_custos-ok
-
-                    //
-
-                    c.setValorTotalBrutoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));
-                    //c.setValorTotaLiquidoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));//corrigir
+                    c.setPreco(new BigDecimal(item[1].toString()));// precos-ok
+                    c.setCusto(new BigDecimal(item[2].toString()));//somatorio dos   custos-ok
+                    c.setTotalCusto((new BigDecimal(item[4].toString()).subtract((new BigDecimal(item[5].toString()).multiply(BigDecimal.valueOf(c.getPerda() + c.getSaida()))))));//total_custos-ok
+                    c.setTotalCoco(new BigDecimal(optionalValorTotalCocoCopo.toString()).add(new BigDecimal(optionalValorTotalCocoGarrafa.toString()))); //total_coco
+                    //retornar observacões
+                    c.setValorTotalBrutoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));// total_bruto nok
+                    c.setValorTotaLiquidoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));//total_liquido nok
 
                     customResponseList.add(c);
                 }

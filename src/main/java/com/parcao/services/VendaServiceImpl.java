@@ -32,4 +32,9 @@ public class VendaServiceImpl implements VendaService{
     public Object selectValorBrutoPeriodo(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
         return vendaRepository.selectValorBrutoPeriodo(idFilial, dataInicial, dataFinal);
     }
+
+    @Override
+    public Object selectValorTotalCocoCopoGarrafa(Long idFilial, String descricaoProduto, Timestamp dataInicial, Timestamp dataFinal) {
+        return vendaRepository.selectValorTotalCocoCopoGarrafa(idFilial, descricaoProduto, dataInicial, dataFinal);
+    }
 }

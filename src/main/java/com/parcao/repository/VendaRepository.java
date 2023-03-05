@@ -49,4 +49,19 @@ public class VendaRepository implements VendaService {
     return query.getSingleResult();
   }
 
+  public Object selectValorTotalCocoCopoGarrafa(Long idFilial, String descricaoProduto, Timestamp dataInicial, Timestamp dataFinal){
+    Query query = (Query) entityManager.createNativeQuery("select SUM(pi.valor_total) as TOTAL_COCO_COPO_GARRAFA " +
+                    "from pedido p, pedido_itens pi, produto po " +
+                    "where po.id = pi.id " +
+                    "and lower(po.descricao_produto) ilike :descricaoProduto " +
+                    "and p.id = pi.pedido_id " +
+                    "and p.filial_id = :idFilial " +
+                    "and p.date_pedido between :dataInicial and :dataFinal");
+    query.setParameter("idFilial", idFilial);
+    query.setParameter("descricaoProduto", descricaoProduto.toLowerCase() + "%");
+    query.setParameter("dataInicial", dataInicial);
+    query.setParameter("dataFinal", dataFinal);
+    return query.getSingleResult();
+  }
+
 }

@@ -12,4 +12,5 @@ public interface VendaService {
 
     List<Object[]> selectSomatorioVendaProduto(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal);
     Object selectValorBrutoPeriodo(Long idFilial, Timestamp dataInicial, Timestamp dataFinal);
+    Object selectValorTotalCocoCopoGarrafa(Long idFilial, String descricaoProduto, Timestamp dataInicial, Timestamp dataFinal);
 }
