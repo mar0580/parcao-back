@@ -37,4 +37,9 @@ public class VendaServiceImpl implements VendaService{
     public Object selectValorTotalCocoCopoGarrafa(Long idFilial, String descricaoProduto, Timestamp dataInicial, Timestamp dataFinal) {
         return vendaRepository.selectValorTotalCocoCopoGarrafa(idFilial, descricaoProduto, dataInicial, dataFinal);
     }
+
+    @Override
+    public List<Object[]> somatorioTotalBrutoPeriodo(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal) {
+        return vendaRepository.selectSomatorioVendaProduto(idFilial, idProduto, dataInicial, dataFinal);
+    }
 }
