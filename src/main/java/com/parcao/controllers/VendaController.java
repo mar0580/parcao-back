@@ -1,5 +1,6 @@
 package com.parcao.controllers;
 
+import com.google.common.base.Strings;
 import com.parcao.dto.ControleDiarioValoresDto;
 import com.parcao.models.Produto;
 import com.parcao.services.FechamentoCaixaItemService;
@@ -76,12 +77,13 @@ public class VendaController {
             Object optionalValorTotalCocoGarrafa = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, GARRAFA, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
 
             List<Produto> produtos = produtoService.findAll();
-            List<Object[]> optionalSomatorioTotalBrutoPeriodo = null;
             BigDecimal valorTotal = BigDecimal.ZERO;
-            for (Produto p : produtos) {
-                optionalSomatorioTotalBrutoPeriodo = vendaService.somatorioTotalBrutoPeriodo(idFilial, p.getId(), Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-                for (Object[] item : optionalSomatorioTotalBrutoPeriodo) {
-                    valorTotal = valorTotal.add(new BigDecimal(item[3].toString()).multiply(new BigDecimal(item[2].toString())));
+            for (Produto p : produtos) {//problema
+                List<Object[]> somatorioTotalBrutoPeriodo = vendaService.somatorioTotalBrutoPeriodo(idFilial, p.getId(), Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+                for (Object[] item : somatorioTotalBrutoPeriodo) {
+                    if(!Strings.isNullOrEmpty(item[3].toString())) {
+                        valorTotal = valorTotal.add(new BigDecimal(item[3].toString()).multiply(new BigDecimal(item[2].toString())));
+                    }
                 }
             }
 
@@ -92,7 +94,7 @@ public class VendaController {
                     c.setCusto(new BigDecimal(item[2].toString()));//somatorio dos   custos-ok
                     c.setTotalCusto((new BigDecimal(item[4].toString()).subtract((new BigDecimal(item[5].toString()).multiply(BigDecimal.valueOf(c.getPerda() + c.getSaida()))))));//total_custos-ok
                     c.setTotalCoco(new BigDecimal(optionalValorTotalCocoCopo.toString()).add(new BigDecimal(optionalValorTotalCocoGarrafa.toString()))); //total_coco
-                    //retornar observacões
+
                     c.setValorTotalBrutoPeriodo(valorTotal);// total_bruto ok
                     c.setValorTotaLiquidoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));//total_liquido nok
 

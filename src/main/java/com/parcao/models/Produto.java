@@ -35,7 +35,6 @@ public class Produto implements Serializable {
     @NotNull
     private int quantidade;
 
-    @DecimalMin("0.01")
     private BigDecimal valorUnitario;
 
     @DecimalMin("0.01")
