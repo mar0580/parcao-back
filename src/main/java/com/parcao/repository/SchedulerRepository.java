@@ -18,8 +18,8 @@ public class SchedulerRepository implements SchedulerService {
                 "tv.nome_taxa, " +
                 "count(p.taxa_venda_id) as quantidade, " +
                 "cast(SUM(p.valor_total) as INTEGER) as total_venda " +
-                "from pedido p, pedido_itens pi, taxa_venda tv " +
-                "where p.id = pi.pedido_id and tv.id = p.taxa_venda_id and p.date_pedido between :dataInicial and :dataFinal group by 1,2");
+                "from pedido p, taxa_venda tv " +
+                "where tv.id = p.taxa_venda_id and p.date_pedido between :dataInicial and :dataFinal group by 1,2");
         query.setParameter("dataInicial", dataInicial);
         query.setParameter("dataFinal", dataFinal);
         List<Object[]> response = query.getResultList();

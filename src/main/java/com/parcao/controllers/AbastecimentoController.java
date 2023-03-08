@@ -79,7 +79,8 @@ public class AbastecimentoController {
         String produtosEstoqueBaixo = "";
         for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){
             if (abastecimentoService.getRowCountQuantidadeAbastecimento(abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId(), produtosParaAtualizarEstoque.getQuantidade()).size() < 1){
-                produtosEstoqueBaixo += System.lineSeparator() + produtosParaAtualizarEstoque.getDescricaoProduto() + "\n";
+                produtosEstoqueBaixo += System.lineSeparator() + "Produto: " + produtosParaAtualizarEstoque.getDescricaoProduto() + " - Quantidade: " +
+                        produtosParaAtualizarEstoque.getQuantidade() + "\n";
             }
             if(!produtosEstoqueBaixo.isEmpty()){
                 emailService.sendEmail("userWarn", produtosEstoqueBaixo, EEmailDetails.ESTOQUE_BAIXO.getEEmailDetails());
