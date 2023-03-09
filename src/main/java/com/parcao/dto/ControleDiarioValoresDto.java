@@ -21,6 +21,7 @@ public class ControleDiarioValoresDto {
 
     private int saida;
     private BigDecimal preco;
+    private BigDecimal total;
     private BigDecimal custo;
     private BigDecimal TotalCusto;
     private BigDecimal totalCoco;
