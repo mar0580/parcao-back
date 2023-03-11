@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +44,18 @@ public class VendaController {
                                                              @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,
                                                              @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
-        List<Object[]> optionalFechamentoCaixaItem = null;
+        List<Object[]> fechamentoCaixaItemProduto = null;
         if (dataInicial.compareTo(dataFinal) == 0) {
-            optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProdutoDiario(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            fechamentoCaixaItemProduto = fechamentoCaixaItemService.selectFechamentoCaixaProdutoDiario(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
         } else {
-            optionalFechamentoCaixaItem = fechamentoCaixaItemService.selectFechamentoCaixaProdutoPeriodo(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            fechamentoCaixaItemProduto = fechamentoCaixaItemService.selectFechamentoCaixaProdutoPeriodo(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
         }
 
-        if (optionalFechamentoCaixaItem.size() > 0) {
+        if (fechamentoCaixaItemProduto.size() > 0) {
             ControleDiarioValoresDto c = new ControleDiarioValoresDto();
 
             List<ControleDiarioValoresDto> customResponseList = new ArrayList();
-            for (Object[] item : optionalFechamentoCaixaItem) {
+            for (Object[] item : fechamentoCaixaItemProduto) {
 
                 BigInteger b = new BigInteger(item[0].toString());
                 c.setId(b.longValue());
@@ -82,21 +83,33 @@ public class VendaController {
                 }
             }
 
-            List<Object[]> optionalSomatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-            Object optionalValorBrutoPeriodo = vendaService.selectValorBrutoPeriodo(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-            Object optionalValorTotalCocoCopo = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, COPO, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-            Object optionalValorTotalCocoGarrafa = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, GARRAFA, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            List<Object[]> somatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+           // Object optionalValorBrutoPeriodo = vendaService.selectValorBrutoPeriodo(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            Object valorTotalCocoCopoGarrafa = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, COPO, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            Object valorTotalCocoGarrafa = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, GARRAFA, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
 
-            if (optionalSomatorioVendaProduto.size() > 0) {
-                for (Object[] item : optionalSomatorioVendaProduto) {
+            List<Object[]> totalMaisCustos = vendaService.totalMaisCustos(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            Object perdaMaisSaida = vendaService.perdaMaisSaida(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+            Object totalCustosCoco = vendaService.totalCustosCoco(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+
+            BigDecimal totalLiquidoPeriodo = new BigDecimal(BigInteger.ZERO);
+            if (somatorioVendaProduto.size() > 0) {
+                for (Object[] item : totalMaisCustos) {
+                    BigDecimal x = new BigDecimal(item[0].toString());
+                    BigDecimal y = BigDecimal.valueOf((Integer) perdaMaisSaida).multiply(new BigDecimal(item[1].toString()));
+                    totalLiquidoPeriodo = x.subtract(y);
+                }
+            }
+            if (somatorioVendaProduto.size() > 0) {
+                for (Object[] item : somatorioVendaProduto) {
 
                     c.setPreco(new BigDecimal(item[1].toString()));// precos-ok
                     c.setCusto(new BigDecimal(item[2].toString()));//somatorio dos   custos-ok
                     c.setTotalCusto((new BigDecimal(item[4].toString()).subtract((new BigDecimal(item[5].toString()).multiply(BigDecimal.valueOf(c.getPerda() + c.getSaida()))))));//total_custos-ok
-                    c.setTotalCoco(new BigDecimal(optionalValorTotalCocoCopo.toString()).add(new BigDecimal(optionalValorTotalCocoGarrafa.toString()))); //total_coco
+                    c.setTotalCoco(new BigDecimal(valorTotalCocoCopoGarrafa.toString()).add(new BigDecimal(valorTotalCocoGarrafa.toString()))); //total_coco
                     c.setTotal(new BigDecimal(item[1].toString()).multiply(BigDecimal.valueOf(c.getSaida()))); //total-ok
                     c.setValorTotalBrutoPeriodo(valorTotal);// total_bruto ok
-                    c.setValorTotaLiquidoPeriodo(new BigDecimal(optionalValorBrutoPeriodo.toString()));//total_liquido nok
+                    c.setValorTotaLiquidoPeriodo(totalLiquidoPeriodo.subtract((BigDecimal) totalCustosCoco));//total_liquido nok
 
                     customResponseList.add(c);
                 }
