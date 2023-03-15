@@ -36,18 +36,6 @@ public class VendaRepository implements VendaService {
     return response;
   }
 
-  public Object selectValorBrutoPeriodo(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
-    Query query = (Query) entityManager.createNativeQuery("select sum(pi.valor_total) as VALOR_TOTAL " +
-            "from pedido p, pedido_itens pi " +
-            "where p.id = pi.pedido_id " +
-            "and p.filial_id = :idFilial " +
-            "and p.date_pedido between :dataInicial and :dataFinal");
-    query.setParameter("idFilial", idFilial);
-    query.setParameter("dataInicial", dataInicial);
-    query.setParameter("dataFinal", dataFinal);
-    return query.getSingleResult();
-  }
-
   public Object selectValorTotalCocoCopoGarrafa(Long idFilial, String descricaoProduto, Timestamp dataInicial, Timestamp dataFinal){
     Query query = (Query) entityManager.createNativeQuery("select coalesce( SUM(pi.valor_total), 0) as TOTAL_COCO_COPO_GARRAFA " +
                     "from pedido p, pedido_itens pi, produto po " +
@@ -87,31 +75,23 @@ public class VendaRepository implements VendaService {
     return response;
   }
 
-  public List<Object[]> totalMaisCustos(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
-    Query query = (Query) entityManager.createNativeQuery("select " +
-            " sum(pi.valor_total) as TOTAL, sum((pi.custo_total/pi.quantidade)) as CUSTOS " +
-            "  from pedido p, pedido_itens pi " +
-            " where p.id = pi.pedido_id " +
-            " and p.filial_id = :idFilial " +
-            " and p.date_pedido between :dataInicial and :dataFinal");
-    query.setParameter("idFilial", idFilial);
-    query.setParameter("dataInicial", dataInicial);
-    query.setParameter("dataFinal", dataFinal);
-    List<Object[]> response = query.getResultList();
-    return response;
-  }
-
-  public Object perdaMaisSaida(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
-    Query query = (Query) entityManager.createNativeQuery("select " +
-            "cast( cast(sum(fci.perda) as INTEGER) + (cast(sum(fci.inicio) as INTEGER) + " +
-            "cast(sum(fci.entrada) as INTEGER)) - (cast(sum(fci.perda) as INTEGER) + " +
-            "cast(sum(fci.quantidade_final) as INTEGER)) as INTEGER) as PERDA_SAIDA " +
+  public Object somatorioTotalLiquidoPeriodo(Long idFilial, Long idProduto, Timestamp dataInicial, Timestamp dataFinal){
+    Query query = (Query) entityManager.createNativeQuery("select coalesce( SUM(pi.valor_total) - (coalesce( (select " +
+            "(cast(sum(fci.inicio) as INTEGER) + cast(sum(fci.entrada) as INTEGER)) - (cast(sum(fci.perda) as INTEGER) + " +
+            "cast(sum(fci.quantidade_final) as INTEGER)) " +
             "from fechamento_caixa fc, fechamento_caixa_itens fci " +
             "where fc.id = fci.fechamento_caixa_id " +
             "and fc.filial_id = :idFilial " +
-            "and fci.id <> (select id from produto p where descricao_produto like 'cocos') " +
-            "and fc.date_fechamento_caixa between :dataInicial and :dataFinal");
+            "and fci.id = :idProduto " +
+            "and fc.date_fechamento_caixa " +
+            "between :dataInicial and :dataFinal), 0 ) * sum(pi.custo_total/pi.quantidade) ), 0 ) as total_liquido " +
+    "from pedido p, pedido_itens pi " +
+    "where p.id = pi.pedido_id " +
+    "and p.filial_id = :idFilial " +
+    "and pi.id = :idProduto " +
+    "and date_pedido between :dataInicial and :dataFinal ");
     query.setParameter("idFilial", idFilial);
+    query.setParameter("idProduto", idProduto);
     query.setParameter("dataInicial", dataInicial);
     query.setParameter("dataFinal", dataFinal);
     Object response = query.getSingleResult();

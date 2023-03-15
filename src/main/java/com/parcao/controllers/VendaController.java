@@ -55,17 +55,17 @@ public class VendaController {
             ControleDiarioValoresDto c = new ControleDiarioValoresDto();
 
             List<ControleDiarioValoresDto> customResponseList = new ArrayList();
-            for (Object[] item : fechamentoCaixaItemProduto) {
+            for (Object[] itemFechamentoCaixaItemProduto : fechamentoCaixaItemProduto) {
 
-                BigInteger b = new BigInteger(item[0].toString());
+                BigInteger b = new BigInteger(itemFechamentoCaixaItemProduto[0].toString());
                 c.setId(b.longValue());
-                c.setInicio((int) item[1]);
-                c.setEntrada((int) item[2]);
-                c.setPerda((int) item[3]);
-                c.setQuantidadeFinal((int) item[4]);
-                c.setSaida((int) item[5]);
+                c.setInicio((int) itemFechamentoCaixaItemProduto[1]);
+                c.setEntrada((int) itemFechamentoCaixaItemProduto[2]);
+                c.setPerda((int) itemFechamentoCaixaItemProduto[3]);
+                c.setQuantidadeFinal((int) itemFechamentoCaixaItemProduto[4]);
+                c.setSaida((int) itemFechamentoCaixaItemProduto[5]);
                 if (dataInicial.compareTo(dataFinal) == 0) {
-                    c.setObservacao(((String) item[6]));
+                    c.setObservacao(((String) itemFechamentoCaixaItemProduto[6]));
                 } else {
                     c.setObservacao(" ");
                 }
@@ -73,44 +73,33 @@ public class VendaController {
             }
 
             List<Produto> produtos = produtoService.findAll();
-            BigDecimal valorTotal = BigDecimal.ZERO;
+            BigDecimal valorTotalBruto = BigDecimal.ZERO;
+            BigDecimal valorTotalLiquido = BigDecimal.ZERO;
             for (Produto p : produtos) {
                 List<Object[]> somatorioTotalBrutoPeriodo = vendaService.somatorioTotalBrutoPeriodo(idFilial, p.getId(), Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-                for (Object[] item : somatorioTotalBrutoPeriodo) {
-                    if(!Strings.isNullOrEmpty(item[3].toString())) {
-                        valorTotal = valorTotal.add(new BigDecimal(item[3].toString()).multiply(new BigDecimal(item[2].toString())));
+                for (Object[] itemSomatorioTotalBrutoPeriodo : somatorioTotalBrutoPeriodo) {
+                    if(!Strings.isNullOrEmpty(itemSomatorioTotalBrutoPeriodo[3].toString())) {
+                        valorTotalBruto = valorTotalBruto.add(new BigDecimal(itemSomatorioTotalBrutoPeriodo[3].toString()).multiply(new BigDecimal(itemSomatorioTotalBrutoPeriodo[2].toString())));
                     }
                 }
+                Object somatorioTotalLiquidoPeriodo = vendaService.somatorioTotalLiquidoPeriodo(idFilial, p.getId(), Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+                valorTotalLiquido = valorTotalLiquido.add(new BigDecimal(somatorioTotalLiquidoPeriodo.toString()));
             }
 
             List<Object[]> somatorioVendaProduto = vendaService.selectSomatorioVendaProduto(idFilial, idProduto, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-           // Object optionalValorBrutoPeriodo = vendaService.selectValorBrutoPeriodo(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
             Object valorTotalCocoCopoGarrafa = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, COPO, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
             Object valorTotalCocoGarrafa = vendaService.selectValorTotalCocoCopoGarrafa(idFilial, GARRAFA, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-
-            List<Object[]> totalMaisCustos = vendaService.totalMaisCustos(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-            Object perdaMaisSaida = vendaService.perdaMaisSaida(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
             Object totalCustosCoco = vendaService.totalCustosCoco(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-
-            BigDecimal totalLiquidoPeriodo = new BigDecimal(BigInteger.ZERO);
             if (somatorioVendaProduto.size() > 0) {
-                for (Object[] item : totalMaisCustos) {
-                    BigDecimal x = new BigDecimal(item[0].toString());
-                    BigDecimal y = BigDecimal.valueOf((Integer) perdaMaisSaida).multiply(new BigDecimal(item[1].toString()));
-                    totalLiquidoPeriodo = x.subtract(y);
-                }
-            }
-            if (somatorioVendaProduto.size() > 0) {
-                for (Object[] item : somatorioVendaProduto) {
+                for (Object[] itemSomatorioVendaProduto : somatorioVendaProduto) {
 
-                    c.setPreco(new BigDecimal(item[1].toString()));// precos-ok
-                    c.setCusto(new BigDecimal(item[2].toString()));//somatorio dos   custos-ok
-                    c.setTotalCusto((new BigDecimal(item[4].toString()).subtract((new BigDecimal(item[5].toString()).multiply(BigDecimal.valueOf(c.getPerda() + c.getSaida()))))));//total_custos-ok
+                    c.setPreco(new BigDecimal(itemSomatorioVendaProduto[1].toString()));// precos-ok
+                    c.setCusto(new BigDecimal(itemSomatorioVendaProduto[2].toString()));//somatorio dos   custos-ok
+                    c.setTotalCusto((new BigDecimal(itemSomatorioVendaProduto[4].toString()).subtract((new BigDecimal(itemSomatorioVendaProduto[5].toString()).multiply(BigDecimal.valueOf(c.getPerda() + c.getSaida()))))));//total_custos-ok
                     c.setTotalCoco(new BigDecimal(valorTotalCocoCopoGarrafa.toString()).add(new BigDecimal(valorTotalCocoGarrafa.toString()))); //total_coco
-                    c.setTotal(new BigDecimal(item[1].toString()).multiply(BigDecimal.valueOf(c.getSaida()))); //total-ok
-                    c.setValorTotalBrutoPeriodo(valorTotal);// total_bruto ok
-                    c.setValorTotaLiquidoPeriodo(totalLiquidoPeriodo.subtract((BigDecimal) totalCustosCoco));//total_liquido nok
-
+                    c.setTotal(new BigDecimal(itemSomatorioVendaProduto[1].toString()).multiply(BigDecimal.valueOf(c.getSaida()))); //total-ok
+                    c.setValorTotalBrutoPeriodo(valorTotalBruto);// total_bruto ok
+                    c.setValorTotaLiquidoPeriodo(valorTotalLiquido.subtract(new BigDecimal(totalCustosCoco.toString())));//total_liquido nok
                     customResponseList.add(c);
                 }
                 return ResponseEntity.status(HttpStatus.OK).body(customResponseList.get(0));
