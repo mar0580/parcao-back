@@ -38,7 +38,7 @@ public class Scheduler {
     public void countVendasByPagamentoPeriodo() throws ParseException {
         List<Object[]> objects = schedulerService.countVendasByPagamentoPeriodo(Util.dateToInicialTimestamp(data), Util.dateToFinalTimestamp(data));
         StringBuilder msgEmailBody = new StringBuilder();
-        msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n");
+        msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n\n");
         if (objects.size() > 0) {
             for (Object[] o : objects) {
                 for (int i = 0; i < o.length; i++) {
@@ -64,13 +64,19 @@ public class Scheduler {
     public void vendaTotalAtualPorFilial() throws ParseException {
         List<Filial> filiais = filialService.findAll();
         StringBuilder msgEmailBody = new StringBuilder();
-        msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n");
+        msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n\n");
         for (Filial f : filiais) {
             List<Object[]> objects = schedulerService.vendasDetalhadasPorFiialandProduto(f.getId(), Util.dateToInicialTimestamp(data), Util.dateToFinalTimestamp(data));
             if(objects.size() > 0){
-
+                for (Object[] o : objects) {
+                    msgEmailBody.append("Produto: " + o[0].toString() + "\n");
+                    msgEmailBody.append("Quantidade vendida: " + o[1].toString() + "\n");
+                    msgEmailBody.append("Valor bruto R$ " + o[2].toString() + "\n");
+                    msgEmailBody.append("-------------"  + "\n");
+                }
             }
         }
+        emailService.sendEmail("userInfo", msgEmailBody.toString(), EEmailDetails.RELATORIO_VENDAS_PARCIAL.getEEmailDetails());
     }
 
 
