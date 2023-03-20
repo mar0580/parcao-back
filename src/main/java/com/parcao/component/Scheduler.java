@@ -59,8 +59,7 @@ public class Scheduler {
         }
     }
 
-    //@Scheduled(cron = "0 0 8,10,12,14,16,18,20 * * *")
-    @Scheduled(cron = "0/15 * * * * *")
+    @Scheduled(cron = "0 0 12,16,20 * * *")
     public void vendaTotalAtualPorFilial() throws ParseException {
         List<Filial> filiais = filialService.findAll();
         StringBuilder msgEmailBody = new StringBuilder();
