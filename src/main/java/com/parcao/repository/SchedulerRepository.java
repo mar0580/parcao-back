@@ -25,5 +25,30 @@ public class SchedulerRepository implements SchedulerService {
         List<Object[]> response = query.getResultList();
         return response;
     }
+    public Object vendaTotalAtualPorFilial(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
+        Query query = (Query) entityManager.createNativeQuery("select sum(pi.valor_total) as VALOR_TOTAL " +
+                "  from pedido p, pedido_itens pi " +
+                "where p.id = pi.pedido_id " +
+                "  and p.filial_id = :idFilial " +
+                "  and p.date_pedido between :dataInicial and :dataFinal");
+        query.setParameter("idFilial", idFilial);
+        query.setParameter("dataInicial", dataInicial);
+        query.setParameter("dataFinal", dataFinal);
+        return query.getSingleResult();
+    }
 
+    public List<Object[]> vendasDetalhadasPorFiialandProduto(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
+        Query query = (Query) entityManager.createNativeQuery("select " +
+                " pi.nome_produto as produto, sum(pi.quantidade) as quantidade, sum(pi.valor_total) as valor_total " +
+                "  from filial f,pedido p, pedido_itens pi " +
+                " where p.id = pi.pedido_id " +
+                "   and p.filial_id = f.id " +
+                "   and p.filial_id = :idFilial " +
+                "   and p.date_pedido between :dataInicial and :dataFinal group by 1");
+        query.setParameter("idFilial", idFilial);
+        query.setParameter("dataInicial", dataInicial);
+        query.setParameter("dataFinal", dataFinal);
+        List<Object[]> response = query.getResultList();
+        return response;
+    }
 }

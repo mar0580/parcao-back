@@ -12,8 +12,16 @@ public class SchedulerServiceImpl implements SchedulerService{
         this.schedulerRepository = schedulerRepository;
     }
     public List<Object[]> countVendasByPagamentoPeriodo(Timestamp dataInicial, Timestamp dataFinal) {
+        return schedulerRepository.countVendasByPagamentoPeriodo(dataInicial, dataInicial);
+    }
 
-        List<Object[]> objects = schedulerRepository.countVendasByPagamentoPeriodo(dataInicial, dataInicial);
-        return objects;
+    @Override
+    public List<Object[]> vendasDetalhadasPorFiialandProduto(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
+        return schedulerRepository.vendasDetalhadasPorFiialandProduto(idFilial, dataInicial, dataInicial);
+    }
+
+    @Override
+    public Object vendaTotalAtualPorFilial(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
+        return schedulerRepository.vendaTotalAtualPorFilial(idFilial, dataInicial, dataInicial);
     }
 }

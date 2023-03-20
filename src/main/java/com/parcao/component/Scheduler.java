@@ -1,7 +1,10 @@
 package com.parcao.component;
 
 import com.parcao.models.EEmailDetails;
+import com.parcao.models.Filial;
+import com.parcao.models.Produto;
 import com.parcao.services.EmailService;
+import com.parcao.services.FilialService;
 import com.parcao.services.SchedulerService;
 import com.parcao.utils.Util;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,17 +22,20 @@ import java.util.List;
 public class Scheduler {
 
     final EmailService emailService;
+    final FilialService filialService;
     final SchedulerService schedulerService;
 
-    public Scheduler(EmailService emailService, SchedulerService schedulerService) {
+    String data = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+    public Scheduler(EmailService emailService, FilialService filialService, SchedulerService schedulerService) {
         this.emailService = emailService;
+        this.filialService = filialService;
         this.schedulerService = schedulerService;
     }
 
     //@Scheduled(cron = "0/15 * * * * *")//teste
     @Scheduled(cron = "0 0 8,10,12,14,16,18,20 * * *")
     public void countVendasByPagamentoPeriodo() throws ParseException {
-        String data = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         List<Object[]> objects = schedulerService.countVendasByPagamentoPeriodo(Util.dateToInicialTimestamp(data), Util.dateToFinalTimestamp(data));
         StringBuilder msgEmailBody = new StringBuilder();
         msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n");
@@ -52,4 +58,21 @@ public class Scheduler {
             emailService.sendEmail("userInfo", msgEmailBody.toString(), EEmailDetails.RELATORIO_POR_TIPO_PAGAMENTO.getEEmailDetails());
         }
     }
+
+    //@Scheduled(cron = "0 0 8,10,12,14,16,18,20 * * *")
+    @Scheduled(cron = "0/15 * * * * *")
+    public void vendaTotalAtualPorFilial() throws ParseException {
+        List<Filial> filiais = filialService.findAll();
+        StringBuilder msgEmailBody = new StringBuilder();
+        msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n");
+        for (Filial f : filiais) {
+            List<Object[]> objects = schedulerService.vendasDetalhadasPorFiialandProduto(f.getId(), Util.dateToInicialTimestamp(data), Util.dateToFinalTimestamp(data));
+            if(objects.size() > 0){
+
+            }
+        }
+    }
+
+
+    //vendasDetalhadasPorFiialandProduto
 }
