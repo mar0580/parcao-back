@@ -34,7 +34,7 @@ public class Scheduler {
     }
 
     //@Scheduled(cron = "0/15 * * * * *")//teste
-    @Scheduled(cron = "0 0 8,10,12,14,16,18,20 * * *")
+    @Scheduled(cron = "0 0 12,20 * * *")
     public void countVendasByPagamentoPeriodo() throws ParseException {
         List<Object[]> objects = schedulerService.countVendasByPagamentoPeriodo(Util.dateToInicialTimestamp(data), Util.dateToFinalTimestamp(data));
         StringBuilder msgEmailBody = new StringBuilder();
@@ -59,8 +59,8 @@ public class Scheduler {
         }
     }
 
-    @Scheduled(cron = "0 0 12,16,20 * * *")
-    public void vendaTotalAtualPorFilial() throws ParseException {
+    @Scheduled(cron = "0 05 12,16,20 * * *")
+    public void vendasDetalhadasPorFiialandProduto() throws ParseException {
         List<Filial> filiais = filialService.findAll();
         StringBuilder msgEmailBody = new StringBuilder();
         msgEmailBody.append("Data Referência " + Util.dateToPTBR() + "\n\n");
@@ -77,7 +77,4 @@ public class Scheduler {
         }
         emailService.sendEmail("userInfo", msgEmailBody.toString(), EEmailDetails.RELATORIO_VENDAS_PARCIAL.getEEmailDetails());
     }
-
-
-    //vendasDetalhadasPorFiialandProduto
 }
