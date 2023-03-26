@@ -37,6 +37,10 @@ public class EstatisticaController {
             estatisticaDto.setEstatisticaTotalVendaTipoPagamento((int)item[1]);
             listEstatisticas.add(estatisticaDto);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(listEstatisticas);
+        if(listEstatisticas.size() > 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(listEstatisticas);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
+        }
     }
 }
