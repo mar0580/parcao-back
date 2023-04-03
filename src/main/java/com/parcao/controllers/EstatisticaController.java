@@ -25,7 +25,7 @@ public class EstatisticaController {
     }
 
     @GetMapping("/buscaEstatisticaPorTipoPagamento/{idFilial}/{dataInicial}/{dataFinal}")
-    public ResponseEntity<Object> buscaSomatorioVendaProduto(@PathVariable(value = "idFilial") Long idFilial,
+    public ResponseEntity<Object> buscaEstatisticaPorTipoPagamento(@PathVariable(value = "idFilial") Long idFilial,
                                                              @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,
                                                              @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
@@ -35,6 +35,44 @@ public class EstatisticaController {
             EstatisticaDto estatisticaDto = new EstatisticaDto();
             estatisticaDto.setEstatisticaNomeTaxa(item[0].toString());
             estatisticaDto.setEstatisticaTotalVendaTipoPagamento((int)item[1]);
+            listEstatisticas.add(estatisticaDto);
+        }
+        if(listEstatisticas.size() > 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(listEstatisticas);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
+        }
+    }
+
+    @GetMapping("/buscaPerdasPorMes/{idFilial}/{dataInicial}/{dataFinal}")
+    public ResponseEntity<Object> buscaPerdasPorMes(@PathVariable(value = "idFilial") Long idFilial,
+                                                             @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,
+                                                             @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
+        List<Object[]> perdasPorMes = estatisticaService.selectPerdasPorMes(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
+        for(Object[] item : perdasPorMes){
+            EstatisticaDto estatisticaDto = new EstatisticaDto();
+            estatisticaDto.setMes(item[0].toString());
+            estatisticaDto.setQuantidadePerda((int)item[1]);
+            listEstatisticas.add(estatisticaDto);
+        }
+        if(listEstatisticas.size() > 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(listEstatisticas);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
+        }
+    }
+
+    @GetMapping("/buscaPerdasPorProduto/{idFilial}/{dataInicial}/{dataFinal}")
+    public ResponseEntity<Object> buscaPerdasPorProduto(@PathVariable(value = "idFilial") Long idFilial,
+                                                    @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,
+                                                    @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
+        List<Object[]> perdasPorProduto = estatisticaService.selectPerdasPorProduto(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
+        for(Object[] item : perdasPorProduto){
+            EstatisticaDto estatisticaDto = new EstatisticaDto();
+            estatisticaDto.setNomeProduto(item[0].toString());
+            estatisticaDto.setQuantidadePerda((int)item[1]);
             listEstatisticas.add(estatisticaDto);
         }
         if(listEstatisticas.size() > 0) {

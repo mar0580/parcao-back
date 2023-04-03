@@ -13,4 +13,7 @@ public class EstatisticaDto {
 
     private String estatisticaNomeTaxa;
     private int estatisticaTotalVendaTipoPagamento;
+    private String mes;
+    private int quantidadePerda;
+    private String nomeProduto;
 }
