@@ -1,7 +1,7 @@
 package com.parcao.services;
 
 import com.parcao.models.FechamentoCaixa;
-import com.parcao.repository.FechamentoCaixaRepository;
+import com.parcao.dao.FechamentoCaixaRepository;
 import org.springframework.stereotype.Service;
 
 @Service

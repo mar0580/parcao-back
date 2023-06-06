@@ -1,4 +1,4 @@
-package com.parcao.repository;
+package com.parcao.dao;
 
 import com.parcao.models.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;

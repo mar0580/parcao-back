@@ -1,11 +1,10 @@
 package com.parcao.services;
 
 import com.parcao.models.Abastecimento;
-import com.parcao.repository.AbastecimentoRepository;
+import com.parcao.dao.AbastecimentoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AbastecimentoServiceImpl implements AbastecimentoService{

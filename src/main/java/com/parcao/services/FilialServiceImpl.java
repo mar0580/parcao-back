@@ -1,7 +1,7 @@
 package com.parcao.services;
 
 import com.parcao.models.Filial;
-import com.parcao.repository.FilialRepository;
+import com.parcao.dao.FilialRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

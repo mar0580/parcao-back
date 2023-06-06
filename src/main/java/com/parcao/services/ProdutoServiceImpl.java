@@ -1,7 +1,7 @@
 package com.parcao.services;
 
 import com.parcao.models.Produto;
-import com.parcao.repository.ProdutoRepository;
+import com.parcao.dao.ProdutoRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

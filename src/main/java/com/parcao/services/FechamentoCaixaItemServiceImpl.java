@@ -1,6 +1,6 @@
 package com.parcao.services;
 
-import com.parcao.repository.FechamentoCaixaItemRepository;
+import com.parcao.dao.FechamentoCaixaItemRepository;
 
 import java.sql.Timestamp;
 import java.util.List;

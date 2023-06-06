@@ -17,8 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//https://crontab.cronhub.io/
-@Component
+//@Component
 public class Scheduler {
 
     final EmailService emailService;

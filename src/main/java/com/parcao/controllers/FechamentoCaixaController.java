@@ -5,7 +5,7 @@ import com.parcao.dto.FechamentoCaixaDto;
 import com.parcao.dto.FechamentoCaixaItemDto;
 import com.parcao.models.FechamentoCaixa;
 import com.parcao.models.FechamentoCaixaItem;
-import com.parcao.repository.FechamentoCaixaItemRepository;
+import com.parcao.dao.FechamentoCaixaItemRepository;
 import com.parcao.services.FechamentoCaixaItemService;
 import com.parcao.services.FechamentoCaixaService;
 import com.parcao.services.ProdutoService;

@@ -1,4 +1,4 @@
-package com.parcao.repository;
+package com.parcao.dao;
 
 import java.util.Optional;
 

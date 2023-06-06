@@ -12,8 +12,10 @@ import lombok.Setter;
 public class EstatisticaDto {
 
     private String estatisticaNomeTaxa;
-    private int estatisticaTotalVendaTipoPagamento;
+    private int estatisticaQuantidadeVendaTipoPagamento;
     private String mes;
     private int quantidadePerda;
     private String nomeProduto;
+    private int estatisticaValorTotalVendaTipoPagamento;
+    private String diaMes;
 }

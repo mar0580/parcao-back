@@ -10,9 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class ParcaoApplication {
 
-	@Autowired
-	private ProdutoService produtoRepository;
-
 	public static void main(String[] args) {
 
 		SpringApplication.run(ParcaoApplication.class, args);

@@ -1,7 +1,7 @@
 package com.parcao.services;
 
 import com.parcao.models.Pedido;
-import com.parcao.repository.PedidoRepository;
+import com.parcao.dao.PedidoRepository;
 import org.springframework.stereotype.Service;
 
 @Service

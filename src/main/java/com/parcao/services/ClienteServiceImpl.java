@@ -1,26 +1,38 @@
 package com.parcao.services;
 
+import com.parcao.dto.ClienteDto;
 import com.parcao.models.Cliente;
-import com.parcao.repository.ClienteRepository;
+import com.parcao.dao.ClienteRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ClienteServiceImpl implements ClienteService{
 
-    final ClienteRepository clienteRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     public ClienteServiceImpl(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 
     @Override
-    public boolean existsByTelefone(String telefone) {
-        return clienteRepository.existsByTelefone(telefone);
+    public boolean existsByTelefone(String telefone, ClienteDto clienteDto) {
+        if (clienteRepository.existsByTelefone(telefone)) {
+            return false;
+        } else {
+            Cliente cliente = new Cliente();
+            BeanUtils.copyProperties(clienteDto, cliente);
+            clienteRepository.save(cliente);
+            return true;
+        }
     }
 
     @Override
@@ -29,8 +41,8 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public List<Cliente> findClienteBySaldoCredito(BigDecimal saldoCredito) {
-        return clienteRepository.findBySaldoCreditoGreaterThan(saldoCredito);
+    public List<Cliente> findClienteBySaldoCredito() {
+        return clienteRepository.findBySaldoCreditoGreaterThan((new BigDecimal(0)));
     }
 
     @Override
@@ -50,6 +62,14 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito) {
         return clienteRepository.existsByIdAndSaldoCreditoGreaterThanEqual(id, saldoCredito);
+    }
+
+    @Override
+    public Cliente updateCliente(ClienteDto clienteDto) {
+        Cliente cliente = new Cliente();
+        BeanUtils.copyProperties(clienteDto, cliente);
+        clienteRepository.save(cliente);
+        return cliente;
     }
 
     @Override
