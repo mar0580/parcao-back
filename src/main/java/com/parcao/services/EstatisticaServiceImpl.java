@@ -27,15 +27,19 @@ public class EstatisticaServiceImpl implements EstatisticaService {
         return listEstatisticas;
     }
 
-
-
-
-/*
     @Override
-    public List<Object[]> selectPerdasPorMes(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
-        return null;
+    public List<EstatisticaDto> selectPerdasPorMes(Long idFilial, String dataInicial, String dataFinal) throws ParseException {
+        List<Object[]> perdasPorMes = estatisticaRepository.selectPerdasPorMes(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
+        for(Object[] item : perdasPorMes){
+            EstatisticaDto estatisticaDto = new EstatisticaDto();
+            estatisticaDto.setMes(item[0].toString());
+            estatisticaDto.setQuantidadePerda((int)item[1]);
+            listEstatisticas.add(estatisticaDto);
+        }
+        return listEstatisticas;
     }
-
+/*
     @Override
     public List<Object[]> selectPerdasPorProduto(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
         return null;

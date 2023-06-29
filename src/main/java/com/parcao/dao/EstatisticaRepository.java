@@ -19,7 +19,8 @@ public class EstatisticaRepository {
         Query query = (Query) entityManager.createNativeQuery(
                 "select " +
                         "tv.nome_taxa, " +
-                        "cast(count(p.taxa_venda_id) as INTEGER) as TOTAL_VENDAS_POR_TIPO_PAGAMENTO,  cast(SUM(p.valor_total) as INTEGER) as TOTAL_VENDA " +
+                        "cast(count(p.taxa_venda_id) as INTEGER) as TOTAL_VENDAS_POR_TIPO_PAGAMENTO,  " +
+                        "cast(SUM(p.valor_total) as INTEGER) as TOTAL_VENDA " +
                         "from pedido p, taxa_venda tv " +
                         "where p.filial_id = :idFilial " +
                         "and p.taxa_venda_id = tv.id " +
@@ -30,7 +31,7 @@ public class EstatisticaRepository {
         List<Object[]> response = query.getResultList();
         return response;
     }
-/*
+
     public List<Object[]> selectPerdasPorMes(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
         Query query = (Query) entityManager.createNativeQuery(" " +
                 "select to_char(DATE_TRUNC('month',fc.date_fechamento_caixa), 'TMMonth') as MES, " +
@@ -46,7 +47,7 @@ public class EstatisticaRepository {
         List<Object[]> response = query.getResultList();
         return response;
     }
-
+/*
     public List<Object[]> selectPerdasPorProduto(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
         Query query = (Query) entityManager.createNativeQuery("" +
                 "select (select p.descricao_produto from produto p where p.id = fci.id) as NOME_PRODUTO, " +
