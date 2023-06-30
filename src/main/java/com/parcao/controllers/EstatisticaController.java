@@ -49,27 +49,19 @@ public class EstatisticaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
         }
     }
-/*
+
     @GetMapping("/buscaEstatisticaVendasDiaria/{idFilial}/{dataInicial}/{dataFinal}")
     public ResponseEntity<Object> buscaEstatisticaVendasDiaria(@PathVariable(value = "idFilial") Long idFilial,
                                                                @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,
                                                                @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
-        List<Object[]> estatisticaTotalVendasDiaria = estatisticaService.selectTotalVendasDiaria(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
-        for(Object[] item : estatisticaTotalVendasDiaria){
-            EstatisticaDto estatisticaDto = new EstatisticaDto();
-            estatisticaDto.setDiaMes(item[0].toString());
-            estatisticaDto.setEstatisticaValorTotalVendaTipoPagamento((int)item[1]);
-            listEstatisticas.add(estatisticaDto);
-        }
-        if(listEstatisticas.size() > 0) {
-            return ResponseEntity.status(HttpStatus.OK).body(listEstatisticas);
+        if(estatisticaService.selectTotalVendasDiaria(idFilial, dataInicial, dataFinal).size() > 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(estatisticaService.selectTotalVendasDiaria(idFilial, dataInicial, dataFinal));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
         }
     }
-
+/*
     @GetMapping("/buscaEstatisticaVendasMensais/{idFilial}/{dataInicial}/{dataFinal}")
     public ResponseEntity<Object> buscaEstatisticaVendasMensais(@PathVariable(value = "idFilial") Long idFilial,
                                                                @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,

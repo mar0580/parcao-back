@@ -52,12 +52,20 @@ public class EstatisticaServiceImpl implements EstatisticaService {
         }
         return listEstatisticas;
     }
-/*
-    @Override
-    public List<Object[]> selectTotalVendasDiaria(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
-        return null;
-    }
 
+    @Override
+    public List<EstatisticaDto> selectTotalVendasDiaria(Long idFilial, String dataInicial, String dataFinal) throws ParseException {
+        List<Object[]> estatisticaTotalVendasDiaria = estatisticaRepository.selectTotalVendasDiaria(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
+        for(Object[] item : estatisticaTotalVendasDiaria){
+            EstatisticaDto estatisticaDto = new EstatisticaDto();
+            estatisticaDto.setDiaMes(item[0].toString());
+            estatisticaDto.setEstatisticaValorTotalVendaTipoPagamento((int)item[1]);
+            listEstatisticas.add(estatisticaDto);
+        }
+        return listEstatisticas;
+    }
+/*
     @Override
     public List<Object[]> selectTotalVendasMensais(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
         return null;
