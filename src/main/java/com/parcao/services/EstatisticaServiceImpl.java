@@ -39,12 +39,20 @@ public class EstatisticaServiceImpl implements EstatisticaService {
         }
         return listEstatisticas;
     }
-/*
-    @Override
-    public List<Object[]> selectPerdasPorProduto(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
-        return null;
-    }
 
+    @Override
+    public List<EstatisticaDto> selectPerdasPorProduto(Long idFilial, String dataInicial, String dataFinal) throws ParseException {
+        List<Object[]> perdasPorProduto = estatisticaRepository.selectPerdasPorProduto(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
+        for(Object[] item : perdasPorProduto){
+            EstatisticaDto estatisticaDto = new EstatisticaDto();
+            estatisticaDto.setNomeProduto(item[0].toString());
+            estatisticaDto.setQuantidadePerda((int)item[1]);
+            listEstatisticas.add(estatisticaDto);
+        }
+        return listEstatisticas;
+    }
+/*
     @Override
     public List<Object[]> selectTotalVendasDiaria(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
         return null;
