@@ -1,6 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.services.EstatisticaService;
+import com.parcao.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class EstatisticaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
         }
     }
-    /*
+
     @GetMapping("/buscaEstatisticaVendasDiaria/{idFilial}/{dataInicial}/{dataFinal}")
     public ResponseEntity<Object> buscaEstatisticaVendasDiaria(@PathVariable(value = "idFilial") Long idFilial,
                                                                @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,

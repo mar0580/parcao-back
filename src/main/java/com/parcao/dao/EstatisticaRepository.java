@@ -63,7 +63,6 @@ public class EstatisticaRepository {
         return response;
     }
 
- /*
     public List<Object[]> selectTotalVendasDiaria(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
         Query query = (Query) entityManager.createNativeQuery("" +
                 "select to_char(p.date_pedido, 'dd-mm') as DIA_MES, " +
