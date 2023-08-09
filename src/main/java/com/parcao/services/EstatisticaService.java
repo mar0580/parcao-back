@@ -8,6 +8,8 @@ import java.util.List;
 public interface EstatisticaService {
     List<EstatisticaDto> selectEstatisticaPorTipoPagamento(Long idFilial, String dataInicial, String dataFinal) throws ParseException;
     List<EstatisticaDto> selectPerdasPorMes(Long idFilial, String dataInicial, String dataFinal) throws ParseException;
+    List<EstatisticaDto> selectPerdasPorProduto(Long idFilial, String dataInicial, String dataFinal) throws ParseException;
+
     /*
     List<Object[]> selectPerdasPorProduto(Long idFilial, Timestamp dataInicial, Timestamp dataFinal);
     List<Object[]> selectTotalVendasDiaria(Long idFilial, Timestamp dataInicial, Timestamp dataFinal);
