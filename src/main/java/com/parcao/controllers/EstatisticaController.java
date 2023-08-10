@@ -62,26 +62,16 @@ public class EstatisticaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
         }
     }
-/*
+
     @GetMapping("/buscaEstatisticaVendasMensais/{idFilial}/{dataInicial}/{dataFinal}")
     public ResponseEntity<Object> buscaEstatisticaVendasMensais(@PathVariable(value = "idFilial") Long idFilial,
                                                                @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,
                                                                @PathVariable(value = "dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataFinal) throws ParseException {
 
-        List<Object[]> estatisticaTotalVendasMensais = estatisticaService.selectTotalVendasMensais(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
-        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
-        for(Object[] item : estatisticaTotalVendasMensais){
-            EstatisticaDto estatisticaDto = new EstatisticaDto();
-            estatisticaDto.setMes(item[0].toString());
-            estatisticaDto.setEstatisticaValorTotalVendaTipoPagamento((int)item[1]);
-            listEstatisticas.add(estatisticaDto);
-        }
-        if(listEstatisticas.size() > 0) {
-            return ResponseEntity.status(HttpStatus.OK).body(listEstatisticas);
+        if(estatisticaService.selectTotalVendasMensais(idFilial, dataInicial, dataFinal).size() > 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(estatisticaService.selectTotalVendasMensais(idFilial, dataInicial, dataFinal));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("SEM_DADOS_ESTATISTICOS");
         }
     }
-
-     */
 }

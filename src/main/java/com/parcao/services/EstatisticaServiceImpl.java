@@ -67,9 +67,17 @@ public class EstatisticaServiceImpl implements EstatisticaService {
         }
         return listEstatisticas;
     }
-/*
+
     @Override
-    public List<Object[]> selectTotalVendasMensais(Long idFilial, Timestamp dataInicial, Timestamp dataFinal) {
-        return null;
-    }*/
+    public List<EstatisticaDto> selectTotalVendasMensais(Long idFilial, String dataInicial, String dataFinal) throws ParseException {
+        List<Object[]> estatisticaTotalVendasMensais = estatisticaRepository.selectTotalVendasMensais(idFilial, Util.dateToInicialTimestamp(dataInicial), Util.dateToFinalTimestamp(dataFinal));
+        List<EstatisticaDto> listEstatisticas = new ArrayList<>();
+        for(Object[] item : estatisticaTotalVendasMensais){
+            EstatisticaDto estatisticaDto = new EstatisticaDto();
+            estatisticaDto.setMes(item[0].toString());
+            estatisticaDto.setEstatisticaValorTotalVendaTipoPagamento((int)item[1]);
+            listEstatisticas.add(estatisticaDto);
+        }
+        return listEstatisticas;
+    }
 }

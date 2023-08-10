@@ -81,7 +81,7 @@ public class EstatisticaRepository {
 --definir o lc_time para sua própria sessão
 set lc_time  TO 'pt_BR.UTF-8';
 */
-    /*
+
  public List<Object[]> selectTotalVendasMensais(Long idFilial, Timestamp dataInicial, Timestamp dataFinal){
         Query query = (Query) entityManager.createNativeQuery("" +
                 "select to_char(DATE_TRUNC('month',p.date_pedido), 'TMMonth') AS  MES,  " +
@@ -96,5 +96,5 @@ set lc_time  TO 'pt_BR.UTF-8';
         query.setParameter("dataFinal", dataFinal);
         List<Object[]> response = query.getResultList();
         return response;
-    }*/
+    }
 }
