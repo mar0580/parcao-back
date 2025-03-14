@@ -1,7 +1,7 @@
 package com.parcao.services;
 
-import com.parcao.models.Abastecimento;
-import com.parcao.dao.AbastecimentoRepository;
+import com.parcao.model.entity.Abastecimento;
+import com.parcao.repository.AbastecimentoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,15 +26,15 @@ public class AbastecimentoServiceImpl implements AbastecimentoService{
      */
     @Override
     public int updateAbastecimento(int qtd, Long idFilial, Long idProduto) {
-        return abastecimentoRepository.updateAbastecimento(qtd, idFilial, idProduto);
+        return abastecimentoRepository.reduzirQuantidadeProduto(qtd, idFilial, idProduto);
     }
 
     @Override
-    public List<Abastecimento> getRowCountAbastecimento(Long idFilial, Long idProduto) { return abastecimentoRepository.getRowCountAbastecimento(idFilial, idProduto); }
+    public List<Abastecimento> getRowCountAbastecimento(Long idFilial, Long idProduto) { return abastecimentoRepository.buscarAbastecimentosPorProduto(idFilial, idProduto); }
 
     @Override
     public void adicionaQuantidadeProdutoAbastecimento(int qtd, Long idFilial, Long idProduto){ abastecimentoRepository.adicionaQuantidadeProdutoAbastecimento(qtd, idFilial, idProduto); }
 
     @Override
-    public List<Abastecimento> getRowCountQuantidadeAbastecimento(Long idFilial, Long idProduto, int qtd) { return abastecimentoRepository.getRowCountQuantidadeAbastecimento(idFilial, idProduto, qtd); }
+    public List<Abastecimento> getRowCountQuantidadeAbastecimento(Long idFilial, Long idProduto, int qtd) { return abastecimentoRepository.buscarAbastecimentosComQuantidadeMenor(idFilial, idProduto, qtd); }
 }

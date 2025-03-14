@@ -1,9 +1,8 @@
 package com.parcao.services;
 
-import com.parcao.models.Abastecimento;
+import com.parcao.model.entity.Abastecimento;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AbastecimentoService {
 

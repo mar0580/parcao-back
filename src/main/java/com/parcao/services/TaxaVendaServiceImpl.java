@@ -1,7 +1,7 @@
 package com.parcao.services;
 
-import com.parcao.models.TaxaVenda;
-import com.parcao.dao.TaxaVendaRepository;
+import com.parcao.model.entity.TaxaVenda;
+import com.parcao.repository.TaxaVendaRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

@@ -1,13 +1,15 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.ProdutoDto;
-import com.parcao.models.Produto;
+import com.parcao.exception.ProdutoJaCadastradoException;
+import com.parcao.model.dto.ProdutoDto;
+import com.parcao.model.entity.Produto;
 import com.parcao.services.ProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +27,16 @@ public class ProdutoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createProduto(@Valid @RequestBody ProdutoDto produtoDto) {
-        if (produtoService.existsByDescricaoProduto(produtoDto.getDescricaoProduto())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("PRODUTO_JA_CADASTRADO");
-        }
-        Produto produto = new Produto();
-        BeanUtils.copyProperties(produtoDto, produto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.save(produto));
+    public ResponseEntity<?> createProduto(@Valid @RequestBody ProdutoDto produtoDto) throws ProdutoJaCadastradoException {
+//        if (produtoService.existsByDescricaoProduto(produtoDto.getDescricaoProduto())) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("PRODUTO_JA_CADASTRADO");
+//        }
+//        Produto produto = new Produto();
+//        BeanUtils.copyProperties(produtoDto, produto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.save(produto));
+        Produto produto = produtoService.save(produtoDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produto);
+
     }
 
     @GetMapping("/list")
@@ -43,11 +48,13 @@ public class ProdutoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getProduto(@PathVariable(value = "id") Long id){
-        Optional<Produto> produtoOptional = produtoService.findById(id);
-        if (!produtoOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_NAO_ENCONTRADO");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(produtoOptional.get());
+//        Optional<Produto> produtoOptional = produtoService.findById(id);
+//        if (!produtoOptional.isPresent()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_NAO_ENCONTRADO");
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body(produtoOptional.get());
+        Produto produto = produtoService.findById(id);
+        return ResponseEntity.ok(produto);
     }
 
     @DeleteMapping("/{id}")
@@ -55,20 +62,26 @@ public class ProdutoController {
         if (!produtoService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_NAO_EXISTE");
         }
-        produtoService.deleleById(id);
+        produtoService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("SUCESSO");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateProduto(@PathVariable(value = "id") Long id, @Valid @RequestBody ProdutoDto produtoDto) {
-        Optional<Produto> produtoOptional = produtoService.findById(id);
-        if (!produtoOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_NAO_EXISTE");
+//        Optional<Produto> produtoOptional = produtoService.findById(id);
+//        if (!produtoOptional.isPresent()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_NAO_EXISTE");
+//        }
+//        Produto produto = new Produto();
+//        BeanUtils.copyProperties(produtoDto, produto);
+//        produto.setId(produtoOptional.get().getId());
+//        return  ResponseEntity.status(HttpStatus.OK).body(produtoService.save(produto));
+        try {
+            Produto produtoAtualizado = produtoService.atualizarProduto(id, produtoDto);
+            return ResponseEntity.ok(produtoAtualizado);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-        Produto produto = new Produto();
-        BeanUtils.copyProperties(produtoDto, produto);
-        produto.setId(produtoOptional.get().getId());
-        return  ResponseEntity.status(HttpStatus.OK).body(produtoService.save(produto));
     }
 
     @PutMapping("/{id}/{quantidade}")

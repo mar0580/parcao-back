@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.TaxaVendaDto;
-import com.parcao.models.TaxaVenda;
+import com.parcao.model.dto.TaxaVendaDto;
+import com.parcao.model.entity.TaxaVenda;
 import com.parcao.services.TaxaVendaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;

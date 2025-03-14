@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.parcao.models.User;
-import com.parcao.dao.UserRepository;
+import com.parcao.model.entity.User;
+import com.parcao.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

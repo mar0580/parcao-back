@@ -1,6 +1,6 @@
 package com.parcao.services;
 
-import com.parcao.models.Filial;
+import com.parcao.model.entity.Filial;
 
 import java.util.List;
 import java.util.Optional;

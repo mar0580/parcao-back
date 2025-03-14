@@ -1,23 +1,21 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.AbastecimentoDto;
-import com.parcao.dto.AbastecimentoItemDto;
-import com.parcao.models.Abastecimento;
-import com.parcao.models.AbastecimentoItem;
-import com.parcao.models.EEmailDetails;
-import com.parcao.models.Produto;
+import com.parcao.model.dto.AbastecimentoDto;
+import com.parcao.model.dto.AbastecimentoItemDto;
+import com.parcao.model.entity.Abastecimento;
+import com.parcao.model.entity.AbastecimentoItem;
+import com.parcao.model.enums.EEmailDetails;
+import com.parcao.model.entity.Produto;
 import com.parcao.services.AbastecimentoService;
 import com.parcao.services.EmailService;
 import com.parcao.services.PedidoService;
 import com.parcao.services.ProdutoService;
-import com.parcao.utils.Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -52,9 +50,9 @@ public class AbastecimentoController {
         abastecimento.setProdutos(produtos);
 
         for (AbastecimentoItem produtosParaEstoque : abastecimento.getProdutos()){
-            Optional<Produto> produtoOptional = produtoService.findById(produtosParaEstoque.getId());
+            Produto produtoOptional = produtoService.findById(produtosParaEstoque.getId());
             //verifica se a quantidade solicitada pela filial consta em estoque geral
-            if ((produtoOptional.get().getQuantidade() - produtosParaEstoque.getQuantidade() < 0) ) {
+            if ((produtoOptional.getQuantidade() - produtosParaEstoque.getQuantidade() < 0) ) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUTO_ESTOQUE_GERAL_INSUFICIENTE " + produtosParaEstoque.getDescricaoProduto());
             }
 
@@ -62,11 +60,11 @@ public class AbastecimentoController {
             if (abastecimentoService.getRowCountAbastecimento(abastecimento.getIdFilial(), produtosParaEstoque.getId()).size() > 0){
                 abastecimentoService.adicionaQuantidadeProdutoAbastecimento(produtosParaEstoque.getQuantidade(), abastecimento.getIdFilial(), produtosParaEstoque.getId());
 
-                produtoService.updateProdutoEstoque(produtosParaEstoque.getId(), (produtoOptional.get().getQuantidade() - produtosParaEstoque.getQuantidade()));
+                produtoService.updateProdutoEstoque(produtosParaEstoque.getId(), (produtoOptional.getQuantidade() - produtosParaEstoque.getQuantidade()));
 
                 return ResponseEntity.status(HttpStatus.CREATED).body("ESTOQUE_PRODUTO_FILIAL_ATUALIZADO");
             }
-            produtoService.updateProdutoEstoque(produtosParaEstoque.getId(), (produtoOptional.get().getQuantidade() - produtosParaEstoque.getQuantidade()));
+            produtoService.updateProdutoEstoque(produtosParaEstoque.getId(), (produtoOptional.getQuantidade() - produtosParaEstoque.getQuantidade()));
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(abastecimentoService.save(abastecimento));

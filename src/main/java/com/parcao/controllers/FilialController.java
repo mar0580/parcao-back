@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.FilialDto;
-import com.parcao.models.Filial;
+import com.parcao.model.dto.FilialDto;
+import com.parcao.model.entity.Filial;
 import com.parcao.services.FilialService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;

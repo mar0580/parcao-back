@@ -1,10 +1,10 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.ControleDiarioEstoqueDto;
-import com.parcao.dto.FechamentoCaixaDto;
-import com.parcao.dto.FechamentoCaixaItemDto;
-import com.parcao.models.FechamentoCaixa;
-import com.parcao.models.FechamentoCaixaItem;
+import com.parcao.model.dto.ControleDiarioEstoqueDto;
+import com.parcao.model.dto.FechamentoCaixaDto;
+import com.parcao.model.dto.FechamentoCaixaItemDto;
+import com.parcao.model.entity.FechamentoCaixa;
+import com.parcao.model.entity.FechamentoCaixaItem;
 import com.parcao.dao.FechamentoCaixaItemRepository;
 import com.parcao.services.FechamentoCaixaItemService;
 import com.parcao.services.FechamentoCaixaService;

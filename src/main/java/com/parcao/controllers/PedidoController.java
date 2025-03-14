@@ -1,9 +1,9 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.PedidoDto;
-import com.parcao.dto.PedidoItemDto;
-import com.parcao.models.Pedido;
-import com.parcao.models.PedidoItem;
+import com.parcao.model.dto.PedidoDto;
+import com.parcao.model.dto.PedidoItemDto;
+import com.parcao.model.entity.Pedido;
+import com.parcao.model.entity.PedidoItem;
 import com.parcao.services.PedidoService;
 import com.parcao.services.ProdutoService;
 import org.springframework.beans.BeanUtils;

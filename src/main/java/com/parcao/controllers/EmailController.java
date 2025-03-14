@@ -1,6 +1,6 @@
 package com.parcao.controllers;
 
-import com.parcao.models.EmailDetails;
+import com.parcao.model.entity.EmailDetails;
 import com.parcao.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

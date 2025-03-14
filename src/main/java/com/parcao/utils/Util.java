@@ -1,16 +1,10 @@
 package com.parcao.utils;
 
-import com.parcao.models.EmailDetails;
-import com.parcao.services.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;

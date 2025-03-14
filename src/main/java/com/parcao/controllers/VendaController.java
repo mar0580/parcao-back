@@ -1,8 +1,8 @@
 package com.parcao.controllers;
 
 import com.google.common.base.Strings;
-import com.parcao.dto.ControleDiarioValoresDto;
-import com.parcao.models.Produto;
+import com.parcao.model.dto.ControleDiarioValoresDto;
+import com.parcao.model.entity.Produto;
 import com.parcao.services.FechamentoCaixaItemService;
 import com.parcao.services.ProdutoService;
 import com.parcao.services.VendaService;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.parcao.services;
 
-import com.parcao.dto.EstatisticaDto;
+import com.parcao.model.dto.EstatisticaDto;
 
 import java.text.ParseException;
 import java.util.List;

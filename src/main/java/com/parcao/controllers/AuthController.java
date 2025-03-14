@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.parcao.dto.ChangePasswordRequest;
-import com.parcao.models.Filial;
+import com.parcao.model.dto.ChangePasswordRequest;
+import com.parcao.model.entity.Filial;
 import com.parcao.services.FilialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -23,15 +23,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.parcao.models.ERole;
-import com.parcao.models.Role;
-import com.parcao.models.User;
-import com.parcao.dto.LoginRequest;
-import com.parcao.dto.SignupRequest;
+import com.parcao.model.enums.ERole;
+import com.parcao.model.entity.Role;
+import com.parcao.model.entity.User;
+import com.parcao.model.dto.LoginRequest;
+import com.parcao.model.dto.SignupRequest;
 import com.parcao.payload.response.MessageResponse;
 import com.parcao.payload.response.UserInfoResponse;
-import com.parcao.dao.RoleRepository;
-import com.parcao.dao.UserRepository;
+import com.parcao.repository.RoleRepository;
+import com.parcao.repository.UserRepository;
 import com.parcao.security.jwt.JwtUtils;
 import com.parcao.services.UserDetailsImpl;
 

@@ -1,8 +1,6 @@
 package com.parcao.services;
 
-import com.parcao.models.FechamentoCaixa;
-
-import java.sql.Timestamp;
+import com.parcao.model.entity.FechamentoCaixa;
 
 public interface FechamentoCaixaService {
 

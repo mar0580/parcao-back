@@ -1,14 +1,12 @@
 package com.parcao.component;
 
-import com.parcao.models.EEmailDetails;
-import com.parcao.models.Filial;
-import com.parcao.models.Produto;
+import com.parcao.model.enums.EEmailDetails;
+import com.parcao.model.entity.Filial;
 import com.parcao.services.EmailService;
 import com.parcao.services.FilialService;
 import com.parcao.services.SchedulerService;
 import com.parcao.utils.Util;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;

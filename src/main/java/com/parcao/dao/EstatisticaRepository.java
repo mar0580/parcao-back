@@ -1,6 +1,5 @@
 package com.parcao.dao;
 
-import com.parcao.services.EstatisticaServiceImpl;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
