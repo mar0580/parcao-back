@@ -1,15 +1,14 @@
 package com.parcao.services;
 
-import com.parcao.dto.ClienteDto;
-import com.parcao.models.Cliente;
-import com.parcao.dao.ClienteRepository;
+import com.parcao.model.dto.ClienteDto;
+import com.parcao.model.entity.Cliente;
+import com.parcao.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

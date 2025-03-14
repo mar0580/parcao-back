@@ -1,9 +1,8 @@
 package com.parcao.controllers;
 
-import com.parcao.dto.ClienteDto;
-import com.parcao.models.Cliente;
+import com.parcao.model.dto.ClienteDto;
+import com.parcao.model.entity.Cliente;
 import com.parcao.services.ClienteService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

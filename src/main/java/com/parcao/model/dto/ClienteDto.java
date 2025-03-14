@@ -1,4 +1,4 @@
-package com.parcao.dto;
+package com.parcao.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

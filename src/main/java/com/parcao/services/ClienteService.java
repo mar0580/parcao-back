@@ -1,7 +1,7 @@
 package com.parcao.services;
 
-import com.parcao.dto.ClienteDto;
-import com.parcao.models.Cliente;
+import com.parcao.model.dto.ClienteDto;
+import com.parcao.model.entity.Cliente;
 
 import java.math.BigDecimal;
 import java.util.List;
