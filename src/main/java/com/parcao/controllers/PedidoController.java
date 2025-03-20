@@ -21,24 +21,16 @@ import java.util.Set;
 public class PedidoController {
 
     final PedidoService pedidoService;
-    final ProdutoService produtoService;
 
-    public PedidoController(PedidoService pedidoService, ProdutoService produtoService) {
+
+    public PedidoController(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
-        this.produtoService = produtoService;
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createPedido(@Valid @RequestBody PedidoDto pedidoDto) {
-        Set<PedidoItemDto> produtoItemDto = pedidoDto.getProdutos();
-        Set<PedidoItem> produtos = new HashSet<>();
 
-        produtoItemDto.forEach(produto -> produtos.add(produtoService.existsById(produto.getId()) ? new PedidoItem(produto, produtoService) : null));
-
-        Pedido pedido = new Pedido();
-        BeanUtils.copyProperties(pedidoDto, pedido);
-        pedido.setProdutos(produtos);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.save(pedido));
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.save(pedidoDto));
     }
 
     //Criar método de cancelar pedido

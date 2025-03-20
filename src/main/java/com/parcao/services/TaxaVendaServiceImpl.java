@@ -1,7 +1,9 @@
 package com.parcao.services;
 
+import com.parcao.model.dto.TaxaVendaDto;
 import com.parcao.model.entity.TaxaVenda;
 import com.parcao.repository.TaxaVendaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +45,9 @@ public class TaxaVendaServiceImpl implements TaxaVendaService {
     }
 
     @Override
-    public TaxaVenda save(TaxaVenda taxaVenda) {
+    public TaxaVenda save(TaxaVendaDto taxaVendaDto) {
+        TaxaVenda taxaVenda = new TaxaVenda();
+        BeanUtils.copyProperties(taxaVendaDto, taxaVenda);
         return taxaVendaRepository.save(taxaVenda);
     }
 }
