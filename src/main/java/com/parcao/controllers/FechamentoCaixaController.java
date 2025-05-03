@@ -1,8 +1,8 @@
 package com.parcao.controllers;
 
-import com.parcao.model.dto.ControleDiarioEstoqueDto;
-import com.parcao.model.dto.FechamentoCaixaDto;
-import com.parcao.model.dto.FechamentoCaixaItemDto;
+import com.parcao.model.dto.ControleDiarioEstoqueDTO;
+import com.parcao.model.dto.FechamentoCaixaDTO;
+import com.parcao.model.dto.FechamentoCaixaItemDTO;
 import com.parcao.model.entity.FechamentoCaixa;
 import com.parcao.model.entity.FechamentoCaixaItem;
 import com.parcao.dao.FechamentoCaixaItemRepository;
@@ -40,8 +40,8 @@ public class FechamentoCaixaController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createFechamentoCaixa(@Valid @RequestBody FechamentoCaixaDto fechamentoCaixaDto) {
-        Set<FechamentoCaixaItemDto> produtoItemFechamentoCaixaDto = fechamentoCaixaDto.getProdutos();
+    public ResponseEntity<?> createFechamentoCaixa(@Valid @RequestBody FechamentoCaixaDTO fechamentoCaixaDto) {
+        Set<FechamentoCaixaItemDTO> produtoItemFechamentoCaixaDto = fechamentoCaixaDto.getProdutos();
         Set<FechamentoCaixaItem> produtos = new HashSet<>();
 
         produtoItemFechamentoCaixaDto.forEach(produto -> produtos.add(produtoService.existsById(produto.getId()) ? new FechamentoCaixaItem(produto) : null));
@@ -65,9 +65,9 @@ public class FechamentoCaixaController {
         }
         if (optionalFechamentoCaixaItem.size() > 0) {
 
-            List<ControleDiarioEstoqueDto> customResponseList = new ArrayList();
+            List<ControleDiarioEstoqueDTO> customResponseList = new ArrayList();
             for (Object[] item: optionalFechamentoCaixaItem) {
-                ControleDiarioEstoqueDto c = new ControleDiarioEstoqueDto();
+                ControleDiarioEstoqueDTO c = new ControleDiarioEstoqueDTO();
                 BigInteger b = new BigInteger(item[0].toString());
                 c.setId(b.longValue());
                 c.setInicio((int) item[1]);

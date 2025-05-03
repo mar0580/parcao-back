@@ -1,77 +1,66 @@
 package com.parcao.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.parcao.security.jwt.AuthEntryPointJwt;
-import com.parcao.security.jwt.AuthTokenFilter;
-import com.parcao.services.UserDetailsServiceImpl;
+import com.parcao.security.jwt.JwtAuthFilter;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(
-    // securedEnabled = true,
-    // jsr250Enabled = true,
-    prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired
-  UserDetailsServiceImpl userDetailsService;
+@EnableMethodSecurity
+public class WebSecurityConfig {
 
-  @Autowired
-  private AuthEntryPointJwt unauthorizedHandler;
+  private final JwtAuthFilter jwtAuthFilter;
 
-  @Bean
-  public AuthTokenFilter authenticationJwtTokenFilter() {
-    return new AuthTokenFilter();
-  }
-
-  @Override
-  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+  public WebSecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    this.jwtAuthFilter = jwtAuthFilter;
   }
 
   @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+    .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeHttpRequests(auth -> auth
+                    .antMatchers("/api/auth/**").permitAll()
+                    .antMatchers("/api/usuario/**").permitAll()
+                    .antMatchers("/api/cliente/**").permitAll()
+                    .antMatchers("/api/filial/**").permitAll()
+                    .antMatchers(HttpMethod.POST,"/api/produto/**").hasRole("ADMIN")
+                    .antMatchers("/api/taxavenda/**").permitAll()
+                    .antMatchers("/api/pedido/**").permitAll()
+                    .antMatchers("/api/abastecimento/**").permitAll()
+                    .antMatchers("/api/test/**").permitAll()
+                    .antMatchers("/api/fechamentocaixa/**").permitAll()
+                    .antMatchers("/api/venda/**").permitAll()
+                    .antMatchers("/api/email/**").permitAll()
+                    .antMatchers("/api/estatistica/**").permitAll()
+                    .antMatchers("/actuator/**").permitAll()
+                    .antMatchers("/api/kafka/**").permitAll()
+                    .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
-  }
-
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable()
-      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-      .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-            .antMatchers("/api/cliente/**").permitAll()
-            .antMatchers("/api/filial/**").permitAll()
-            .antMatchers("/api/produto/**").permitAll()
-            .antMatchers("/api/taxavenda/**").permitAll()
-            .antMatchers("/api/pedido/**").permitAll()
-            .antMatchers("/api/abastecimento/**").permitAll()
-            .antMatchers("/api/test/**").permitAll()
-            .antMatchers("/api/fechamentocaixa/**").permitAll()
-            .antMatchers("/api/venda/**").permitAll()
-            .antMatchers("/api/email/**").permitAll()
-            .antMatchers("/api/estatistica/**").permitAll()
-            .antMatchers("/actuator/**").permitAll()
-      .anyRequest().authenticated();
-
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 }

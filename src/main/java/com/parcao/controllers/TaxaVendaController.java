@@ -1,6 +1,6 @@
 package com.parcao.controllers;
 
-import com.parcao.model.dto.TaxaVendaDto;
+import com.parcao.model.dto.TaxaVendaDTO;
 import com.parcao.model.entity.TaxaVenda;
 import com.parcao.services.TaxaVendaService;
 import org.springframework.http.HttpStatus;
@@ -24,11 +24,11 @@ public class TaxaVendaController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTaxaVenda(@Valid @RequestBody TaxaVendaDto taxaVendaDto) {
-        if (taxaVendaService.existsByNomeTaxa(taxaVendaDto.getNomeTaxa())) {
+    public ResponseEntity<?> createTaxaVenda(@Valid @RequestBody TaxaVendaDTO TaxaVendaDTO) {
+        if (taxaVendaService.existsByNomeTaxa(TaxaVendaDTO.getNomeTaxa())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("TAXA_JA_CADASTRADA");
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(taxaVendaService.save(taxaVendaDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(taxaVendaService.save(TaxaVendaDTO));
     }
 
     @GetMapping("/list")
@@ -55,11 +55,11 @@ public class TaxaVendaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateTaxaVenda(@PathVariable(value = "id") Long id, @Valid @RequestBody TaxaVendaDto taxaVendaDto) {
+    public ResponseEntity<Object> updateTaxaVenda(@PathVariable(value = "id") Long id, @Valid @RequestBody TaxaVendaDTO TaxaVendaDTO) {
         Optional<TaxaVenda> taxaVendaOptional = taxaVendaService.findById(id);
         if (!taxaVendaOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("TAXA_NAO_ENCONTRADA");
         }
-        return  ResponseEntity.status(HttpStatus.OK).body(taxaVendaService.save(taxaVendaDto));
+        return  ResponseEntity.status(HttpStatus.OK).body(taxaVendaService.save(TaxaVendaDTO));
     }
 }

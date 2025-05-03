@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
-import com.parcao.model.dto.AbastecimentoDto;
-import com.parcao.model.dto.AbastecimentoItemDto;
+import com.parcao.model.dto.AbastecimentoDTO;
+import com.parcao.model.dto.AbastecimentoItemDTO;
 import com.parcao.model.entity.Abastecimento;
 import com.parcao.model.entity.AbastecimentoItem;
 import com.parcao.model.enums.EEmailDetails;
@@ -38,8 +38,8 @@ public class AbastecimentoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAbastecimento(@Valid @RequestBody AbastecimentoDto abastecimentoDto) {
-        Set<AbastecimentoItemDto> produtoItemDto = abastecimentoDto.getProdutos();
+    public ResponseEntity<?> createAbastecimento(@Valid @RequestBody AbastecimentoDTO abastecimentoDto) {
+        Set<AbastecimentoItemDTO> produtoItemDto = abastecimentoDto.getProdutos();
         Set<AbastecimentoItem> produtos = new HashSet<>();
 
         produtoItemDto.forEach(produto -> produtos.add(
@@ -71,11 +71,11 @@ public class AbastecimentoController {
     }
 
     @PutMapping()
-    public ResponseEntity<Object> updateEstoqueFilial(@Valid @RequestBody AbastecimentoDto abastecimentoDto){
-        Set<AbastecimentoItemDto> abastecimentoItemDto = abastecimentoDto.getProducts();
+    public ResponseEntity<Object> updateEstoqueFilial(@Valid @RequestBody AbastecimentoDTO abastecimentoDto){
+        Set<AbastecimentoItemDTO> abastecimentoItemDto = abastecimentoDto.getProducts();
         //verifica se possui produtos em estoque, antes de atualizar
         String produtosEstoqueBaixo = "";
-        for (AbastecimentoItemDto produtosParaAtualizarEstoque : abastecimentoItemDto){
+        for (AbastecimentoItemDTO produtosParaAtualizarEstoque : abastecimentoItemDto){
             if (abastecimentoService.getRowCountQuantidadeAbastecimento(abastecimentoDto.getIdFilial(), produtosParaAtualizarEstoque.getId(), produtosParaAtualizarEstoque.getQuantidade()).size() < 1){
                 produtosEstoqueBaixo += System.lineSeparator() + "Produto: " + produtosParaAtualizarEstoque.getDescricaoProduto() + " - Quantidade: " +
                         produtosParaAtualizarEstoque.getQuantidade() + "\n";

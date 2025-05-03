@@ -1,7 +1,7 @@
 package com.parcao.services;
 
 import com.parcao.exception.ProdutoJaCadastradoException;
-import com.parcao.model.dto.ProdutoDto;
+import com.parcao.model.dto.ProdutoDTO;
 import com.parcao.model.entity.Produto;
 
 import java.math.BigDecimal;
@@ -19,9 +19,9 @@ public interface ProdutoService {
 
     Produto findById(Long id);
 
-    Produto save(ProdutoDto produtoDto) throws ProdutoJaCadastradoException;
+    Produto save(ProdutoDTO ProdutoDTO) throws ProdutoJaCadastradoException;
 
-    Produto atualizarProduto(Long id, ProdutoDto produtoDto);
+    Produto atualizarProduto(Long id, ProdutoDTO ProdutoDTO);
 
     int updateProdutoEstoque(Long id, int quantidade);
 

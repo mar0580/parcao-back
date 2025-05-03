@@ -1,6 +1,6 @@
 package com.parcao.services;
 
-import com.parcao.model.dto.ClienteDto;
+import com.parcao.model.dto.ClienteDTO;
 import com.parcao.model.entity.Cliente;
 
 import java.math.BigDecimal;
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ClienteService {
 
-    boolean existsByTelefone(String telefone, ClienteDto clienteDto);
+    boolean existsByTelefone(String telefone, ClienteDTO ClienteDTO);
 
     List<Cliente> findAll();
 
@@ -25,7 +25,7 @@ public interface ClienteService {
 
     boolean existsByIdAndSaldoCreditoGreaterThanEqual(Long id, BigDecimal saldoCredito);
 
-    Cliente updateCliente(ClienteDto clienteDto);
+    Cliente updateCliente(ClienteDTO ClienteDTO);
 
     void updateSaldoCliente(Long id, BigDecimal saldoCredito);
 }

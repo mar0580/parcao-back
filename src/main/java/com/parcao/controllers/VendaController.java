@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
 import com.google.common.base.Strings;
-import com.parcao.model.dto.ControleDiarioValoresDto;
+import com.parcao.model.dto.ControleDiarioValoresDTO;
 import com.parcao.model.entity.Produto;
 import com.parcao.services.FechamentoCaixaItemService;
 import com.parcao.services.ProdutoService;
@@ -51,9 +51,9 @@ public class VendaController {
         }
 
         if (fechamentoCaixaItemProduto.size() > 0) {
-            ControleDiarioValoresDto c = new ControleDiarioValoresDto();
+            ControleDiarioValoresDTO c = new ControleDiarioValoresDTO();
 
-            List<ControleDiarioValoresDto> customResponseList = new ArrayList();
+            List<ControleDiarioValoresDTO> customResponseList = new ArrayList();
             for (Object[] itemFechamentoCaixaItemProduto : fechamentoCaixaItemProduto) {
 
                 BigInteger b = new BigInteger(itemFechamentoCaixaItemProduto[0].toString());

@@ -1,6 +1,6 @@
 package com.parcao.model.entity;
 
-import com.parcao.model.dto.AbastecimentoItemDto;
+import com.parcao.model.dto.AbastecimentoItemDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class AbastecimentoItem {
     private String descricaoProduto;
     private int quantidade;
 
-    public AbastecimentoItem(AbastecimentoItemDto produto) {
+    public AbastecimentoItem(AbastecimentoItemDTO produto) {
         this.id = produto.getId();
         this.descricaoProduto = produto.getDescricaoProduto();
         this.quantidade = produto.getQuantidade();

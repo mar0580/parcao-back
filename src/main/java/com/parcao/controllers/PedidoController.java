@@ -1,19 +1,12 @@
 package com.parcao.controllers;
 
-import com.parcao.model.dto.PedidoDto;
-import com.parcao.model.dto.PedidoItemDto;
-import com.parcao.model.entity.Pedido;
-import com.parcao.model.entity.PedidoItem;
+import com.parcao.model.dto.PedidoDTO;
 import com.parcao.services.PedidoService;
-import com.parcao.services.ProdutoService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 13600)
 @RestController
@@ -28,7 +21,7 @@ public class PedidoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPedido(@Valid @RequestBody PedidoDto pedidoDto) {
+    public ResponseEntity<?> createPedido(@Valid @RequestBody PedidoDTO pedidoDto) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.save(pedidoDto));
     }

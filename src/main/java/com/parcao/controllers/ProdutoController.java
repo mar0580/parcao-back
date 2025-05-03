@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.exception.ProdutoJaCadastradoException;
-import com.parcao.model.dto.ProdutoDto;
+import com.parcao.model.dto.ProdutoDTO;
 import com.parcao.model.entity.Produto;
 import com.parcao.model.enums.MensagemEnum;
 import com.parcao.services.ProdutoService;
@@ -25,8 +25,8 @@ public class ProdutoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Produto> createProduto(@Valid @RequestBody ProdutoDto produtoDto) throws ProdutoJaCadastradoException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.save(produtoDto));
+    public ResponseEntity<Produto> createProduto(@Valid @RequestBody ProdutoDTO ProdutoDTO) throws ProdutoJaCadastradoException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.save(ProdutoDTO));
     }
 
     @GetMapping("/list")
@@ -46,8 +46,8 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateProduto(@PathVariable(value = "id") Long id, @Valid @RequestBody ProdutoDto produtoDto) {
-        return ResponseEntity.ok(produtoService.atualizarProduto(id, produtoDto));
+    public ResponseEntity<Object> updateProduto(@PathVariable(value = "id") Long id, @Valid @RequestBody ProdutoDTO ProdutoDTO) {
+        return ResponseEntity.ok(produtoService.atualizarProduto(id, ProdutoDTO));
     }
 
     @PutMapping("/{id}/{quantidade}")

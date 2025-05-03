@@ -1,6 +1,6 @@
 package com.parcao.model.entity;
 
-import com.parcao.model.dto.FechamentoCaixaItemDto;
+import com.parcao.model.dto.FechamentoCaixaItemDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class FechamentoCaixaItem {
     private int perda;
     private int quantidadeFinal;
 
-    public FechamentoCaixaItem(FechamentoCaixaItemDto fechamentoCaixa) {
+    public FechamentoCaixaItem(FechamentoCaixaItemDTO fechamentoCaixa) {
         this.id = fechamentoCaixa.getId();
         this.inicio = fechamentoCaixa.getInicio();
         this.entrada = fechamentoCaixa.getEntrada();

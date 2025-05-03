@@ -1,6 +1,6 @@
 package com.parcao.services;
 
-import com.parcao.model.dto.TaxaVendaDto;
+import com.parcao.model.dto.TaxaVendaDTO;
 import com.parcao.model.entity.TaxaVenda;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public interface TaxaVendaService {
 
     Optional<TaxaVenda> findById(Long id);
 
-    TaxaVenda save(TaxaVendaDto taxaVendaDto);
+    TaxaVenda save(TaxaVendaDTO TaxaVendaDTO);
 }

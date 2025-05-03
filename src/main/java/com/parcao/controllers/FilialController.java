@@ -1,6 +1,6 @@
 package com.parcao.controllers;
 
-import com.parcao.model.dto.FilialDto;
+import com.parcao.model.dto.FilialDTO;
 import com.parcao.model.entity.Filial;
 import com.parcao.services.FilialService;
 import org.springframework.beans.BeanUtils;
@@ -25,12 +25,12 @@ public class FilialController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createFilial(@Valid @RequestBody FilialDto filialDto) {
-        if(filialService.existsByNomeLocal(filialDto.getNomeLocal())){
+    public ResponseEntity<?> createFilial(@Valid @RequestBody FilialDTO FilialDTO) {
+        if(filialService.existsByNomeLocal(FilialDTO.getNomeLocal())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("FILIAL_JA_CADASTRADA");
         }
         Filial filial = new Filial();
-        BeanUtils.copyProperties(filialDto, filial);
+        BeanUtils.copyProperties(FilialDTO, filial);
         return ResponseEntity.status(HttpStatus.CREATED).body(filialService.save(filial));
     }
 
@@ -59,13 +59,13 @@ public class FilialController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateFilial(@PathVariable(value = "id") Long id,@Valid @RequestBody FilialDto filialDto) {
+    public ResponseEntity<Object> updateFilial(@PathVariable(value = "id") Long id,@Valid @RequestBody FilialDTO FilialDTO) {
         Optional<Filial> filialOptional = filialService.findById(id);
         if (!filialOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FILIAL_NAO_EXISTE");
         }
         Filial filial = new Filial();
-        BeanUtils.copyProperties(filialDto, filial);
+        BeanUtils.copyProperties(FilialDTO, filial);
         filial.setId(filialOptional.get().getId());
         return ResponseEntity.status(HttpStatus.OK).body(filialService.save(filial));
     }

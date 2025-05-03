@@ -1,6 +1,6 @@
 package com.parcao.model.entity;
 
-import com.parcao.model.dto.PedidoItemDto;
+import com.parcao.model.dto.PedidoItemDTO;
 import com.parcao.services.ProdutoService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class PedidoItem {
     private BigDecimal custoTotal;
 
     @Autowired
-    public PedidoItem(PedidoItemDto produto, ProdutoService produtoService) {
+    public PedidoItem(PedidoItemDTO produto, ProdutoService produtoService) {
         this.id = produto.getId();
         this.descricaoProduto = produto.getDescricaoProduto();
         this.quantidade = produto.getQuantidade();

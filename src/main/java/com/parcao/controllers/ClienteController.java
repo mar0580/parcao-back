@@ -1,6 +1,6 @@
 package com.parcao.controllers;
 
-import com.parcao.model.dto.ClienteDto;
+import com.parcao.model.dto.ClienteDTO;
 import com.parcao.model.entity.Cliente;
 import com.parcao.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,8 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteDto clienteDto) {
-        if(!clienteService.existsByTelefone(clienteDto.getTelefone(), clienteDto)){
+    public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteDTO ClienteDTO) {
+        if(!clienteService.existsByTelefone(ClienteDTO.getTelefone(), ClienteDTO)){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("TELEFONE_JA_CADASTRADO");
         } else {
             return ResponseEntity.status(HttpStatus.CREATED).body("SUCESSO");
@@ -56,11 +56,8 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCliente(@PathVariable(value = "id") Long id){
         Optional<Cliente> clienteOptional = clienteService.findById(id);
-        if (!clienteOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("CLIENTE_NAO_ENCONTRADO");
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(clienteOptional.get());
-        }
+        return clienteOptional.<ResponseEntity<Object>>map(cliente -> ResponseEntity.status(HttpStatus.OK)
+                .body(cliente)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("CLIENTE_NAO_ENCONTRADO"));
     }
 
     @DeleteMapping("/{id}")
@@ -73,12 +70,12 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateCliente(@PathVariable(value = "id") Long id, @Valid @RequestBody ClienteDto clienteDto) {
+    public ResponseEntity<Object> updateCliente(@PathVariable(value = "id") Long id, @Valid @RequestBody ClienteDTO ClienteDTO) {
         Optional<Cliente> clienteOptional = clienteService.findById(id);
         if (!clienteOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("CLIENTE_NAO_EXISTE");
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.updateCliente(clienteDto));
+            return ResponseEntity.status(HttpStatus.OK).body(clienteService.updateCliente(ClienteDTO));
         }
     }
 
