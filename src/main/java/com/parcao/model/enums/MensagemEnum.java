@@ -1,5 +1,8 @@
 package com.parcao.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum MensagemEnum {
     INEXISTENTE("INEXISTENTE"),
     USUARIO_JA_EXISTE("USUARIO JÁ EXISTE"),
@@ -25,7 +28,4 @@ public enum MensagemEnum {
         this.mensagem = mensagem;
     }
 
-    public String getMensagem() {
-        return mensagem;
-    }
 }
