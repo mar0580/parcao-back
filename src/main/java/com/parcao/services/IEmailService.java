@@ -2,7 +2,7 @@ package com.parcao.services;
 
 import com.parcao.model.entity.EmailDetails;
 
-public interface EmailService {
+public interface IEmailService {
 
     String sendSimpleMail(EmailDetails details);
 

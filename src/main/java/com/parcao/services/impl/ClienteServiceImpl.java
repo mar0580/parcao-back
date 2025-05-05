@@ -3,7 +3,7 @@ package com.parcao.services.impl;
 import com.parcao.model.dto.ClienteDTO;
 import com.parcao.model.entity.Cliente;
 import com.parcao.repository.ClienteRepository;
-import com.parcao.services.ClienteService;
+import com.parcao.services.IClienteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteServiceImpl implements ClienteService {
+public class ClienteServiceImpl implements IClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;

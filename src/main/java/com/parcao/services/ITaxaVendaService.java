@@ -6,7 +6,7 @@ import com.parcao.model.entity.TaxaVenda;
 import java.util.List;
 import java.util.Optional;
 
-public interface TaxaVendaService {
+public interface ITaxaVendaService {
     boolean existsByNomeTaxa(String nomeTaxa);
 
     List<TaxaVenda> findAll();

@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.model.entity.Usuario;
-import com.parcao.services.UsuarioService;
+import com.parcao.services.IUsuarioService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +12,9 @@ import java.util.List;
 @RequestMapping("/api/usuario")
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    private final IUsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(IUsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 

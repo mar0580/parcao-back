@@ -2,7 +2,7 @@ package com.parcao.services.impl;
 
 import com.parcao.model.entity.Filial;
 import com.parcao.repository.FilialRepository;
-import com.parcao.services.FilialService;
+import com.parcao.services.IFilialService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class FilialServiceImpl implements FilialService {
+public class FilialServiceImpl implements IFilialService {
 
     final FilialRepository filialRepository;
 

@@ -4,7 +4,7 @@ import com.parcao.exception.ProdutoJaCadastradoException;
 import com.parcao.model.dto.ProdutoDTO;
 import com.parcao.model.entity.Produto;
 import com.parcao.model.enums.MensagemEnum;
-import com.parcao.services.ProdutoService;
+import com.parcao.services.IProdutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +18,9 @@ import java.util.List;
 @RequestMapping("/api/produto")
 public class ProdutoController {
 
-    final ProdutoService produtoService;
+    final IProdutoService produtoService;
 
-    public ProdutoController(ProdutoService produtoService) {
+    public ProdutoController(IProdutoService produtoService) {
         this.produtoService = produtoService;
     }
 

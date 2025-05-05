@@ -1,13 +1,13 @@
 package com.parcao.services.impl;
 
 import com.parcao.dao.FechamentoCaixaItemRepository;
-import com.parcao.services.FechamentoCaixaItemService;
+import com.parcao.services.IFechamentoCaixaItemService;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 //@Service
-public class FechamentoCaixaItemServiceImpl implements FechamentoCaixaItemService {
+public class FechamentoCaixaItemServiceImpl implements IFechamentoCaixaItemService {
     final FechamentoCaixaItemRepository fechamentoCaixaItemRepository;
 
     public FechamentoCaixaItemServiceImpl(FechamentoCaixaItemRepository fechamentoCaixaItemRepository) {

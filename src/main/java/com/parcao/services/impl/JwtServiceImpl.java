@@ -1,6 +1,6 @@
 package com.parcao.services.impl;
 
-import com.parcao.services.JwtService;
+import com.parcao.services.IJwtService;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class JwtServiceImpl implements JwtService {
+public class JwtServiceImpl implements IJwtService {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
+    private static final Logger logger = LoggerFactory.getLogger(IJwtService.class);
 
     @Value("${parcao.app.jwtSecret}")
     private String jwtSecret;

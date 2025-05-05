@@ -2,7 +2,7 @@ package com.parcao.controllers;
 
 import com.parcao.model.dto.FilialDTO;
 import com.parcao.model.entity.Filial;
-import com.parcao.services.FilialService;
+import com.parcao.services.IFilialService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ import java.util.Optional;
 @RequestMapping("/api/filial")
 public class FilialController {
 
-    final FilialService filialService;
+    final IFilialService filialService;
 
-    public FilialController(FilialService filialService) {
+    public FilialController(IFilialService filialService) {
         this.filialService = filialService;
     }
 

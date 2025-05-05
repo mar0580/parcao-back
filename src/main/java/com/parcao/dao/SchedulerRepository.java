@@ -1,6 +1,6 @@
 package com.parcao.dao;
 
-import com.parcao.services.SchedulerService;
+import com.parcao.services.ISchedulerService;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
-public class SchedulerRepository implements SchedulerService {
+public class SchedulerRepository implements ISchedulerService {
     @PersistenceContext
     private EntityManager entityManager;
 

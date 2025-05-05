@@ -2,7 +2,7 @@ package com.parcao.services.impl;
 
 import com.parcao.dao.EstatisticaRepository;
 import com.parcao.model.dto.EstatisticaDTO;
-import com.parcao.services.EstatisticaService;
+import com.parcao.services.IEstatisticaService;
 import com.parcao.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class EstatisticaServiceImpl implements EstatisticaService {
+public class EstatisticaServiceImpl implements IEstatisticaService {
     @Autowired
     private EstatisticaRepository estatisticaRepository;
 

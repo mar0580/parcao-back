@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.model.dto.PedidoDTO;
-import com.parcao.services.PedidoService;
+import com.parcao.services.IPedidoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import javax.validation.Valid;
 @RequestMapping("/api/pedido")
 public class PedidoController {
 
-    final PedidoService pedidoService;
+    final IPedidoService pedidoService;
 
 
-    public PedidoController(PedidoService pedidoService) {
+    public PedidoController(IPedidoService pedidoService) {
         this.pedidoService = pedidoService;
     }
 

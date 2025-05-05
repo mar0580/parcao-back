@@ -1,12 +1,12 @@
 package com.parcao.services.impl;
 
 import com.parcao.dao.SchedulerRepository;
-import com.parcao.services.SchedulerService;
+import com.parcao.services.ISchedulerService;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-public class SchedulerServiceImpl implements SchedulerService {
+public class SchedulerServiceImpl implements ISchedulerService {
     final SchedulerRepository schedulerRepository;
 
     public SchedulerServiceImpl(SchedulerRepository schedulerRepository) {

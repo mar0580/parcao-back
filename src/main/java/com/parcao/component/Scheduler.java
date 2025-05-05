@@ -2,9 +2,9 @@ package com.parcao.component;
 
 import com.parcao.model.enums.EEmailDetails;
 import com.parcao.model.entity.Filial;
-import com.parcao.services.EmailService;
-import com.parcao.services.FilialService;
-import com.parcao.services.SchedulerService;
+import com.parcao.services.IEmailService;
+import com.parcao.services.IFilialService;
+import com.parcao.services.ISchedulerService;
 import com.parcao.utils.Util;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -18,13 +18,13 @@ import java.util.List;
 //@Component
 public class Scheduler {
 
-    final EmailService emailService;
-    final FilialService filialService;
-    final SchedulerService schedulerService;
+    final IEmailService emailService;
+    final IFilialService filialService;
+    final ISchedulerService schedulerService;
 
     String data = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-    public Scheduler(EmailService emailService, FilialService filialService, SchedulerService schedulerService) {
+    public Scheduler(IEmailService emailService, IFilialService filialService, ISchedulerService schedulerService) {
         this.emailService = emailService;
         this.filialService = filialService;
         this.schedulerService = schedulerService;

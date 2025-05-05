@@ -6,9 +6,9 @@ import com.parcao.model.dto.FechamentoCaixaItemDTO;
 import com.parcao.model.entity.FechamentoCaixa;
 import com.parcao.model.entity.FechamentoCaixaItem;
 import com.parcao.dao.FechamentoCaixaItemRepository;
-import com.parcao.services.FechamentoCaixaItemService;
-import com.parcao.services.FechamentoCaixaService;
-import com.parcao.services.ProdutoService;
+import com.parcao.services.IFechamentoCaixaItemService;
+import com.parcao.services.IFechamentoCaixaService;
+import com.parcao.services.IProdutoService;
 import com.parcao.utils.Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,13 @@ import java.util.*;
 @RequestMapping("/api/fechamentocaixa")
 public class FechamentoCaixaController {
 
-    final FechamentoCaixaService fechamentoCaixaService;
-    final FechamentoCaixaItemService fechamentoCaixaItemService;
-    final ProdutoService produtoService;
+    final IFechamentoCaixaService fechamentoCaixaService;
+    final IFechamentoCaixaItemService fechamentoCaixaItemService;
+    final IProdutoService produtoService;
     @Autowired
     FechamentoCaixaItemRepository fechamentoCaixaItemRepository;
 
-    public FechamentoCaixaController(FechamentoCaixaService fechamentoCaixaService, FechamentoCaixaItemService fechamentoCaixaItemService, ProdutoService produtoService) {
+    public FechamentoCaixaController(IFechamentoCaixaService fechamentoCaixaService, IFechamentoCaixaItemService fechamentoCaixaItemService, IProdutoService produtoService) {
         this.fechamentoCaixaService = fechamentoCaixaService;
         this.fechamentoCaixaItemService = fechamentoCaixaItemService;
         this.produtoService = produtoService;

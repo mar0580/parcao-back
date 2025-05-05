@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.parcao.services.JwtService;
+import com.parcao.services.IJwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,9 +22,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-  private final JwtService jwtService;
+  private final IJwtService jwtService;
 
-  public JwtAuthFilter(JwtService jwtService) {
+  public JwtAuthFilter(IJwtService jwtService) {
     this.jwtService = jwtService;
   }
 

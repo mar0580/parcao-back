@@ -2,7 +2,7 @@ package com.parcao.controllers;
 
 import com.parcao.model.dto.TaxaVendaDTO;
 import com.parcao.model.entity.TaxaVenda;
-import com.parcao.services.TaxaVendaService;
+import com.parcao.services.ITaxaVendaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +17,9 @@ import java.util.Optional;
 @RequestMapping("/api/taxavenda")
 public class TaxaVendaController {
 
-    final TaxaVendaService taxaVendaService;
+    final ITaxaVendaService taxaVendaService;
 
-    public TaxaVendaController(TaxaVendaService taxaVendaService) {
+    public TaxaVendaController(ITaxaVendaService taxaVendaService) {
         this.taxaVendaService = taxaVendaService;
     }
 

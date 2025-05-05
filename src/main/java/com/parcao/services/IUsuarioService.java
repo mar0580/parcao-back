@@ -4,6 +4,6 @@ import com.parcao.model.entity.Usuario;
 
 import java.util.List;
 
-public interface UsuarioService {
+public interface IUsuarioService {
     List<Usuario> getAllUsers();
 }

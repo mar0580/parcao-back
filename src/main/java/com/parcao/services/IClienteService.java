@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public interface ClienteService {
+public interface IClienteService {
 
     boolean existsByTelefone(String telefone, ClienteDTO ClienteDTO);
 

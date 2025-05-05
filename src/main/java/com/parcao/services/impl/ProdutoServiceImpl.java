@@ -7,7 +7,7 @@ import com.parcao.model.entity.Produto;
 import com.parcao.model.enums.MensagemEnum;
 import com.parcao.model.mapper.ProdutoMapper;
 import com.parcao.repository.ProdutoRepository;
-import com.parcao.services.ProdutoService;
+import com.parcao.services.IProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ProdutoServiceImpl implements ProdutoService {
+public class ProdutoServiceImpl implements IProdutoService {
 
     final ProdutoRepository produtoRepository;
 

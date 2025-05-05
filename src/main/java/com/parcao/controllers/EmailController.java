@@ -1,7 +1,7 @@
 package com.parcao.controllers;
 
 import com.parcao.model.entity.EmailDetails;
-import com.parcao.services.EmailService;
+import com.parcao.services.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/email")
 public class EmailController {
     @Autowired
-    private EmailService emailService;
+    private IEmailService emailService;
 
-    public EmailController(EmailService emailService) {
+    public EmailController(IEmailService emailService) {
         this.emailService = emailService;
     }
 

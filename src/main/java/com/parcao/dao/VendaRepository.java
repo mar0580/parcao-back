@@ -1,6 +1,6 @@
 package com.parcao.dao;
 
-import com.parcao.services.VendaService;
+import com.parcao.services.IVendaService;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
-public class VendaRepository implements VendaService {
+public class VendaRepository implements IVendaService {
   @PersistenceContext
   private EntityManager entityManager;
 

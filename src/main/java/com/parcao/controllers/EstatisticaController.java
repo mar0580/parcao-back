@@ -1,7 +1,6 @@
 package com.parcao.controllers;
 
-import com.parcao.services.EstatisticaService;
-import com.parcao.utils.Util;
+import com.parcao.services.IEstatisticaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,7 @@ import java.text.ParseException;
 @RequestMapping("/api/estatistica")
 public class EstatisticaController {
     @Autowired
-    private EstatisticaService estatisticaService;
+    private IEstatisticaService estatisticaService;
     @GetMapping("/buscaEstatisticaPorTipoPagamento/{idFilial}/{dataInicial}/{dataFinal}")
     public ResponseEntity<Object> buscaEstatisticaPorTipoPagamento(@PathVariable(value = "idFilial") Long idFilial,
                                                              @PathVariable(value = "dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") String dataInicial,

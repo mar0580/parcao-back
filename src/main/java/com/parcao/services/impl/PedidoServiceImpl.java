@@ -5,8 +5,8 @@ import com.parcao.model.dto.PedidoItemDTO;
 import com.parcao.model.entity.Pedido;
 import com.parcao.model.entity.PedidoItem;
 import com.parcao.repository.PedidoRepository;
-import com.parcao.services.PedidoService;
-import com.parcao.services.ProdutoService;
+import com.parcao.services.IPedidoService;
+import com.parcao.services.IProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class PedidoServiceImpl implements PedidoService {
+public class PedidoServiceImpl implements IPedidoService {
     final PedidoRepository pedidoRepository;
-    final ProdutoService produtoService;
+    final IProdutoService produtoService;
 
-    public PedidoServiceImpl(PedidoRepository pedidoRepository, ProdutoService produtoService) {
+    public PedidoServiceImpl(PedidoRepository pedidoRepository, IProdutoService produtoService) {
         this.pedidoRepository = pedidoRepository;
         this.produtoService = produtoService;
     }

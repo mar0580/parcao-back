@@ -2,25 +2,29 @@ package com.parcao.controllers;
 
 import javax.validation.Valid;
 
+import com.parcao.exception.InvalidPasswordException;
 import com.parcao.exception.UserAlreadyExistsException;
-import com.parcao.model.dto.LoginResponseDTO;
-import com.parcao.model.dto.SignupRequestDTO;
+import com.parcao.exception.UserNotFoundException;
+import com.parcao.model.dto.*;
 import com.parcao.model.enums.MensagemEnum;
-import com.parcao.services.AuthService;
+import com.parcao.payload.response.MessageResponse;
+import com.parcao.services.IAuthService;
+import com.parcao.services.IJwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.parcao.model.dto.LoginRequestDTO;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AuthController {
 
-	private final AuthService authService;
+	private final IAuthService authService;
+	private final IJwtService jwtService;
 
-	public AuthController(AuthService authService) {
+	public AuthController(IAuthService authService, IJwtService jwtService) {
         this.authService = authService;
+        this.jwtService = jwtService;
     }
 
 	@PostMapping("/signin")
@@ -40,52 +44,37 @@ public class AuthController {
 		}
 	}
 
+	//TODO
+//	@PostMapping("/signout")
+//	public ResponseEntity<?> logoutUser() {
+//		ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+//		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
+//				.body(MensagemEnum.SUCESSO);
+//	}
 
-/*
-	@PostMapping("/signout")
-	public ResponseEntity<?> logoutUser() {
-		ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-				.body(new MessageResponse("SUCESSO"));
-	}
 
 	@PostMapping("/changepassword")
-	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
-		if (!userRepository.existsByUserName(changePasswordRequest.getUserName()) ||
-				((changePasswordRequest.getNewPassword().isEmpty() || changePasswordRequest.getOldPassword().isEmpty())) ) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("USUARIO_NAO_EXISTE");
+	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequestDTO changePasswordRequest) {
+		try {
+			MessageResponse response = authService.changePassword(changePasswordRequest);
+			return ResponseEntity.ok(response);
+		} catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		} catch (InvalidPasswordException e) {
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-
-		Optional<User> user = userRepository.findByUserName(changePasswordRequest.getUserName());
-		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-
-		boolean isPasswordMatches = bcrypt.matches(changePasswordRequest.getOldPassword(), user.get().getPassword());
-		if(!isPasswordMatches){
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("PASSWORD_INCORRETO");
-		}
-
-		User userUpdate = new User();
-		userUpdate.setId(user.get().getId());
-		userUpdate.setNomeCompleto(user.get().getNomeCompleto());
-		userUpdate.setUserName(user.get().getUserName());
-		userUpdate.setEmail(user.get().getEmail());
-		userUpdate.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
-		userUpdate.setRoles(user.get().getRoles());
-
-		userRepository.save(userUpdate);
-
-		return ResponseEntity.ok(new MessageResponse("SUCESSO"));
 	}
 
-
-
+/*
 	@PutMapping("/changedatauser")
-	public ResponseEntity<?> changeDataUser(@Valid @RequestBody SignupRequest signupRequest) {
+	public ResponseEntity<?> changeDataUser(@Valid @RequestBody SignupRequestDTO signupRequest) {
 		if (!userRepository.existsById(signupRequest.getId())) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("USUARIO_NAO_EXISTE");
 		} else {
-			Optional<User> user = userRepository.findById(signupRequest.getId());
-			User userUpdate = new User();
+			Optional<UsuarioDTO> user = userRepository.findById(signupRequest.getId());
+			UsuarioDTO userUpdate = new UsuarioDTO();
 			userUpdate.setId(signupRequest.getId());
 			userUpdate.setNomeCompleto(signupRequest.getNomeCompleto());
 			userUpdate.setUserName(user.get().getUserName());
@@ -94,9 +83,9 @@ public class AuthController {
 			userUpdate.setDateInsert(LocalDateTime.now());
 
 			Set<String> strFiliais = signupRequest.getFilial();
-			Set<Filial> filiais = new HashSet<>();
+			Set<FilialDTO> filiais = new HashSet<>();
 			strFiliais.forEach(nomeLocal -> {
-				Filial filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException("INEXISTENTE"));
+				FilialDTO filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException("INEXISTENTE"));
 				filiais.add(filial);
 			});
 
@@ -139,6 +128,6 @@ public class AuthController {
 
 		return ResponseEntity.ok(new MessageResponse("SUCESSO"));
 	}
+*/
 
-	*/
 }

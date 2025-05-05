@@ -6,10 +6,10 @@ import com.parcao.model.entity.Abastecimento;
 import com.parcao.model.entity.AbastecimentoItem;
 import com.parcao.model.enums.EEmailDetails;
 import com.parcao.model.entity.Produto;
-import com.parcao.services.AbastecimentoService;
-import com.parcao.services.EmailService;
-import com.parcao.services.PedidoService;
-import com.parcao.services.ProdutoService;
+import com.parcao.services.IAbastecimentoService;
+import com.parcao.services.IEmailService;
+import com.parcao.services.IPedidoService;
+import com.parcao.services.IProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/abastecimento")
 public class AbastecimentoController {
-    final AbastecimentoService abastecimentoService;
-    final ProdutoService produtoService;
-    final PedidoService pedidoService;
+    final IAbastecimentoService abastecimentoService;
+    final IProdutoService produtoService;
+    final IPedidoService pedidoService;
 
-    final EmailService emailService;
+    final IEmailService emailService;
 
-    public AbastecimentoController(AbastecimentoService abastecimentoService, ProdutoService produtoService, PedidoService pedidoService, EmailService emailService) {
+    public AbastecimentoController(IAbastecimentoService abastecimentoService, IProdutoService produtoService, IPedidoService pedidoService, IEmailService emailService) {
         this.pedidoService = pedidoService;
         this.abastecimentoService = abastecimentoService;
         this.produtoService = produtoService;

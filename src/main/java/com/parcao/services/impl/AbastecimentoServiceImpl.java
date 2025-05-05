@@ -2,13 +2,13 @@ package com.parcao.services.impl;
 
 import com.parcao.model.entity.Abastecimento;
 import com.parcao.repository.AbastecimentoRepository;
-import com.parcao.services.AbastecimentoService;
+import com.parcao.services.IAbastecimentoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AbastecimentoServiceImpl implements AbastecimentoService {
+public class AbastecimentoServiceImpl implements IAbastecimentoService {
     final AbastecimentoRepository abastecimentoRepository;
 
     public AbastecimentoServiceImpl(AbastecimentoRepository abastecimentoRepository) {this.abastecimentoRepository = abastecimentoRepository;}

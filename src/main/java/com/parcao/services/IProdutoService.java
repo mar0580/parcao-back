@@ -6,9 +6,8 @@ import com.parcao.model.entity.Produto;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
-public interface ProdutoService {
+public interface IProdutoService {
     boolean existsByDescricaoProduto(String descricaoProduto);
 
     List<Produto> findAll();

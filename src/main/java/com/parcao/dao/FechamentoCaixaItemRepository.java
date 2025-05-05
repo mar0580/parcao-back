@@ -1,7 +1,7 @@
 package com.parcao.dao;
 
 
-import com.parcao.services.FechamentoCaixaItemService;
+import com.parcao.services.IFechamentoCaixaItemService;
 
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
-public class FechamentoCaixaItemRepository implements FechamentoCaixaItemService {
+public class FechamentoCaixaItemRepository implements IFechamentoCaixaItemService {
   @PersistenceContext
   private EntityManager entityManager;
 

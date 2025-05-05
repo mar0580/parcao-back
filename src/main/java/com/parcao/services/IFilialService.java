@@ -5,7 +5,7 @@ import com.parcao.model.entity.Filial;
 import java.util.List;
 import java.util.Optional;
 
-public interface FilialService {
+public interface IFilialService {
 
     boolean existsByNomeLocal(String nomeLocal);
 

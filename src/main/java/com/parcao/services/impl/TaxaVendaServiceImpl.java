@@ -3,7 +3,7 @@ package com.parcao.services.impl;
 import com.parcao.model.dto.TaxaVendaDTO;
 import com.parcao.model.entity.TaxaVenda;
 import com.parcao.repository.TaxaVendaRepository;
-import com.parcao.services.TaxaVendaService;
+import com.parcao.services.ITaxaVendaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TaxaVendaServiceImpl implements TaxaVendaService {
+public class TaxaVendaServiceImpl implements ITaxaVendaService {
 
     final TaxaVendaRepository taxaVendaRepository;
 

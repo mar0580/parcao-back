@@ -4,7 +4,7 @@ import com.parcao.model.entity.Abastecimento;
 
 import java.util.List;
 
-public interface AbastecimentoService {
+public interface IAbastecimentoService {
 
     Abastecimento save(Abastecimento abastecimento);
 

@@ -2,7 +2,7 @@ package com.parcao.controllers;
 
 import com.parcao.model.dto.ClienteDTO;
 import com.parcao.model.entity.Cliente;
-import com.parcao.services.ClienteService;
+import com.parcao.services.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class ClienteController {
 
     @Autowired
-    private ClienteService clienteService;
+    private IClienteService clienteService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createCliente(@Valid @RequestBody ClienteDTO ClienteDTO) {
