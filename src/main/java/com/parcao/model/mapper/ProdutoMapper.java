@@ -13,4 +13,14 @@ public class ProdutoMapper {
         produto.setQuantidade(dto.getQuantidade());
         return produto;
     }
+
+    public static ProdutoDTO toDTO(Produto produto) {
+        ProdutoDTO dto = new ProdutoDTO();
+        dto.setId(produto.getId());
+        dto.setDescricaoProduto(produto.getDescricaoProduto());
+        dto.setValorUnitario(produto.getValorUnitario());
+        dto.setValorCustoUnitario(produto.getValorCustoUnitario());
+        dto.setQuantidade(produto.getQuantidade());
+        return dto;
+    }
 }

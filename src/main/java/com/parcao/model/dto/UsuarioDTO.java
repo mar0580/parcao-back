@@ -1,5 +1,7 @@
 package com.parcao.model.dto;
 
+import com.parcao.model.entity.Filial;
+import com.parcao.model.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,10 +27,10 @@ public class UsuarioDTO {
     @Email
     private String email;
 
-    private Set<String> role;
+    private Set<Role> role;
 
     @Size(min = 6, max = 40)
     private String password;
 
-    private Set<String> filial;
+    private Set<Filial> filial;
 }

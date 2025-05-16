@@ -2,10 +2,7 @@ package com.parcao.services;
 
 import com.parcao.exception.InvalidPasswordException;
 import com.parcao.exception.UserNotFoundException;
-import com.parcao.model.dto.ChangePasswordRequestDTO;
-import com.parcao.model.dto.LoginRequestDTO;
-import com.parcao.model.dto.LoginResponseDTO;
-import com.parcao.model.dto.SignupRequestDTO;
+import com.parcao.model.dto.*;
 import com.parcao.payload.response.MessageResponse;
 
 public interface IAuthService {
@@ -13,4 +10,5 @@ public interface IAuthService {
     void registerUser(SignupRequestDTO signUpRequest);
     MessageResponse changePassword(ChangePasswordRequestDTO request)
             throws UserNotFoundException, InvalidPasswordException;
+    MessageResponse prepareUserUpdate(SignupRequestDTO signUpRequest);
 }

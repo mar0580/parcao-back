@@ -3,15 +3,13 @@ package com.parcao.services.impl;
 import com.parcao.exception.InvalidPasswordException;
 import com.parcao.exception.UserAlreadyExistsException;
 import com.parcao.exception.UserNotFoundException;
-import com.parcao.model.dto.ChangePasswordRequestDTO;
-import com.parcao.model.dto.LoginRequestDTO;
-import com.parcao.model.dto.LoginResponseDTO;
-import com.parcao.model.dto.SignupRequestDTO;
+import com.parcao.model.dto.*;
 import com.parcao.model.entity.Filial;
 import com.parcao.model.entity.Role;
 import com.parcao.model.entity.Usuario;
 import com.parcao.model.enums.ERole;
 import com.parcao.model.enums.MensagemEnum;
+import com.parcao.model.mapper.UsuarioMapper;
 import com.parcao.payload.response.MessageResponse;
 import com.parcao.repository.RoleRepository;
 import com.parcao.repository.UserRepository;
@@ -25,7 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -65,8 +65,8 @@ public class AuthServiceImpl implements IAuthService {
             throw new UserAlreadyExistsException(MensagemEnum.USUARIO_JA_EXISTE.toString());
         }
 
-        Set<Filial> filiais = mapFiliais(signUpRequest.getFilial());
-        Set<Role> roles = mapRoles(signUpRequest.getRole());
+        Set<Filial> filiais = prepareFiliais(signUpRequest.getFilial());
+        Set<Role> roles = prepareRoles(signUpRequest.getRole());
 
         Usuario user = new Usuario(
                 signUpRequest.getUserName(),
@@ -107,7 +107,7 @@ public class AuthServiceImpl implements IAuthService {
         userRepository.save(user);
     }
 
-    private Set<Filial> mapFiliais(Set<String> strFiliais) {
+    private Set<Filial> prepareFiliais(Set<String> strFiliais) {
         Set<Filial> filiais = new HashSet<>();
         strFiliais.forEach(nomeLocal -> {
             Filial filial = filialService.findByNomeLocal(nomeLocal)
@@ -117,7 +117,7 @@ public class AuthServiceImpl implements IAuthService {
         return filiais;
     }
 
-    private Set<Role> mapRoles(Set<String> strRoles) {
+    private Set<Role> prepareRoles(Set<String> strRoles) {
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -137,5 +137,25 @@ public class AuthServiceImpl implements IAuthService {
             });
         }
         return roles;
+    }
+
+    public MessageResponse prepareUserUpdate(SignupRequestDTO signupRequest) {
+
+        Optional<Usuario> existingUser = userRepository.findById(signupRequest.getId());
+        UsuarioDTO userUpdate = new UsuarioDTO();
+
+        userUpdate.setId(signupRequest.getId());
+        userUpdate.setNomeCompleto(signupRequest.getNomeCompleto());
+        userUpdate.setUserName(existingUser.map(Usuario::getUserName).orElse(null));
+        userUpdate.setEmail(signupRequest.getEmail());
+        userUpdate.setPassword(existingUser.map(Usuario::getPassword).orElse(null));
+
+        userUpdate.setFilial(prepareFiliais(signupRequest.getFilial()));
+        userUpdate.setRole(prepareRoles(signupRequest.getRole()));
+
+        Usuario usuario = UsuarioMapper.toEntity(userUpdate);
+        userRepository.save(usuario);
+
+        return new MessageResponse(MensagemEnum.SUCESSO.getMensagem());
     }
 }
