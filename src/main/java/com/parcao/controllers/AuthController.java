@@ -2,30 +2,27 @@ package com.parcao.controllers;
 
 import javax.validation.Valid;
 
-import com.parcao.exception.InvalidPasswordException;
 import com.parcao.exception.UserAlreadyExistsException;
-import com.parcao.exception.UserNotFoundException;
 import com.parcao.model.dto.*;
 import com.parcao.model.enums.MensagemEnum;
 import com.parcao.payload.response.MessageResponse;
 import com.parcao.services.IAuthService;
 import com.parcao.services.IJwtService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@RequiredArgsConstructor
 public class AuthController {
 
 	private final IAuthService authService;
 	private final IJwtService jwtService;
-
-	public AuthController(IAuthService authService, IJwtService jwtService) {
-        this.authService = authService;
-        this.jwtService = jwtService;
-    }
 
 	@PostMapping("/signin")
 	public ResponseEntity<LoginResponseDTO> authenticateUser(@Valid @RequestBody LoginRequestDTO request) {
@@ -44,90 +41,10 @@ public class AuthController {
 		}
 	}
 
-	//TODO
-//	@PostMapping("/signout")
-//	public ResponseEntity<?> logoutUser() {
-//		ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-//		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-//				.body(MensagemEnum.SUCESSO);
-//	}
-
-
-	@PostMapping("/changepassword")
-	public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordRequestDTO changePasswordRequest) {
-		try {
-			MessageResponse response = authService.changePassword(changePasswordRequest);
-			return ResponseEntity.ok(response);
-		} catch (UserNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		} catch (InvalidPasswordException e) {
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	@PostMapping("/signout")
+	public ResponseEntity<?> logoutUser() {
+		ResponseCookie cookie = authService.getCleanJwtCookie();
+		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
+				.body(new MessageResponse(MensagemEnum.SUCESSO.getMensagem()));
 	}
-
-/*
-	@PutMapping("/changedatauser")
-	public ResponseEntity<?> changeDataUser(@Valid @RequestBody SignupRequestDTO signupRequest) {
-		if (!userRepository.existsById(signupRequest.getId())) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("USUARIO_NAO_EXISTE");
-		} else {
-			Optional<UsuarioDTO> user = userRepository.findById(signupRequest.getId());
-			UsuarioDTO userUpdate = new UsuarioDTO();
-			userUpdate.setId(signupRequest.getId());
-			userUpdate.setNomeCompleto(signupRequest.getNomeCompleto());
-			userUpdate.setUserName(user.get().getUserName());
-			userUpdate.setEmail(signupRequest.getEmail());
-			userUpdate.setPassword(user.get().getPassword());
-			userUpdate.setDateInsert(LocalDateTime.now());
-
-			Set<String> strFiliais = signupRequest.getFilial();
-			Set<FilialDTO> filiais = new HashSet<>();
-			strFiliais.forEach(nomeLocal -> {
-				FilialDTO filial = filialService.findByNomeLocal(nomeLocal).orElseThrow(() -> new RuntimeException("INEXISTENTE"));
-				filiais.add(filial);
-			});
-
-			Set<String> strRoles = signupRequest.getRole();
-			Set<Role> roles = new HashSet<>();
-
-			if (strRoles == null) {
-				Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-						.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
-				roles.add(userRole);
-			} else {
-				strRoles.forEach(role -> {
-					switch (role) {
-						case "admin":
-							Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-									.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
-							roles.add(adminRole);
-
-							break;
-						case "mod":
-							Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-									.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
-							roles.add(modRole);
-
-							break;
-						default:
-							Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-									.orElseThrow(() -> new RuntimeException("INEXISTENTE"));
-							roles.add(userRole);
-					}
-				});
-			}
-
-			userUpdate.setRoles(roles);
-			userUpdate.setFiliais(filiais);
-
-			userUpdate.setDateInsert(LocalDateTime.now());
-			userRepository.save(userUpdate);
-		}
-
-		return ResponseEntity.ok(new MessageResponse("SUCESSO"));
-	}
-*/
-
 }
