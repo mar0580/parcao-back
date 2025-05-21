@@ -2,7 +2,6 @@ package com.parcao.services.impl;
 
 import com.parcao.exception.InvalidPasswordException;
 import com.parcao.exception.UserAlreadyExistsException;
-import com.parcao.exception.UserNotFoundException;
 import com.parcao.model.dto.ChangePasswordRequestDTO;
 import com.parcao.model.dto.LoginRequestDTO;
 import com.parcao.model.dto.LoginResponseDTO;
@@ -12,12 +11,13 @@ import com.parcao.model.entity.Role;
 import com.parcao.model.entity.Usuario;
 import com.parcao.model.enums.ERole;
 import com.parcao.model.enums.MensagemEnum;
-import com.parcao.payload.response.MessageResponse;
 import com.parcao.repository.RoleRepository;
 import com.parcao.repository.UserRepository;
 import com.parcao.services.IAuthService;
 import com.parcao.services.IFilialService;
 import com.parcao.services.IJwtService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService {
 
     private final AuthenticationManager authenticationManager;
@@ -37,16 +38,6 @@ public class AuthServiceImpl implements IAuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
-
-    public AuthServiceImpl(AuthenticationManager authenticationManager, IJwtService jwtService,
-                           UserRepository userRepository, IFilialService filialService, RoleRepository roleRepository, PasswordEncoder encoder) {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.userRepository = userRepository;
-        this.filialService = filialService;
-        this.roleRepository = roleRepository;
-        this.encoder = encoder;
-    }
 
     @Override
     public LoginResponseDTO authenticate(LoginRequestDTO request) {
@@ -81,30 +72,13 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public MessageResponse changePassword(ChangePasswordRequestDTO request) throws UserNotFoundException, InvalidPasswordException {
-        validateRequest(request);
-        Usuario user = userRepository.findByUserName(request.getUserName()).orElseThrow(() -> new UserNotFoundException(MensagemEnum.USUARIO_NAO_EXISTE.getMensagem()));
-        validateOldPassword(user, request.getOldPassword());
-        updateUserPassword(user, request.getNewPassword());
-        return new MessageResponse(MensagemEnum.SENHA_ALTERADA_COM_SUCESSO.getMensagem());
-    }
-
-    private void validateRequest(ChangePasswordRequestDTO request) {
-        if (request.getNewPassword() == null || request.getNewPassword().isEmpty() ||
-                request.getOldPassword() == null || request.getOldPassword().isEmpty()) {
-            throw new IllegalArgumentException(MensagemEnum.SENHAS_VAZIAS.getMensagem());
-        }
-    }
-
-    private void validateOldPassword(Usuario user, String oldPassword) {
-        if (!encoder.matches(oldPassword, user.getPassword())) {
-            throw new InvalidPasswordException(MensagemEnum.SENHA_INCORRETA.getMensagem());
-        }
-    }
-
-    private void updateUserPassword(Usuario user, String newPassword) {
-        user.setPassword(encoder.encode(newPassword));
-        userRepository.save(user);
+    public ResponseCookie getCleanJwtCookie() {
+        // Gera um cookie limpo para logout (ajuste conforme sua implementação de JWT)
+        return ResponseCookie.from("luismarcelo", "")
+                .path("/")
+                .maxAge(0)
+                .httpOnly(true)
+                .build();
     }
 
     private Set<Filial> mapFiliais(Set<String> strFiliais) {
