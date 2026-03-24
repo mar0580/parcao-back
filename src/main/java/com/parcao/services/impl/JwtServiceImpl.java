@@ -16,10 +16,10 @@ public class JwtServiceImpl implements IJwtService {
 
     private static final Logger logger = LoggerFactory.getLogger(IJwtService.class);
 
-    @Value("${parcao.app.jwtSecret}")
+    @Value("${parcao.app.jwtSecret:parcao-local-dev-secret-change-me-2026}")
     private String jwtSecret;
 
-    @Value("${parcao.app.jwtExpirationMs}")
+    @Value("${parcao.app.jwtExpirationMs:86400000}")
     private int jwtExpirationMs;
 
     public String generateToken(Authentication auth) {
