@@ -1,7 +1,7 @@
 package com.parcao.model.entity;
 
 import com.parcao.model.dto.PedidoItemDTO;
-import com.parcao.services.IProdutoService;
+import com.parcao.service.IProdutoService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

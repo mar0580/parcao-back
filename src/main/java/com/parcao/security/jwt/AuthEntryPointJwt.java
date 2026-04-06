@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -21,11 +22,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
+  private static final String CORRELATION_ID = "correlationId";
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Override
   public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
       throws IOException, ServletException {
-    logger.error("Unauthorized error: {}", authException.getMessage());
+
+    String correlationId = MDC.get(CORRELATION_ID);
+    logger.error("[correlationId={}] Erro de autenticação: {} - path: {}",
+            correlationId, authException.getMessage(), request.getServletPath());
 
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -35,9 +41,10 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     body.put("error", "Unauthorized");
     body.put("message", authException.getMessage());
     body.put("path", request.getServletPath());
+    if (correlationId != null) {
+      body.put("correlationId", correlationId);
+    }
 
-    final ObjectMapper mapper = new ObjectMapper();
-    mapper.writeValue(response.getOutputStream(), body);
+    objectMapper.writeValue(response.getOutputStream(), body);
   }
-
 }

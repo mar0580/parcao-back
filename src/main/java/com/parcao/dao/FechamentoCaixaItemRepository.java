@@ -1,7 +1,7 @@
 package com.parcao.dao;
 
 
-import com.parcao.services.IFechamentoCaixaItemService;
+import com.parcao.service.IFechamentoCaixaItemService;
 
 import org.springframework.stereotype.Repository;
 

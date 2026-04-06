@@ -2,9 +2,9 @@ package com.parcao.component;
 
 import com.parcao.model.enums.EEmailDetails;
 import com.parcao.model.entity.Filial;
-import com.parcao.services.IEmailService;
-import com.parcao.services.IFilialService;
-import com.parcao.services.ISchedulerService;
+import com.parcao.service.IEmailService;
+import com.parcao.service.IFilialService;
+import com.parcao.service.ISchedulerService;
 import com.parcao.utils.Util;
 import org.springframework.scheduling.annotation.Scheduled;
 

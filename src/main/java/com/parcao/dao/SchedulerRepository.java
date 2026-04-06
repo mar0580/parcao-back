@@ -1,6 +1,6 @@
 package com.parcao.dao;
 
-import com.parcao.services.ISchedulerService;
+import com.parcao.service.ISchedulerService;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;

@@ -1,0 +1,29 @@
+package com.parcao.service;
+
+import com.parcao.model.dto.TaxaVendaDTO;
+import com.parcao.model.entity.TaxaVenda;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ITaxaVendaService {
+    boolean existsByNomeTaxa(String nomeTaxa);
+
+    List<TaxaVenda> findAll();
+
+    boolean existsById(Long id);
+
+    void deleleById(Long id);
+
+    Optional<TaxaVenda> findById(Long id);
+
+    TaxaVenda getTaxaVendaById(Long id);
+
+    TaxaVenda save(TaxaVendaDTO TaxaVendaDTO);
+
+    TaxaVenda createTaxaVenda(TaxaVendaDTO taxaVendaDTO);
+
+    void deleteTaxaVenda(Long id);
+
+    TaxaVenda updateTaxaVenda(Long id, TaxaVendaDTO taxaVendaDTO);
+}
