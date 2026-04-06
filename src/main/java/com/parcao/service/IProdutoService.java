@@ -1,8 +1,8 @@
 package com.parcao.service;
 
 import com.parcao.exception.ProdutoJaCadastradoException;
-import com.parcao.model.dto.ProdutoDTO;
-import com.parcao.model.entity.Produto;
+import com.parcao.dto.ProdutoDTO;
+import com.parcao.model.Produto;
 
 import java.math.BigDecimal;
 import java.util.List;

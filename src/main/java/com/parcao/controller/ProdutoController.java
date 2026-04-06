@@ -1,9 +1,9 @@
 package com.parcao.controller;
 
 import com.parcao.exception.ProdutoJaCadastradoException;
-import com.parcao.model.dto.ProdutoDTO;
-import com.parcao.model.entity.Produto;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.ProdutoDTO;
+import com.parcao.model.Produto;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.service.IProdutoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

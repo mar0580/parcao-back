@@ -1,6 +1,6 @@
 package com.parcao.service;
 
-import com.parcao.model.entity.EmailDetails;
+import com.parcao.model.EmailDetails;
 
 public interface IEmailService {
 

@@ -1,8 +1,8 @@
 package com.parcao.service;
 
-import com.parcao.model.dto.ChangePasswordRequestDTO;
-import com.parcao.model.dto.SignupRequestDTO;
-import com.parcao.model.entity.Usuario;
+import com.parcao.dto.ChangePasswordRequestDTO;
+import com.parcao.dto.SignupRequestDTO;
+import com.parcao.model.Usuario;
 import com.parcao.payload.response.MessageResponse;
 
 import java.util.List;

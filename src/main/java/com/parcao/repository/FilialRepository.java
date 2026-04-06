@@ -1,6 +1,6 @@
 package com.parcao.repository;
 
-import com.parcao.model.entity.Filial;
+import com.parcao.model.Filial;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

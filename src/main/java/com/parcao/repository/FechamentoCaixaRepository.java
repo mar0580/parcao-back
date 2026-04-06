@@ -1,6 +1,6 @@
 package com.parcao.repository;
 
-import com.parcao.model.entity.FechamentoCaixa;
+import com.parcao.model.FechamentoCaixa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

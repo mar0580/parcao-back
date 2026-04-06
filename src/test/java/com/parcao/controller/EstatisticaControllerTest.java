@@ -1,6 +1,6 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.EstatisticaDTO;
+import com.parcao.dto.EstatisticaDTO;
 import com.parcao.service.IEstatisticaService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

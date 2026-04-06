@@ -1,13 +1,13 @@
 package com.parcao.service.impl;
 
 import com.parcao.exception.ResourceNotFoundException;
-import com.parcao.model.dto.AbastecimentoDTO;
-import com.parcao.model.dto.AbastecimentoItemDTO;
-import com.parcao.model.entity.Abastecimento;
-import com.parcao.model.entity.AbastecimentoItem;
-import com.parcao.model.entity.Produto;
-import com.parcao.model.enums.EEmailDetails;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.AbastecimentoDTO;
+import com.parcao.dto.AbastecimentoItemDTO;
+import com.parcao.model.Abastecimento;
+import com.parcao.model.AbastecimentoItem;
+import com.parcao.model.Produto;
+import com.parcao.enums.EEmailDetails;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.repository.AbastecimentoRepository;
 import com.parcao.service.IAbastecimentoService;
 import com.parcao.service.IEmailService;

@@ -1,7 +1,7 @@
 package com.parcao.service;
 
-import com.parcao.model.dto.FilialDTO;
-import com.parcao.model.entity.Filial;
+import com.parcao.dto.FilialDTO;
+import com.parcao.model.Filial;
 
 import java.util.List;
 import java.util.Optional;

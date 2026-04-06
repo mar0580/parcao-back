@@ -1,8 +1,8 @@
 package com.parcao.service;
 
-import com.parcao.model.dto.ControleDiarioEstoqueDTO;
-import com.parcao.model.dto.FechamentoCaixaDTO;
-import com.parcao.model.entity.FechamentoCaixa;
+import com.parcao.dto.ControleDiarioEstoqueDTO;
+import com.parcao.dto.FechamentoCaixaDTO;
+import com.parcao.model.FechamentoCaixa;
 
 import java.text.ParseException;
 

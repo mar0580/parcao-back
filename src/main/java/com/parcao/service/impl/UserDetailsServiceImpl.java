@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.parcao.model.entity.Usuario;
+import com.parcao.model.Usuario;
 import com.parcao.repository.UserRepository;
 
 @Service

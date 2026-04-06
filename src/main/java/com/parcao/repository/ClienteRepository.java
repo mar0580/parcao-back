@@ -1,6 +1,6 @@
 package com.parcao.repository;
 
-import com.parcao.model.entity.Cliente;
+import com.parcao.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

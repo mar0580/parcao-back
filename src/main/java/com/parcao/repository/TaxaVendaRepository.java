@@ -1,6 +1,6 @@
 package com.parcao.repository;
 
-import com.parcao.model.entity.TaxaVenda;
+import com.parcao.model.TaxaVenda;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 @Repository

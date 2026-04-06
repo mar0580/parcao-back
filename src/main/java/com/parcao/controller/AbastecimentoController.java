@@ -1,6 +1,6 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.AbastecimentoDTO;
+import com.parcao.dto.AbastecimentoDTO;
 import com.parcao.service.IAbastecimentoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,10 @@
 package com.parcao.controller;
 
 import com.parcao.exception.UserAlreadyExistsException;
-import com.parcao.model.dto.LoginRequestDTO;
-import com.parcao.model.dto.LoginResponseDTO;
-import com.parcao.model.dto.SignupRequestDTO;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.LoginRequestDTO;
+import com.parcao.dto.LoginResponseDTO;
+import com.parcao.dto.SignupRequestDTO;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.payload.response.MessageResponse;
 import com.parcao.service.IAuthService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.parcao.controller;
 
-import com.parcao.model.entity.EmailDetails;
+import com.parcao.model.EmailDetails;
 import com.parcao.service.IEmailService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

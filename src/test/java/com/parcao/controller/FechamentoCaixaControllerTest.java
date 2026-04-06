@@ -1,9 +1,9 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.ControleDiarioEstoqueDTO;
-import com.parcao.model.dto.FechamentoCaixaDTO;
-import com.parcao.model.dto.FechamentoCaixaItemDTO;
-import com.parcao.model.entity.FechamentoCaixa;
+import com.parcao.dto.ControleDiarioEstoqueDTO;
+import com.parcao.dto.FechamentoCaixaDTO;
+import com.parcao.dto.FechamentoCaixaItemDTO;
+import com.parcao.model.FechamentoCaixa;
 import com.parcao.service.IFechamentoCaixaService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

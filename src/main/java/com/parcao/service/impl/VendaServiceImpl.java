@@ -1,11 +1,11 @@
 package com.parcao.service.impl;
 
 import com.google.common.base.Strings;
-import com.parcao.dao.VendaRepository;
+import com.parcao.repository.VendaRepository;
 import com.parcao.exception.ResourceNotFoundException;
-import com.parcao.model.dto.ControleDiarioValoresDTO;
-import com.parcao.model.entity.Produto;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.ControleDiarioValoresDTO;
+import com.parcao.model.Produto;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.service.IFechamentoCaixaItemService;
 import com.parcao.service.IProdutoService;
 import com.parcao.service.IVendaService;

@@ -1,8 +1,8 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.ProdutoDTO;
-import com.parcao.model.entity.Produto;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.ProdutoDTO;
+import com.parcao.model.Produto;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.service.IProdutoService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

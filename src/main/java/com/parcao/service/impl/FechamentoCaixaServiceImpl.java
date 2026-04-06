@@ -1,12 +1,12 @@
 package com.parcao.service.impl;
 
 import com.parcao.exception.ResourceNotFoundException;
-import com.parcao.model.dto.ControleDiarioEstoqueDTO;
-import com.parcao.model.dto.FechamentoCaixaDTO;
-import com.parcao.model.dto.FechamentoCaixaItemDTO;
-import com.parcao.model.entity.FechamentoCaixa;
-import com.parcao.model.entity.FechamentoCaixaItem;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.ControleDiarioEstoqueDTO;
+import com.parcao.dto.FechamentoCaixaDTO;
+import com.parcao.dto.FechamentoCaixaItemDTO;
+import com.parcao.model.FechamentoCaixa;
+import com.parcao.model.FechamentoCaixaItem;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.repository.FechamentoCaixaRepository;
 import com.parcao.service.IFechamentoCaixaItemService;
 import com.parcao.service.IFechamentoCaixaService;

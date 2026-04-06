@@ -1,7 +1,7 @@
 package com.parcao.service;
 
-import com.parcao.model.dto.PedidoDTO;
-import com.parcao.model.entity.Pedido;
+import com.parcao.dto.PedidoDTO;
+import com.parcao.model.Pedido;
 
 public interface IPedidoService {
 

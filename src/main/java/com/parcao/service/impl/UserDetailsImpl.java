@@ -13,7 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.parcao.model.entity.Usuario;
+import com.parcao.model.Usuario;
 
 @Getter
 @NoArgsConstructor

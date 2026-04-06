@@ -2,9 +2,9 @@ package com.parcao.service.impl;
 
 import com.parcao.exception.ProdutoJaCadastradoException;
 import com.parcao.exception.ResourceNotFoundException;
-import com.parcao.model.dto.ProdutoDTO;
-import com.parcao.model.entity.Produto;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.ProdutoDTO;
+import com.parcao.model.Produto;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.model.mapper.ProdutoMapper;
 import com.parcao.repository.ProdutoRepository;
 import com.parcao.service.IProdutoService;

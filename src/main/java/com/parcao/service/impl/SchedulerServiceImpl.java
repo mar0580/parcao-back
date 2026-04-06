@@ -1,6 +1,6 @@
 package com.parcao.service.impl;
 
-import com.parcao.dao.SchedulerRepository;
+import com.parcao.repository.SchedulerRepository;
 import com.parcao.service.ISchedulerService;
 
 import java.sql.Timestamp;

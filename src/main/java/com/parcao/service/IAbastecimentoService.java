@@ -1,7 +1,7 @@
 package com.parcao.service;
 
-import com.parcao.model.dto.AbastecimentoDTO;
-import com.parcao.model.entity.Abastecimento;
+import com.parcao.dto.AbastecimentoDTO;
+import com.parcao.model.Abastecimento;
 
 import java.util.List;
 

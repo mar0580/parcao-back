@@ -1,6 +1,6 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.EstatisticaDTO;
+import com.parcao.dto.EstatisticaDTO;
 import com.parcao.service.IEstatisticaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

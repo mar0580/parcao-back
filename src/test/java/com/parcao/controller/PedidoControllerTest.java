@@ -1,8 +1,8 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.PedidoDTO;
-import com.parcao.model.dto.PedidoItemDTO;
-import com.parcao.model.entity.Pedido;
+import com.parcao.dto.PedidoDTO;
+import com.parcao.dto.PedidoItemDTO;
+import com.parcao.model.Pedido;
 import com.parcao.service.IPedidoService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

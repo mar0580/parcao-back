@@ -1,6 +1,6 @@
 package com.parcao.service;
 
-import com.parcao.model.dto.ControleDiarioValoresDTO;
+import com.parcao.dto.ControleDiarioValoresDTO;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

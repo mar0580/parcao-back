@@ -1,6 +1,6 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.ControleDiarioValoresDTO;
+import com.parcao.dto.ControleDiarioValoresDTO;
 import com.parcao.service.IVendaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

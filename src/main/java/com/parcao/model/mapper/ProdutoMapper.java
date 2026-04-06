@@ -1,7 +1,7 @@
 package com.parcao.model.mapper;
 
-import com.parcao.model.dto.ProdutoDTO;
-import com.parcao.model.entity.Produto;
+import com.parcao.dto.ProdutoDTO;
+import com.parcao.model.Produto;
 
 
 public class ProdutoMapper {

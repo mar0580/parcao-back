@@ -1,6 +1,6 @@
 package com.parcao.controller;
 
-import com.parcao.model.entity.EmailDetails;
+import com.parcao.model.EmailDetails;
 import com.parcao.service.IEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

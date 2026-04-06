@@ -1,7 +1,7 @@
 package com.parcao.service.impl;
 
-import com.parcao.dao.EstatisticaRepository;
-import com.parcao.model.dto.EstatisticaDTO;
+import com.parcao.repository.EstatisticaRepository;
+import com.parcao.dto.EstatisticaDTO;
 import com.parcao.service.IEstatisticaService;
 import com.parcao.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;

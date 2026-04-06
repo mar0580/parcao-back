@@ -1,8 +1,8 @@
 package com.parcao.model.mapper;
 
-import com.parcao.model.dto.SignupRequestDTO;
-import com.parcao.model.dto.UsuarioDTO;
-import com.parcao.model.entity.Usuario;
+import com.parcao.dto.SignupRequestDTO;
+import com.parcao.dto.UsuarioDTO;
+import com.parcao.model.Usuario;
 
 public class UsuarioMapper {
     public static Usuario toEntity(SignupRequestDTO signupRequestDTO) {

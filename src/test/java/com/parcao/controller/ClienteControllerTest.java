@@ -1,8 +1,8 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.ClienteDTO;
-import com.parcao.model.entity.Cliente;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.ClienteDTO;
+import com.parcao.model.Cliente;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.service.IClienteService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

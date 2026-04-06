@@ -1,9 +1,9 @@
 package com.parcao.service.impl;
 
 import com.parcao.exception.ResourceNotFoundException;
-import com.parcao.model.dto.ClienteDTO;
-import com.parcao.model.entity.Cliente;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.ClienteDTO;
+import com.parcao.model.Cliente;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.repository.ClienteRepository;
 import com.parcao.service.IClienteService;
 import org.slf4j.Logger;

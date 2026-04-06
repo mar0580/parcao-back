@@ -1,6 +1,6 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.ControleDiarioValoresDTO;
+import com.parcao.dto.ControleDiarioValoresDTO;
 import com.parcao.service.IVendaService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

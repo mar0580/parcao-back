@@ -1,9 +1,9 @@
 package com.parcao.service.impl;
 
-import com.parcao.model.dto.PedidoDTO;
-import com.parcao.model.dto.PedidoItemDTO;
-import com.parcao.model.entity.Pedido;
-import com.parcao.model.entity.PedidoItem;
+import com.parcao.dto.PedidoDTO;
+import com.parcao.dto.PedidoItemDTO;
+import com.parcao.model.Pedido;
+import com.parcao.model.PedidoItem;
 import com.parcao.repository.PedidoRepository;
 import com.parcao.service.IPedidoService;
 import com.parcao.service.IProdutoService;

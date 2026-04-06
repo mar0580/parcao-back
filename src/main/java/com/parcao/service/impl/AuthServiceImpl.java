@@ -1,14 +1,14 @@
 package com.parcao.service.impl;
 
 import com.parcao.exception.UserAlreadyExistsException;
-import com.parcao.model.dto.LoginRequestDTO;
-import com.parcao.model.dto.LoginResponseDTO;
-import com.parcao.model.dto.SignupRequestDTO;
-import com.parcao.model.entity.Filial;
-import com.parcao.model.entity.Role;
-import com.parcao.model.entity.Usuario;
-import com.parcao.model.enums.ERole;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.LoginRequestDTO;
+import com.parcao.dto.LoginResponseDTO;
+import com.parcao.dto.SignupRequestDTO;
+import com.parcao.model.Filial;
+import com.parcao.model.Role;
+import com.parcao.model.Usuario;
+import com.parcao.enums.ERole;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.repository.RoleRepository;
 import com.parcao.repository.UserRepository;
 import com.parcao.service.IAuthService;

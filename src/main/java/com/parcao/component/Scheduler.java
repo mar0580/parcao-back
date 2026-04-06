@@ -1,7 +1,7 @@
 package com.parcao.component;
 
-import com.parcao.model.enums.EEmailDetails;
-import com.parcao.model.entity.Filial;
+import com.parcao.enums.EEmailDetails;
+import com.parcao.model.Filial;
 import com.parcao.service.IEmailService;
 import com.parcao.service.IFilialService;
 import com.parcao.service.ISchedulerService;

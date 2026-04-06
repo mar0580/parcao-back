@@ -1,8 +1,8 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.TaxaVendaDTO;
-import com.parcao.model.entity.TaxaVenda;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.TaxaVendaDTO;
+import com.parcao.model.TaxaVenda;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.service.ITaxaVendaService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

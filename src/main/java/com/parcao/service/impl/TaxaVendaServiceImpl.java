@@ -2,9 +2,9 @@ package com.parcao.service.impl;
 
 import com.parcao.exception.ResourceNotFoundException;
 import com.parcao.exception.TaxaJaCadastradaException;
-import com.parcao.model.dto.TaxaVendaDTO;
-import com.parcao.model.entity.TaxaVenda;
-import com.parcao.model.enums.MensagemEnum;
+import com.parcao.dto.TaxaVendaDTO;
+import com.parcao.model.TaxaVenda;
+import com.parcao.enums.MensagemEnum;
 import com.parcao.repository.TaxaVendaRepository;
 import com.parcao.service.ITaxaVendaService;
 import org.slf4j.Logger;

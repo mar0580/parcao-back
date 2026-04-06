@@ -1,7 +1,7 @@
 package com.parcao.service;
 
-import com.parcao.model.dto.TaxaVendaDTO;
-import com.parcao.model.entity.TaxaVenda;
+import com.parcao.dto.TaxaVendaDTO;
+import com.parcao.model.TaxaVenda;
 
 import java.util.List;
 import java.util.Optional;

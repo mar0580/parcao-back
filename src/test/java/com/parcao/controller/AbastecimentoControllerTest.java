@@ -1,7 +1,7 @@
 package com.parcao.controller;
 
-import com.parcao.model.dto.AbastecimentoDTO;
-import com.parcao.model.dto.AbastecimentoItemDTO;
+import com.parcao.dto.AbastecimentoDTO;
+import com.parcao.dto.AbastecimentoItemDTO;
 import com.parcao.service.IAbastecimentoService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

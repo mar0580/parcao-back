@@ -1,6 +1,6 @@
 package com.parcao.service.impl;
 
-import com.parcao.model.entity.EmailDetails;
+import com.parcao.model.EmailDetails;
 import java.io.File;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
