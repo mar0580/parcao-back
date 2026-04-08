@@ -72,7 +72,7 @@ public class AbastecimentoServiceImpl implements IAbastecimentoService {
         for (AbastecimentoItem produtosParaEstoque : abastecimento.getProdutos()) {
             Produto produtoOptional = produtoService.findById(produtosParaEstoque.getId());
 
-            // Verifica se a quantidade solicitada pela filial consta em estoque geral
+            //Verifica se a quantidade solicitada pela filial consta em estoque geral
             if ((produtoOptional.getQuantidade() - produtosParaEstoque.getQuantidade() < 0)) {
                 logger.warn("[correlationId={}] Estoque insuficiente para produto: {}", correlationId, produtosParaEstoque.getDescricaoProduto());
                 throw new ResourceNotFoundException(MensagemEnum.PRODUTO_ESTOQUE_GERAL_INSUFICIENTE.getMensagem() + " " + produtosParaEstoque.getDescricaoProduto());
